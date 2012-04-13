@@ -1,3 +1,1 @@
-/builder/temp/*.php
-/.buildpath
-/.settings/*
+/temp/*.php
