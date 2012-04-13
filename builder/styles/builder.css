@@ -8,6 +8,10 @@ body {
 	padding-bottom: 40px;
 }
 
+a.brand img {
+	margin: -10px 0px -8px 0px;
+}
+
 h1 {
 	margin-bottom: 8px;
 }
