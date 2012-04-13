@@ -2,7 +2,7 @@
 /** @package    verysimple::Phreeze */
 
 /** import supporting libraries */
-require_once("Smarty.class.php");
+require_once("smarty/Smarty.class.php");
 require_once("verysimple/Phreeze/IRenderEngine.php");
 
 /**
