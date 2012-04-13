@@ -1,0 +1,50 @@
+<?php include_once '_header.tpl.php'; ?>
+
+<div class="hero-unit">
+	<h1><i class="icon-cogs"></i> Phreeze Builder</h1>
+	<p>Enter your MySQL connection information in the form below. Phreeze will
+	analyze your schema and generate an awesome application.</p>
+</div>
+
+<form action="analyze" method="post" class="form-horizontal">
+	<fieldset class="well">
+		<div id="hostPortContainer" class="control-group">
+			<label class="control-label" for="host">MySQL Host : Port</label>
+			<div class="controls inline-inputs">
+				<input type="text" class="span2" id="host" name="host"  placeholder="example: localhost" /> :
+				<input type="text" class="span1" id="port" name="port" value="3306" />
+				<span class="help-inline"></span>
+			</div>
+		</div>
+
+		<div id="schemaContainer" class="control-group">
+			<label class="control-label" for="schema">Schema Name</label>
+			<div class="controls inline-inputs">
+				<input type="text" class="span3" id="schema" name="schema" placeholder="example: mydatabase" />
+				<span class="help-inline"></span>
+			</div>
+		</div>
+
+		<div id="usernameContainer" class="control-group">
+			<label class="control-label" for="username">MySQL Username</label>
+			<div class="controls inline-inputs">
+				<input type="text" class="span3" id="username" name="username" placeholder="" />
+				<span class="help-inline"></span>
+			</div>
+		</div>
+
+		<div id="passwordContainer" class="control-group">
+			<label class="control-label" for="password">MySQL Password</label>
+			<div class="controls inline-inputs">
+				<input type="password" class="span3" id="password" name="password" placeholder="" />
+				<span class="help-inline"></span>
+			</div>
+		</div>
+	</fieldset>
+
+	<p>
+		<input type="submit" class="btn btn-primary" value="Analyze Database..." />
+	</p>
+</form>
+
+<?php include_once '_footer.tpl.php'; ?>

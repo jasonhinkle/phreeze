@@ -1,0 +1,49 @@
+/*!
+ * style overrides and customizations
+ */
+
+/* note that this gets overridden by bootstrap-responsive.min.css when screen size changes */
+body {
+	padding-top: 65px;
+	padding-bottom: 40px;
+}
+
+h1 {
+	margin-bottom: 8px;
+}
+
+p.buttonContainer {
+
+}
+
+footer {
+	font-style: italic;
+	color: #999999;
+}
+
+.checkboxColumn
+{
+	width: 25px;
+}
+
+.checkboxColumn input
+{
+	margin-left: 5px;
+}
+
+.checkboxColumn img
+{
+	margin-left: 4px;
+}
+
+span.table {
+    background-image: url('../images/table.png');
+    background-repeat: no-repeat;
+    padding: 0px 0px 0px 20px;
+}
+
+span.view {
+    background-image: url('../images/view.png');
+    background-repeat: no-repeat;
+    padding: 0px 0px 0px 20px;
+}

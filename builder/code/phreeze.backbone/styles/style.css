@@ -1,0 +1,53 @@
+/*!
+ * style overrides and customizations
+ */
+
+/* note that this gets overridden by bootstrap-responsive.min.css when screen size changes */
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+h1 {
+	margin-bottom: 8px;
+}
+
+p.buttonContainer {
+
+}
+
+table.collection td:hover {
+    cursor: pointer;
+}
+
+input.date-picker
+{
+	width: 100px;
+	margin-top: -1px;
+
+	background-image:url("../bootstrap/img/calendar.png");
+	background-position:87px 4px;
+	background-repeat:no-repeat;
+}
+
+input.date-picker:hover
+{
+	cursor: pointer
+}
+
+input.time-picker
+{
+	width: 65px;
+}
+
+span.loader {
+	margin: 0px;
+	display: inline-block;
+	width: 150px;
+}
+
+span.loader .bar {
+	display: inline-block;
+	width: 100%;
+	height: 30px;
+}
