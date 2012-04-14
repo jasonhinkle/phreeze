@@ -17,7 +17,8 @@ class SavantRenderEngine implements IRenderEngine
 {
 
 	static $TEMPLATE_EXTENSION = ".tpl.php";
-	private $savant;
+
+	public $savant;
 
 
 	/**

@@ -3,7 +3,7 @@
 
 				<footer>
 					<div>Phreeze &copy; <?php echo date('Y'); ?> <a href="http://verysimple.com/">verysimple.com</a></div>
-					<div>Licensed for personal and commercial user under the LGPL</div>
+					<div>Licensed for personal and commercial use under the <a href="http://www.gnu.org/licenses/lgpl.html">LGPL</a></div>
 				</footer>
 
 			</div> <!-- /container -->

@@ -18,12 +18,6 @@ require_once("verysimple/DB/Reflection/DBConnectionString.php");
 class BaseController extends Controller
 {
 
-	static $DEFAULT_PAGE_SIZE = 10;
-	static $ImageUploadPath = 'uploads/';
-	static $ImageUploadRootUrl = 'http://localhost/adserv/uploads/';
-	static $StockDataUrl = "http://localhost/mtdportal/index.php?action=StockData";
-	static $VendorDealFormUrl = "http://localhost/mtdportal/index.php?action=Vendor.ShowDeal";
-
 	/**
 	 * Init is called by the base controller before the action method
 	 * is called.  This provided an oportunity to hook into the system
@@ -49,76 +43,13 @@ class BaseController extends Controller
 		return $cstring;
 	}
 
-
 	/**
-	 * Returns the name of the JSONP callback function (if allowed)
+	 * Guest at an appname based on the db connection settings
+	 * @param Connection $connection
 	 */
-	protected function JSONPCallback()
+	protected function GetAppName($connection)
 	{
-		// TODO: uncomment to allow JSONP
-		// return RequestUtil::Get('callback','');
-
-		return '';
-	}
-
-	/**
-	 * Return the default SimpleObject params used when rendering objects as JSON
-	 * @return array
-	 */
-	protected function SimpleObjectParams()
-	{
-		return array('camelCase'=>true);
-	}
-
-	/**
-	 * Helper method to get values from stdClass without throwing errors
-	 * @param stdClass $json
-	 * @param string $prop
-	 * @param string $default
-	 */
-	protected function SafeGetVal($json, $prop, $default='')
-	{
-		return (property_exists($json,$prop))
-			? $json->$prop
-			: $default;
-	}
-
-	/**
-	 * Helper utility that calls RenderErrorJSON
-	 * @param Exception
-	 */
-	protected function RenderExceptionJSON(Exception $exception)
-	{
-		$this->RenderErrorJSON($exception->getMessage(),null,$exception);
-	}
-
-	/**
-	 * Output a Json error message to the browser
-	 * @param string $message
-	 * @param array key/value pairs where the key is the fieldname and the value is the error
-	 */
-	protected function RenderErrorJSON($message, $errors = null, $exception = null)
-	{
-		$err = new stdClass();
-		$err->success = false;
-		$err->message = $message;
-		$err->errors = array();
-
-		if ($errors != null)
-		{
-			foreach ($errors as $key=>$val)
-			{
-				$err->errors[lcfirst($key)] = $val;
-			}
-		}
-
-		if ($exception)
-		{
-			$err->stackTrace = explode("\n#", substr($exception->getTraceAsString(),1) );
-		}
-
-		@header('HTTP/1.1 401 Unauthorized');
-		$this->RenderJSON($err,RequestUtil::Get('callback'));
+		return ucwords(preg_replace("/(\_(.))/e","strtoupper('\\2')",strtolower($connection->DBName)));
 	}
 
 }

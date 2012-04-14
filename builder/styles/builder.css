@@ -9,7 +9,7 @@ body {
 }
 
 a.brand img {
-	margin: -10px 0px -8px 0px;
+	margin: -8px 0px -8px 0px;
 }
 
 h1 {
@@ -25,6 +25,10 @@ footer {
 	color: #999999;
 }
 
+table thead th {
+    background-color: #f5f5f5;
+}
+
 .checkboxColumn
 {
 	width: 25px;
@@ -35,19 +39,10 @@ footer {
 	margin-left: 5px;
 }
 
-.checkboxColumn img
+.checkboxColumn i
 {
-	margin-left: 4px;
-}
-
-span.table {
-    background-image: url('../images/table.png');
-    background-repeat: no-repeat;
-    padding: 0px 0px 0px 20px;
-}
-
-span.view {
-    background-image: url('../images/view.png');
-    background-repeat: no-repeat;
-    padding: 0px 0px 0px 20px;
+	margin-left: 5px;
+	margin-top: 4px;
+	font-size: 12pt;
+	color: red;
 }

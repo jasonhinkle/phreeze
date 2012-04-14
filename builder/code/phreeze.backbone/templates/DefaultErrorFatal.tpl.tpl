@@ -9,16 +9,19 @@
 
 {block name=content}
 
-	<h2 onclick="$('#stacktrace').show('slow');" style="cursor: pointer;">{$message|escape}</h2>
+	<h2><i class="icon-cogs"></i> Oh Snap!</h2>
 
-	<p>Please return the the previous page and verify that all required fields
-	have been completed.  If you continue to experience this error please
-	contact support.  We're sorry for the inconvenience.</p>
+	<h3 onclick="$('#stacktrace').show('slow');" class="well" style="cursor: pointer;">{$message|escape}</h3>
 
-	<div id="stacktrace" style="display: none; text-align: left; background-color: #eeeeee; border: solid 1px #cccccc; padding: 10px; font-family: courier new, courier; font-size: 8pt;">
+	<p>You may want to try returning to the the previous page and verifying that
+	all fields have been filled out correctly.</p>
+
+	<p>If you continue to experience this error please contact support.</p>
+
+	<div id="stacktrace" class="well hide">
 		<p style="font-weight: bold;">Stack Trace:</p>
 		{if $stacktrace}
-			<p style="white-space: nowrap; overflow: auto; padding-bottom: 15px;">{$stacktrace|escape|nl2br}</p>
+			<p style="white-space: nowrap; overflow: auto; padding-bottom: 15px; font-family: courier new, courier; font-size: 8pt;">{$stacktrace|escape|nl2br}</p>
 		{/if}
 	</div>
 

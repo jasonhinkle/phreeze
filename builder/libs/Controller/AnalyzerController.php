@@ -51,6 +51,8 @@ class AnalyzerController extends BaseController
 		// read and parse the database structure
 		$dbSchema = new DBSchema($server);
 
+		$appname = $this->GetAppName($connection);
+
 		// header("Content-type: text/plain"); print_r($schema); die();
 
 		// initialize parameters that will be passed on to the code templates
@@ -62,6 +64,9 @@ class AnalyzerController extends BaseController
 		$this->Assign("dbSchema",$dbSchema);
 		$this->Assign("packages",$packages);
 		$this->Assign("params", $params);
+		$this->Assign("appname", $appname);
+
+		// $this->RenderEngine->savant->addPlugins(array('Savant3_Filter_studlycaps', 'filter'));
 
 		$this->Assign('host', $cstring->Host);
 		$this->Assign('port', $cstring->Port);

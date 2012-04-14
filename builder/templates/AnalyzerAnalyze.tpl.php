@@ -1,6 +1,6 @@
 <?php include_once '_header.tpl.php'; ?>
 
-<h2>Select Tables</h2>
+<h2><i class="icon-check"></i> Select Tables</h2>
 
 <p>Select the tables and views to include in this application.  The Singular and Plural names
 are automatically detected and will be used in the names of generated classes.  You may
@@ -33,29 +33,29 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
 					<a href="#" class="popover-icon" rel="popover" onclick="return false;"
 					data-content="Phreeze does not currently support tables without a primary key column"
-					data-original-title="No Primary Key"><img src="images/error.png" alt="X" /></a>
+					data-original-title="No Primary Key"><i class="icon-ban-circle"></i></a>
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
 				<a href="#" class="popover-icon" rel="popover" onclick="return false;"
 					data-content="Phreeze does not currently support tables with multiple/compound key columns"
-					data-original-title="Compound Primary Key"><img src="images/error.png" alt="X" /></a>
+					data-original-title="Compound Primary Key"><i class="icon-ban-circle"></i></a>
 			<?php } else { ?>
 				<input type="checkbox" class="tableCheckbox" name="table_name[]" value="<?php $this->eprint($table->Name); ?>" checked="checked" />
 			<?php } ?>
 			</td>
-			<td><span class="<?php if ($table->IsView) { ?>view<?php }else{ ?>table<?php } ?>"><?php $this->eprint($table->Name); ?></span></td>
-			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($table->Name); ?>|sc" /></td>
-			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($table->Name); ?>|sc|p" /></td>
+			<td><i class="<?php if ($table->IsView) { ?>icon-th<?php }else{ ?>icon-th-large<?php } ?>"></i> <?php $this->eprint($table->Name); ?></td>
+			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
+			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
 			<td><input type="text" class="span2" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
 		</tr>
 	<?php } ?>
 	</tbody>
 	</table>
 
-	<h2>Application Options</h2>
+	<h2><i class="icon-list-alt"></i> Application Options</h2>
 
-	<p>Changing these options will affect the output of generated files.  All options can be changed
-	after the code is generated, but some may require updating multiple files.  Each option will
-	list the file(s) that are affected so you can locate and re-configure them later.</p>
+	<p>These options do not need to be changed.  Most of them simply pre-fill a setting in one of the
+	configuration files so that you don't have to manually edit them in order to run the application.
+	Any of the options below can be changed or re-configured after the code is generated.</p>
 
 	<fieldset class="well">
 
@@ -71,6 +71,30 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			</div>
 		</div>
 
+		<div id="appNameContainer" class="control-group">
+			<label class="control-label" for="appName">Application Name</label>
+			<div class="controls inline-inputs">
+				<input type="text" name="appName" id="appName" value="<?php $this->eprint(strtoupper($this->appname)); ?>" />
+				<span class="help-inline">This can be adjusted in /templates/Master.tpl</span>
+			</div>
+		</div>
+
+		<div id="appRootContainer" class="control-group">
+			<label class="control-label" for="appRoot">Application Root URL</label>
+			<div class="controls inline-inputs">
+				<span>http://servername/</span>
+				<input type="text" class="span2" name="appRoot" id="appRoot" value="<?php $this->eprint(strtolower($this->appname)); ?>/" />
+				<span class="help-inline">This can be adjusted in /_machine_config.php</span>
+			</div>
+		</div>
+
+		<div id="includePathContainer" class="control-group">
+			<label class="control-label" for="includePath">Path to phreeze/libs</label>
+			<div class="controls inline-inputs">
+				<input type="text" name="includePath" id="includePath" value="../phreeze/libs" />
+				<span class="help-inline">This can be adjusted in /_app_config.php</span>
+			</div>
+		</div>
 
 		<div id="enableLongPollingContainer" class="control-group">
 			<label class="control-label" for="enableLongPolling">Long Polling</label>
@@ -79,7 +103,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 					<option value="0">Disabled</option>
 					<option value="1">Enabled</option>
 				</select>
-				<span class="help-inline">This setting can be adjusted in /scripts/model.js</span>
+				<span class="help-inline">This can be adjusted in /scripts/model.js</span>
 			</div>
 		</div>
 	</fieldset>
@@ -90,7 +114,8 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<input type="hidden" name="schema" id="schema" value="<?php $this->eprint($this->schema) ?>" />
 		<input type="hidden" name="username" id="username" value="<?php $this->eprint($this->username) ?>" />
 		<input type="hidden" name="password" id="password" value="<?php $this->eprint($this->password) ?>" />
-		<input type="submit" class="btn btn-primary" value="Generate Application" />
+
+		<button class="btn btn-primary"><i class="icon-cogs"></i> Generate Application</button>
 	</p>
 </form>
 

@@ -43,7 +43,7 @@
 	</fieldset>
 
 	<p>
-		<input type="submit" class="btn btn-primary" value="Analyze Database..." />
+		<input type="submit" class="btn btn-primary" value="Analyze Database &raquo;" />
 	</p>
 </form>
 

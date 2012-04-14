@@ -65,7 +65,7 @@ class GeneratorController extends BaseController
 		$smarty->cache_dir = $tempRoot;
 		$smarty->caching = false;
 
-		$appname = ucwords(preg_replace("/(\_(.))/e","strtoupper('\\2')",strtolower($connection->DBName)));
+		$appname = $this->GetAppName($connection);
 
 		$config = new AppConfig($codeRoot  . $packageName);
 
