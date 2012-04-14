@@ -158,14 +158,37 @@ class RequestUtil
 
 		if (array_key_exists($emulateHttpParamName, $_REQUEST)) return $_REQUEST[$emulateHttpParamName];
 
-		// this seems to be a psuedo-standard (used by backbone)
-		$headers = getAllHeaders();
+		$headers = self::GetRequestHeaders();
+
+		// this is used by backbone
 		if (array_key_exists('X-HTTP-Method-Override', $headers))
 		{
 			return $headers['X-HTTP-Method-Override'];
 		}
 
 		return array_key_exists('REQUEST_METHOD', $_SERVER) ? $_SERVER['REQUEST_METHOD'] : '';
+	}
+
+	/**
+	 * Return all request headers using the best method available for the server environment
+	 * @return array
+	 */
+	public static function GetRequestHeaders()
+	{
+
+		if (function_exists('getallheaders')) return getallheaders();
+
+		$headers = array();
+		foreach ($_SERVER as $k => $v)
+		{
+			if (substr($k, 0, 5) == "HTTP_")
+			{
+				$k = str_replace('_', ' ', substr($k, 5));
+				$k = str_replace(' ', '-', ucwords(strtolower($k)));
+				$headers[$k] = $v;
+			}
+		}
+		return $headers;
 	}
 
 	/**

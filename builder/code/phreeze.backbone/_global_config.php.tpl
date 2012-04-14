@@ -12,8 +12,6 @@
  * depending on whether the setting is application-wide or machine-specific
  */
 
-require_once 'verysimple/Phreeze/Controller.php';
-
 /**
  * GlobalConfig is a singleton containing the global variables.
  * In general settings should not be changed in this file and should instead
@@ -84,8 +82,10 @@ class GlobalConfig
 	{
 		if (!self::$IS_INITIALIZED)
 		{
+			require_once 'verysimple/HTTP/RequestUtil.php';
 			RequestUtil::NormalizeUrlRewrite();
 
+			require_once 'verysimple/Phreeze/Controller.php';
 			Controller::$SmartyViewPrefix = '';
 			Controller::$DefaultRedirectMode = 'header';
 
