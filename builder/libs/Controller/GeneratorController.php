@@ -65,7 +65,10 @@ class GeneratorController extends BaseController
 		$smarty->cache_dir = $tempRoot;
 		$smarty->caching = false;
 
-		$appname = $this->GetAppName($connection);
+		$appname = RequestUtil::Get("appname");
+		$appRoot = RequestUtil::Get("appRoot");
+		$includePath = RequestUtil::Get("includePath");
+		$enableLongPolling = RequestUtil::Get("enableLongPolling");
 
 		$config = new AppConfig($codeRoot  . $packageName);
 
@@ -99,8 +102,8 @@ class GeneratorController extends BaseController
 			{
 				// single template where one is generated for the entire project instead of one for each selected table
 				$templateFilename = str_replace(
-						array('{$appname}','{$appname|lower}','{$appname|upper}'),
-						array($appname,strtolower($appname),strtoupper($appname)),
+						array('{$appRoot}','{$appRoot|lower}','{$appRoot|upper}'),
+						array($appRoot,strtolower($appRoot),strtoupper($appRoot)),
 						$templateFile->destination
 				);
 
@@ -118,6 +121,9 @@ class GeneratorController extends BaseController
 				$smarty->assign("tables",$dbSchema->Tables);
 				$smarty->assign("connection",$cstring);
 				$smarty->assign("appname",$appname);
+				$smarty->assign("appRoot",$appRoot);
+				$smarty->assign("includePath",$includePath);
+				$smarty->assign("enableLongPolling",$enableLongPolling);
 
 				$tableInfos = Array();
 
@@ -172,6 +178,9 @@ class GeneratorController extends BaseController
 					$smarty->assign("templateFilename",$templateFilename);
 					$smarty->assign("table",$dbSchema->Tables[$tableName]);
 					$smarty->assign("connection",$cstring);
+					$smarty->assign("appRoot",$appRoot);
+					$smarty->assign("includePath",$includePath);
+					$smarty->assign("enableLongPolling",$enableLongPolling);
 
 					foreach ($parameters as $param)
 					{
@@ -209,7 +218,7 @@ class GeneratorController extends BaseController
 			// laplix 2007-11-02.
 			// Use the application name provided by the user in show_tables.
 			//header("Content-disposition: attachment; filename=".str_replace(" ","_",$G_CONNSTR->DBName).".zip");
-			header("Content-disposition: attachment; filename=".str_replace(" ","_",strtolower($appname)).".zip");
+			header("Content-disposition: attachment; filename=".str_replace(" ","_",strtolower(str_replace("/","", $appRoot))).".zip");
 
 			header("Content-Transfer-Encoding: Binary");
 			header('Content-Type: application/zip');

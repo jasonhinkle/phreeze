@@ -33,16 +33,16 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
 					<a href="#" class="popover-icon" rel="popover" onclick="return false;"
 					data-content="Phreeze does not currently support tables without a primary key column"
-					data-original-title="No Primary Key"><i class="icon-ban-circle"></i></a>
+					data-original-title="No Primary Key"><i class="icon-ban-circle">&nbsp;</i></a>
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
 				<a href="#" class="popover-icon" rel="popover" onclick="return false;"
 					data-content="Phreeze does not currently support tables with multiple/compound key columns"
-					data-original-title="Compound Primary Key"><i class="icon-ban-circle"></i></a>
+					data-original-title="Compound Primary Key"><i class="icon-ban-circle">&nbsp;</i></a>
 			<?php } else { ?>
 				<input type="checkbox" class="tableCheckbox" name="table_name[]" value="<?php $this->eprint($table->Name); ?>" checked="checked" />
 			<?php } ?>
 			</td>
-			<td><i class="<?php if ($table->IsView) { ?>icon-th<?php }else{ ?>icon-th-large<?php } ?>"></i> <?php $this->eprint($table->Name); ?></td>
+			<td class="tableNameColumn"><i class="icon-list-alt <?php if ($table->IsView) { ?>view<?php }else{ ?>table<?php } ?>"></i> <?php $this->eprint($table->Name); ?></td>
 			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
 			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
 			<td><input type="text" class="span2" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
@@ -51,7 +51,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	</tbody>
 	</table>
 
-	<h2><i class="icon-list-alt"></i> Application Options</h2>
+	<h2><i class="icon-cogs"></i> Application Options</h2>
 
 	<p>These options do not need to be changed.  Most of them simply pre-fill a setting in one of the
 	configuration files so that you don't have to manually edit them in order to run the application.
@@ -72,9 +72,9 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		</div>
 
 		<div id="appNameContainer" class="control-group">
-			<label class="control-label" for="appName">Application Name</label>
+			<label class="control-label" for=""appname"">Application Name</label>
 			<div class="controls inline-inputs">
-				<input type="text" name="appName" id="appName" value="<?php $this->eprint(strtoupper($this->appname)); ?>" />
+				<input type="text" name="appname" id="appname" value="<?php $this->eprint(strtoupper($this->appname)); ?>" />
 				<span class="help-inline">This can be adjusted in /templates/Master.tpl</span>
 			</div>
 		</div>
@@ -115,7 +115,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<input type="hidden" name="username" id="username" value="<?php $this->eprint($this->username) ?>" />
 		<input type="hidden" name="password" id="password" value="<?php $this->eprint($this->password) ?>" />
 
-		<button class="btn btn-primary"><i class="icon-cogs"></i> Generate Application</button>
+		<button class="btn btn-primary"><i class="icon-play-circle"></i> Generate Application</button>
 	</p>
 </form>
 

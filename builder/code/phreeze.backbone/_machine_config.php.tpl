@@ -22,7 +22,7 @@ GlobalConfig::$CONNECTION_SETTING->Username = "{$connection->Username}";
 GlobalConfig::$CONNECTION_SETTING->Password = "{$connection->Password}";
 
 /** the root url of the application with trailing slash, for example http://localhost/{$appname|lower}/ */
-GlobalConfig::$ROOT_URL = RequestUtil::GetServerRootUrl() . '{$appname|lower}/';
+GlobalConfig::$ROOT_URL = RequestUtil::GetServerRootUrl() . '{$appRoot}';
 
 /** timezone */
 // date_default_timezone_set("UTC");

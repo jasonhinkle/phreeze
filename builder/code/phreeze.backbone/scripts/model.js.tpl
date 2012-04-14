@@ -10,7 +10,7 @@ var model = {};
 
 // duration in miliseconds to automatically re-fetch data from server (0 = do not use long polling)
 // warning!  changing this setting can cause high server load.  change with caution
-model.longPollDuration = 0;
+model.longPollDuration = {if $enableLongPolling != '0'}5000{else}0{/if};
 
 {foreach from=$tables item=table}{if isset($tableInfos[$table->Name])}
 {assign var=singular value=$tableInfos[$table->Name]['singular']}

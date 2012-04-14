@@ -2,7 +2,7 @@
 /** @package {$connection->DBName|studlycaps}::Controller */
 
 /** import supporting libraries */
-require_once("{$appname}BaseController.php");
+require_once("{AppBaseController.php");
 
 /**
  * DefaultController is the entry point to the application
@@ -11,7 +11,7 @@ require_once("{$appname}BaseController.php");
  * @author ClassBuilder
  * @version 1.0
  */
-class DefaultController extends {$appname}BaseController
+class DefaultController extends AppBaseController
 {
 
 	/**

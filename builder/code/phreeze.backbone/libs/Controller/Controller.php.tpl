@@ -2,7 +2,7 @@
 /** @package    {$appname}::Controller */
 
 /** import supporting libraries */
-require_once("{$appname}BaseController.php");
+require_once("AppBaseController.php");
 require_once("Model/{$singular}.php");
 
 /**
@@ -14,7 +14,7 @@ require_once("Model/{$singular}.php");
  * @author ClassBuilder
  * @version 1.0
  */
-class {$singular}Controller extends {$appname}BaseController
+class {$singular}Controller extends AppBaseController
 {
 
 	/**

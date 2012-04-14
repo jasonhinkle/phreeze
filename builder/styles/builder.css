@@ -29,20 +29,35 @@ table thead th {
     background-color: #f5f5f5;
 }
 
-.checkboxColumn
-{
+.checkboxColumn {
 	width: 25px;
 }
 
-.checkboxColumn input
-{
+.checkboxColumn input {
 	margin-left: 5px;
 }
 
-.checkboxColumn i
-{
-	margin-left: 5px;
-	margin-top: 4px;
-	font-size: 12pt;
+.checkboxColumn a i.icon-ban-circle {
+	margin-left: 6px;
+	margin-top: 6px;
+	font-size: 13pt;
 	color: red;
 }
+
+.checkboxColumn a:hover {
+	text-decoration: none;
+}
+
+table tbody td.tableNameColumn {
+	padding-top: 14px;
+}
+
+table tbody td.tableNameColumn i.table {
+	color: #006699;
+}
+
+table tbody td.tableNameColumn i.view {
+	color: #888888;
+}
+
+

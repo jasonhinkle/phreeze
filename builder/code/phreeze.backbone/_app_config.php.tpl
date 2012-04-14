@@ -26,7 +26,8 @@ GlobalConfig::$APP_ROOT = realpath("./");
  */
 set_include_path(
 		GlobalConfig::$APP_ROOT . '/libs/' . PATH_SEPARATOR .
-		GlobalConfig::$APP_ROOT . '/../libs/' . PATH_SEPARATOR .
+		GlobalConfig::$APP_ROOT . '/libs/phreeze/libs/' . PATH_SEPARATOR .
+		GlobalConfig::$APP_ROOT . '/{$includePath}' . PATH_SEPARATOR .
 		get_include_path()
 );
 
@@ -79,7 +80,8 @@ GlobalConfig::$ROUTE_MAP = array(
  * If you paste into a controller method, replace $G_PHREEZER with $this->Phreezer
  */
 {foreach from=$tables item=tbl}
-{foreach from=$tbl->Constraints item=constraint}// $GlobalConfig->GetInstance()->GetPhreezer()->SetLoadType("{$tbl->Name|studlycaps}","{$constraint->Name}",KM_LOAD_EAGER);
+{foreach from=$tbl->Constraints item=constraint}
+// $GlobalConfig->GetInstance()->GetPhreezer()->SetLoadType("{$tbl->Name|studlycaps}","{$constraint->Name}",KM_LOAD_EAGER); // KM_LOAD_INNER | KM_LOAD_EAGER | KM_LOAD_LAZY
 {/foreach}
 {/foreach}
 ?>

@@ -4,14 +4,14 @@
 	{ldelim}block name=header{rdelim}
 		<meta charset="utf-8">
 		<base href="{ldelim}$ROOT_URL{rdelim}" />
-		<title>{ldelim}block name=title{rdelim}{$appname|upper}{ldelim}/block{rdelim}</title>
+		<title>{ldelim}block name=title{rdelim}{$appname}{ldelim}/block{rdelim}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="{$appname} auto-generated application" />
-		<meta name="author" content="phreeze.com" />
+		<meta name="description" content="{$appname}" />
+		<meta name="author" content="phreeze builder | phreeze.com" />
 
 		<!-- Le styles -->
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="styles/{$appname|lower}.css" rel="stylesheet" />
+		<link href="styles/style.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link href="bootstrap/css/font-awesome.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet" />
@@ -47,7 +47,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
-						<a class="brand" href="./">{$appname|upper}</a>
+						<a class="brand" href="./">{$appname}</a>
 						<div class="nav-collapse">
 							<ul class="nav">
 								<li {ldelim}if $nav=='home'{rdelim} class="active"{ldelim}/if{rdelim}><a href="./">Home</a></li>
@@ -65,7 +65,7 @@
 			<div class="container">
 
 				{ldelim}block name="banner"{rdelim}
-					<h1>{$appname|upper}</h1>
+					<h1>{$appname}</h1>
 				{ldelim}/block{rdelim}
 
 				{ldelim}block name="content"{rdelim}
@@ -74,7 +74,7 @@
 				<hr>
 
 				<footer>
-					<p>&copy; {ldelim}$smarty.now|date_format:'%Y'{rdelim} {$appname|upper}</p>
+					<p>&copy; {ldelim}$smarty.now|date_format:'%Y'{rdelim} {$appname}</p>
 				</footer>
 
 			</div> <!-- /container -->

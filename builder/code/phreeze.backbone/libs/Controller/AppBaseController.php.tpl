@@ -5,7 +5,7 @@
 require_once("verysimple/Phreeze/Controller.php");
 
 /**
- * {$appname}BaseController is a base class Controller class from which
+ * AppBaseController is a base class Controller class from which
  * the front controllers inherit.  it is not necessary to use this
  * class or any code, however you may use if for application-wide
  * functions such as authentication
@@ -14,7 +14,7 @@ require_once("verysimple/Phreeze/Controller.php");
  * @author ClassBuilder
  * @version 1.0
  */
-class {$appname}BaseController extends Controller
+class AppBaseController extends Controller
 {
 
 	static $DEFAULT_PAGE_SIZE = 10;
