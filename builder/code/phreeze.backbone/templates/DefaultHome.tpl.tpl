@@ -95,13 +95,13 @@
 			</div>
 			<div class="span3">
 				<h2><i class="icon-signin"></i> Libraries</h2>
-				<p>Among the many libraries and plugins included in this app are:
-				<a href="https://github.com/Aymkdn/Datepicker-for-Bootstrap">Datepicker-for-Bootstrap</a>,
+				<p>The following open-source libraries are used in this application:
 				<a href="http://fortawesome.github.com/Font-Awesome/">FontAwesome</a>,
-				<a href="http://github.com/Arwid/jQuery.scrollIntoView">jQuery.scrollIntoView</a>,
+				<a href="http://jquery.com/">jQuery</a>,
+				<a href="http://documentcloud.github.com/underscore/">Underscore</a>,
 				<a href="http://www.smarty.net">Smarty</a>,
-				<a href="http://github.com/fabianonunes/underscore.date">underscore.date</a>
-				and many others...
+				<a href="http://docs.jquery.com/Qunit">QUnit</a>.
+				All libraries and plugins have a permissive license for personal and commercial use.
 				</p>
 			</div>
 		</div>
