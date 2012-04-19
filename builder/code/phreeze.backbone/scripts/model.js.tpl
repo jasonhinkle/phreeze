@@ -30,7 +30,7 @@ model.{$singular}Model = Backbone.Model.extend({
 });
 
 model.{$singular}Collection = Backbone.Collection.extend({
-	url: 'api/{$singular|lower}',
+	url: 'api/{$plural|lower}',
 	model: model.{$singular}Model,
 
 	totalResults: 0,

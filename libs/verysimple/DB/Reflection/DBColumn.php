@@ -1,6 +1,8 @@
 <?php
 /** @package    verysimple::DB::Reflection */
 
+require_once('verysimple/Phreeze/FieldMap.php');
+
 /**
  * DBcolumn is an object representation of column
  * @package    verysimple::DB::Reflection
@@ -25,22 +27,22 @@
 	public $MaxSize;
 	public $Keys = array();
 	public $Constraints = array();
-	
+
 	/**
 	 * Instantiate new DBColumn
 	 *
 	 * @access public
 	 * @param DBTable $table
 	 * @param Array $row result from "describe table" statement
-	 */	
+	 */
 	function __construct($table, $row)
 	{
 		// typical type is something like varchar(40)
 		$typesize = explode("(",$row["Type"]);
-		
+
 		$tmp = isset($typesize[1]) ? str_replace(")","", $typesize[1]) : "" ;
 		$sizesign = explode(" ", $tmp);
-		
+
 		$this->Table =& $table;
 		$this->Name = $row["Field"];
 		$this->NameWithoutPrefix = $row["Field"];
@@ -51,14 +53,27 @@
 		$this->Key = $row["Key"];
 		$this->Default = $row["Default"];
 		$this->Extra = $row["Extra"];
-		
+
 		// if ($this->Key == "MUL") print " ########################## " . print_r($row,1) . " ########################## ";
-		
+
 		// size may be saved for decimals as "n,n" so we need to convert that to an int
 		$tmp = explode(",",$this->Size);
 		$this->MaxSize = count($tmp) > 1 ? ($tmp[0] + $tmp[1]) : $this->Size;
 	}
-	
+
+	/**
+	 * Return the Phreeze column constant that most closely matches this column type
+	 * @return string
+	 */
+	function GetPhreezeType()
+	{
+		return FieldMap::GetConstantFromType($this->Type);
+	}
+
+	/**
+	 * Return the PHP variable type that most closely matches this column type
+	 * @return string
+	 */
 	function GetPhpType()
 	{
 		$rt = $this->Type;
@@ -86,10 +101,14 @@
 			default;
 				break;
 		}
-		
+
 		return $rt;
 	}
-	
+
+	/**
+	 * Get the SQLite type that most closely matches this column type
+	 * @return string
+	 */
 	function GetSqliteType()
 	{
 		$rt = $this->Type;
@@ -134,10 +153,14 @@
 			default;
 				break;
 		}
-		
+
 		return $rt;
 	}
-	
+
+	/**
+	 * Return the AS3/Flex type that most closely matches this column type
+	 * @return string
+	 */
 	function GetFlexType()
 	{
 		$rt = $this->Type;
@@ -179,7 +202,7 @@
 			default;
 				break;
 		}
-		
+
 		return $rt;
 	}
 
