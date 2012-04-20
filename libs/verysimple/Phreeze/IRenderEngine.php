@@ -36,6 +36,23 @@ interface IRenderEngine
 	 * @return string
 	 */
 	public function fetch($template);
+
+	/**
+	 * Unassign a value
+	 * @param string $key
+	 */
+	public function clear($key);
+
+	/**
+	 * Clear all assigned variables
+	 */
+	public function clearAll();
+
+	/**
+	 * Return all assigned variables
+	 * @return array
+	 */
+	public function getAll();
 }
 
 ?>

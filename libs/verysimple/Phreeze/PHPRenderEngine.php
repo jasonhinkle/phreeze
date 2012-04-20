@@ -99,6 +99,29 @@ class PHPRenderEngine implements IRenderEngine
 		return $buffer;
 	}
 
+	/**
+	 * @see IRenderEngine::clear()
+	 */
+	function clear($key)
+	{
+		if (array_key_exists($key,$this->model)) unset($this->model[$key]);
+	}
+
+	/**
+	 * @see IRenderEngine::clearAll()
+	 */
+	function clearAll()
+	{
+		$this->model == array();
+	}
+
+	/**
+	 * @see IRenderEngine::getAll()
+	 */
+	function getAll()
+	{
+		return $this->model;
+	}
 }
 
 ?>

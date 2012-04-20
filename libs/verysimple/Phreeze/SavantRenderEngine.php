@@ -83,6 +83,29 @@ class SavantRenderEngine implements IRenderEngine
 		return $this->savant->fetch($template . self::$TEMPLATE_EXTENSION);
 	}
 
+	/**
+	 * @see IRenderEngine::clear()
+	 */
+	function clear($key)
+	{
+		if (array_key_exists($key,$this->savant)) unset($this->savant[$key]);
+	}
+
+	/**
+	 * @see IRenderEngine::clearAll()
+	 */
+	function clearAll()
+	{
+		throw new Exception('clearAll not implemented for SavantRenderEngine');
+	}
+
+	/**
+	 * @see IRenderEngine::getAll()
+	 */
+	function getAll()
+	{
+		return get_object_vars($this->savant);
+	}
 }
 
 ?>

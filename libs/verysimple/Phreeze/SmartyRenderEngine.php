@@ -36,6 +36,30 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 		}
 	}
 
+	/**
+	 * @see IRenderEngine::clear()
+	 */
+	function clear($key)
+	{
+		$this->clearAssign($key);
+	}
+
+	/**
+	 * @see IRenderEngine::clearAll()
+	 */
+	function clearAll()
+	{
+		$this->clearAllAssign();
+	}
+
+	/**
+	 * @see IRenderEngine::getAll()
+	 */
+	function getAll()
+	{
+		return $this->getTemplateVars();
+	}
+
 
 }
 
