@@ -172,7 +172,7 @@ abstract class Controller
 	* Gets the user from 401 auth headers (or optionally querystring).  There are three scenarios
 	*   - The user is already logged authenticated = IAuthenticatable is returned
 	*   - The user was not logged in and valid login credentials were provided = SetCurrentUser is called and IAuthenticatable is returned
-	*   - The user was not logged in and invalid (or no) credientials were provided = NULL is returned
+	*   - The user was not logged in and invalid (or no) credentials were provided = NULL is returned
 	* @param IAuthenticatable any IAuthenticatable object
 	* @param string username querystring field (optional) if provided, the username can be passed via querystring instead of through the auth headers
 	* @param string password querystring field (optional) if provided, the password can be passed via querystring instead of through the auth headers
@@ -604,7 +604,7 @@ abstract class Controller
 		{
 			$this->Phreezer->Observe("Loading CurrentUser from Session");
 			$this->_cu = Authenticator::GetCurrentUser($this->GUID);
-			// print_r($this->_cu); die();
+
 			if ($this->_cu )
 			{
 				if (get_class($this->_cu) == "__PHP_Incomplete_Class")
