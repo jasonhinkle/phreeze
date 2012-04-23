@@ -213,6 +213,16 @@ class RequestUtil
 	}
 
 	/**
+	 * Used primarily for unit testing.  Set the contents of the request body
+	 * @param string $contents
+	 */
+	public static function SetBody($contents)
+	{
+		self::$bodyCache = $contents;
+		self::$bodyCacheIsReady = true;
+	}
+
+	/**
 	 * Return the HTTP headers sent along with the request.  This will attempt
 	 * to use apache_request_headers if available in the environment, otherwise
 	 * will manually build the headers using $_SERVER superglobal
