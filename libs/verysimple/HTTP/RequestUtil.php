@@ -426,6 +426,9 @@ class RequestUtil
 	{
 		$_REQUEST = array();
 		$_FILES = array();
+
+		self::$bodyCache = "";
+		self::$bodyCacheIsReady = false;
 	}
 
 	/**
