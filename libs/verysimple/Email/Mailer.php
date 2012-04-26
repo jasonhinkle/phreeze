@@ -190,12 +190,16 @@ class Mailer
 
         $this->_log[] = "Sending message using " . $mailer->Mailer;
 
+        ob_start(); // buffer output because class.phpmailer.php Send() is chatty and writes to stdout
+
         $fail = !$mailer->Send();
+
+		ob_end_clean(); // clear the buffer
 
         if ( $fail || $mailer->ErrorInfo)
         {
             $result = MAILER_RESULT_FAIL;
-            $this->_errors[] = $mailer->ErrorInfo;
+            $this->_errors[] = str_replace(array('<p>','</p>'),array(', ',''),$mailer->ErrorInfo);
         }
 
         return $result;
