@@ -132,9 +132,10 @@ class GenericRouter implements IRouter
 	 */
 	public function GetUrl( $controller, $method, $params = '' )
 	{
-		$prefix = $this->appRootUrl ? $this->appRootUrl : '';
 		$requestMethod = RequestUtil::GetMethod();
-		$url = RequestUtil::GetServerRootUrl() . $prefix;
+
+		// if an appRootUrl was provided then use that, otherwise figure it out based on the root url
+		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetServerRootUrl();
 
 		// normalize url by stripping trailing slash
 		while (substr($url,-1) == '/')
