@@ -37,6 +37,14 @@ class GenericRouter implements IRouter
 	}
 
 	/**
+	 * Return the root url for this application as provided at construction
+	 */
+	public function GetRootUrl()
+	{
+		return $this->appRootUrl;
+	}
+
+	/**
 	 * Adds router mappings to our routes array.
 	 *
 	 * @param array $src
