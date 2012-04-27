@@ -140,10 +140,13 @@ class GenericRouter implements IRouter
 	 */
 	public function GetUrl( $controller, $method, $params = '' )
 	{
+		$found = false;
 		$requestMethod = RequestUtil::GetMethod();
 
+		if ($params == '') $params = array();
+
 		// if an appRootUrl was provided then use that, otherwise figure it out based on the root url
-		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetServerRootUrl();
+		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetBaseURL();
 
 		// normalize url by stripping trailing slash
 		while (substr($url,-1) == '/')
@@ -151,44 +154,48 @@ class GenericRouter implements IRouter
 			$url = substr($url,0,-1);
 		}
 
-		if( $params == '' || count($params) == 0 )
+		foreach( self::$routes as $key => $value)
 		{
-			$url = $url . '/' . strtolower($controller . '/' . $method);
-		}
-		else
-		{
-			foreach( self::$routes as $key => $value)
+			list($routeController,$routeMethod) = explode(".",$value["route"]);
+
+			$keyRequestMethodArr = explode(":",$key,2);
+			$keyRequestMethod = $keyRequestMethodArr[0];
+
+			if( ($routeController == $controller) && ($routeMethod == $method) && ($keyRequestMethod == $requestMethod) &&
+			    (! array_key_exists("params",$value) || count($params) == count($value["params"]) )
+			  )
 			{
-				list($routeController,$routeMethod) = explode(".",$value["route"]);
+				$keyArr = explode('/',$key);
 
-				$keyRequestMethodArr = explode(":",$key,2);
-				$keyRequestMethod = $keyRequestMethodArr[0];
+				// strip the request method off the key:
+				// we can safely access 0 here, as there has to be params to get here:
+				$reqMethodAndController = explode(":",$keyArr[0]);
+				$keyArr[0] = (count($reqMethodAndController) == 2 ? $reqMethodAndController[1] : $reqMethodAndController[0]);
 
-				if( ($routeController == $controller) && ($routeMethod == $method) &&
-				    (count($params) == count($value["params"]) && ($keyRequestMethod == $requestMethod))
-				  )
+				// merge the parameters passed in with the routemap's path
+				// example: path is user/(:num)/events and parameters are [userCode]=>111
+				// this would yield an array of [0]=>user, [1]=>111, [2]=>events
+				if( array_key_exists("params",$value) )
 				{
-					$keyArr = explode('/',$key);
-
-					// strip the request method off the key:
-					// we can safely access 0 here, as there has to be params to get here:
-					$reqMethodAndController = explode(":",$keyArr[0]);
-					$keyArr[0] = (count($reqMethodAndController) == 2 ? $reqMethodAndController[1] : $reqMethodAndController[0]);
-
-					// merge the parameters passed in with the routemap's path
-					// example: path is user/(:num)/events and parameters are [userCode]=>111
-					// this would yiled an array of [0]=>user, [1]=>111, [2]=>events
 					foreach( $value["params"] as $rKey => $rVal )
 						$keyArr[$value["params"][$rKey]] = $params[$rKey];
-
-					// put the url together:
-					foreach( $keyArr as $urlPiece )
-						$url = $url . ($urlPiece ? "/$urlPiece" : '');
-
-					break;
 				}
+
+				// put the url together:
+				foreach( $keyArr as $urlPiece )
+					$url = $url . ($urlPiece != '' ? "/$urlPiece" : '');
+
+				// no route, just a request method? RESTful to add a trailing slash:
+				if( $keyRequestMethodArr[1] == "")
+					$url = $url . "/";
+
+				$found = true;
+				break;
 			}
 		}
+
+		// we stripped this at the beginning, need to add it back
+		if( ! $found ) $url = $url . "/";
 
 		return $url;
 	}
