@@ -56,7 +56,7 @@ GlobalConfig::$ROUTE_MAP = array(
 	{assign var=singular value=$tableInfos[$table->Name]['singular']}
 	{assign var=plural value=$tableInfos[$table->Name]['plural']}
 
-	// {$table->Name}
+	// {$singular}
 	'GET:{$plural|lower}' => array('route' => '{$singular}.ListView'),
 	'GET:{$singular|lower}/{if $table->PrimaryKeyIsAutoIncrement()}(:num){else}(:any){/if}' => array('route' => '{$singular}.SingleView', 'params' => array('{$table->GetPrimaryKeyName()|studlycaps|lcfirst}' => 1)),
 	'GET:api/{$plural|lower}' => array('route' => '{$singular}.Query'),

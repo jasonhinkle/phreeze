@@ -9,6 +9,9 @@
 
 {block name=content}
 
+	<!-- this is used by app.js for scraping -->
+	<!-- ERROR {$message|escape} /ERROR -->
+
 	<h2><i class="icon-cogs"></i> Oh Snap!</h2>
 
 	<h3 onclick="$('#stacktrace').show('slow');" class="well" style="cursor: pointer;">{$message|escape}</h3>

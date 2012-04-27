@@ -1,10 +1,10 @@
 {ldelim}extends file="Master.tpl"{rdelim}
 
-{ldelim}block name=title{rdelim}{$appname} | {$table->Name|plural|underscore2space}{ldelim}/block{rdelim}
+{ldelim}block name=title{rdelim}{$appname} | {$plural}{ldelim}/block{rdelim}
 
 {ldelim}block name=banner{rdelim}
 	<h1>
-		<i class="icon-th-list"></i> {$table->Name|plural|underscore2space}
+		<i class="icon-th-list"></i> {$plural}
 		<span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
 	</h1>
 {ldelim}/block{rdelim}
@@ -92,7 +92,7 @@
 				<div class="control-group">
 					<label class="control-label"></label>
 					<div class="controls">
-						<button id="delete{$singular}Button" class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i> Delete {$table->Name|underscore2space}</button>
+						<button id="delete{$singular}Button" class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i> Delete {$singular}</button>
 						<span id="confirmDelete{$singular}Container" class="hide">
 							<button id="cancelDelete{$singular}Button" class="btn btn-mini">Cancel</button>
 							<button id="confirmDelete{$singular}Button" class="btn btn-mini btn-danger">Confirm</button>
@@ -108,7 +108,7 @@
 		<div class="modal-header">
 			<a class="close" data-dismiss="modal">&times;</a>
 			<h3>
-				<i class="icon-edit"></i> Edit {$table->Name|underscore2space}
+				<i class="icon-edit"></i> Edit {$singular}
 				<span id="modelLoader" class="loader progress progress-striped active"><span class="bar"></span></span>
 			</h3>
 		</div>
@@ -128,7 +128,7 @@
 	</div>
 
 	<p id="newButtonContainer" class="buttonContainer">
-		<button id="new{$singular}Button" class="btn btn-primary">Add {$table->Name|underscore2space}</button>
+		<button id="new{$singular}Button" class="btn btn-primary">Add {$singular}</button>
 	</p>
 
 {ldelim}/block{rdelim}

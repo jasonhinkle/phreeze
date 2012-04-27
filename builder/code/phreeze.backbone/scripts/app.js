@@ -3,6 +3,10 @@
  */
 var app = {
 
+	/** @var landmarks used to screen-scrape the html error output for a friendly message */
+	errorLandmarkStart: '<!-- ERROR ',
+	errorLandmarkEnd: ' /ERROR -->',
+
 	/**
 	 * Display an alert message inside the element with the id containerId
 	 *
@@ -109,10 +113,6 @@ var app = {
 			+ _.escape(label)
 			+ '</option>'
 	},
-
-	/** @var landmarks used to screen-scrape the html error output for a friendly message */
-	errorLandmarkStart: 'id="errorDetails">',
-	errorLandmarkEnd: '<',
 
 	/**
 	 * A server error should contain json data, but if a fatal php error occurs it
