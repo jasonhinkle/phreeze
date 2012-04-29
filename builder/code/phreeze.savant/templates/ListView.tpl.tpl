@@ -1,19 +1,16 @@
-{ldelim}extends file="Master.tpl"{rdelim}
+<?php
+	$this->assign('title','{$appname} | {$plural}');
+	$this->assign('nav','{$plural|lower}');
 
-{ldelim}block name=title{rdelim}{$appname} | {$plural}{ldelim}/block{rdelim}
+	$this->display('_Header.tpl.php');
+?>
 
-{ldelim}block name=banner{rdelim}
-	<h1>
-		<i class="icon-th-list"></i> {$plural}
-		<span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
-	</h1>
-{ldelim}/block{rdelim}
+<div class="container">
 
-{ldelim}block name=navbar prepend{rdelim}
-	{ldelim}assign var="nav" value="{$plural|lower}"{rdelim}
-{ldelim}/block{rdelim}
-
-{ldelim}block name=content{rdelim}
+<h1>
+	<i class="icon-th-list"></i> {$plural}
+	<span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
+</h1>
 
 	<!-- underscore template for the collection -->
 	<script type="text/template" id="{$singular|lcfirst}CollectionTemplate">
@@ -21,12 +18,11 @@
 		<thead>
 			<tr>
 {foreach from=$table->Columns item=column name=columnsForEach}
-{if $smarty.foreach.columnsForEach.index == 5}{ldelim}* UNCOMMENT TO SHOW ADDITIONAL COLUMNS *{rdelim}
-{ldelim}*
+{if $smarty.foreach.columnsForEach.index == 5}<!-- UNCOMMENT TO SHOW ADDITIONAL COLUMNS
 {/if}
 				<th>{$column->NameWithoutPrefix|underscore2space}</th>
 {/foreach}
-{if $smarty.foreach.columnsForEach.index >= 5}*{rdelim}
+{if $smarty.foreach.columnsForEach.index >= 5}-->
 {/if}
 			</tr>
 		</thead>
@@ -34,8 +30,7 @@
 		<% items.each(function(item) {ldelim} %>
 			<tr id="<%= _.escape(item.get('{$table->GetPrimaryKeyName()|studlycaps|lcfirst}')) %>">
 {foreach from=$table->Columns item=column name=columnsForEach}
-{if $smarty.foreach.columnsForEach.index == 5}{ldelim}* uncomment to show additional colums *{rdelim}
-{ldelim}*
+{if $smarty.foreach.columnsForEach.index == 5}<!-- UNCOMMENT TO SHOW ADDITIONAL COLUMNS
 {/if}
 {if $column->Type == "date"}
 				<td><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY') %></td>
@@ -45,7 +40,7 @@
 				<td><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></td>
 {/if}
 {/foreach}
-{if $smarty.foreach.columnsForEach.index >= 5}*{rdelim}
+{if $smarty.foreach.columnsForEach.index >= 5}-->
 {/if}
 			</tr>
 		<% {rdelim}); %>
@@ -131,11 +126,26 @@
 		<button id="new{$singular}Button" class="btn btn-primary">Add {$singular}</button>
 	</p>
 
-{ldelim}/block{rdelim}
+	<!-- footer -->
+	<hr>
 
-{ldelim}block name=customFooterScripts{rdelim}
-	<script type="text/javascript" src="scripts/model.js"></script>
-	<script type="text/javascript" src="scripts/app.js"></script>
-	<script type="text/javascript" src="scripts/view.js"></script>
-	<script type="text/javascript" src="scripts/{$plural|lower}.js"></script>
-{ldelim}/block{rdelim}
+	<footer>
+		<p>&copy; <?php echo date('Y'); ?> {$appname|escape}</p>
+	</footer>
+
+</div> <!-- /container -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/libs/underscore-min.js"></script>
+<script type="text/javascript" src="scripts/libs/underscore.date.min.js"></script>
+<script type="text/javascript" src="scripts/libs/backbone-min.js"></script>
+<script type="text/javascript" src="scripts/libs/jquery.scrollIntoView.min.js"></script>
+
+<script type="text/javascript" src="scripts/model.js"></script>
+<script type="text/javascript" src="scripts/app.js"></script>
+<script type="text/javascript" src="scripts/view.js"></script>
+<script type="text/javascript" src="scripts/{$plural|lower}.js"></script>
+
+<?php
+	$this->display('_Footer.tpl.php');
+?>
