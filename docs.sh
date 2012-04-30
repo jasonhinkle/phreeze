@@ -1,1 +1,0 @@
-phpdoc -d libs/verysimple/ -f /usr/lib/php/pear/PEAR.php,libs/savant/Savant3.php,libs/smarty/Smarty.class.php,libs/smarty/Smarty_Compiler.class.php,libs/phpmailer/class.phpmailer.php -i .*,class.*.php -t docs -dn verysimple--Phreeze -dc VerySimple -o HTML:frames:DOM/earthli -ti "Phreeze API Documentation"
