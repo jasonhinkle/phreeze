@@ -1,5 +1,5 @@
 <?php
-/** @package    verysimple::HTTP */
+/** @package    verysimple::Phreeze */
 
 require_once("verysimple/HTTP/RequestUtil.php");
 require_once("verysimple/Util/UrlWriterMode.php");

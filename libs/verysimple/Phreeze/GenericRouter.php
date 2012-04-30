@@ -1,6 +1,19 @@
 <?php
+/** @package    verysimple::Phreeze */
+
+/** import supporting libraries */
 require_once('IRouter.php');
 
+/**
+ * Generic Router is an implementation of IRouter that uses patterns to connect
+ * routes to a Controller/Method
+ *
+ * @package    verysimple::Phreeze
+ * @author     VerySimple Inc.
+ * @copyright  1997-2012 VerySimple, Inc.
+ * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
+ * @version    1.0
+ */
 class GenericRouter implements IRouter
 {
 	private static $routes = array();
