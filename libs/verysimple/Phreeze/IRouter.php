@@ -1,4 +1,15 @@
 <?php
+/** @package    verysimple::Phreeze */
+
+/**
+ * IRouter is an interface used for routing URLs to a Controller/Method
+ *
+ * @package    verysimple::Phreeze
+ * @author     VerySimple Inc.
+ * @copyright  1997-2012 VerySimple, Inc.
+ * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
+ * @version    1.0
+ */
 interface IRouter
 {
 	/**

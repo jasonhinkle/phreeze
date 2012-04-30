@@ -8,7 +8,7 @@
     <target>docs</target>
   </transformer>
   <files>
-    <directory>./libs/</directory>
+    <directory>./libs/verysimple</directory>
     <ignore>.*</ignore>
   </files>
 </phpdoc>
