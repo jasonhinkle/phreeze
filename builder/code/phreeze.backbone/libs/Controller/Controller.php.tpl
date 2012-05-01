@@ -38,14 +38,6 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * Displays an individual campaign object for editing
-	 */
-	public function SingleView()
-	{
-		$this->Render();
-	}
-
-	/**
 	 * API Method queries for campaign records and render as JSON
 	 */
 	public function Query()

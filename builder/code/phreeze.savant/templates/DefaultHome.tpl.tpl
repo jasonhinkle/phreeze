@@ -1,9 +1,9 @@
-{literal}
-{extends file="Master.tpl"}
+<?php
+	$this->assign('title','{$appname} | Home');
+	$this->assign('nav','home');
 
-{block name=title}{/literal}{$appname}{literal} | Home{/block}
-
-{block name=container}
+	$this->display('_Header.tpl.php');
+?>
 
 	<div class="modal hide fade" id="getStartedDialog">
 		<div class="modal-header">
@@ -99,7 +99,7 @@
 				<a href="http://fortawesome.github.com/Font-Awesome/">FontAwesome</a>,
 				<a href="http://jquery.com/">jQuery</a>,
 				<a href="http://documentcloud.github.com/underscore/">Underscore</a>,
-				<a href="http://www.smarty.net">Smarty</a>,
+				<a href="http://phpsavant.com/">Savant</a>,
 				<a href="http://docs.jquery.com/Qunit">QUnit</a>.
 				All libraries and plugins have a permissive license for personal and commercial use.
 				</p>
@@ -109,10 +109,13 @@
 		<hr>
 
 		<footer>
-			<p>&copy; {$smarty.now|date_format:'%Y'} {/literal}{$appname}{literal}</p>
+			<p>&copy; <?php echo date('Y'); ?> {$appname|escape}</p>
 		</footer>
 
 	</div> <!-- /container -->
 
-{/block}
-{/literal}
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<?php
+	$this->display('_Footer.tpl.php');
+?>

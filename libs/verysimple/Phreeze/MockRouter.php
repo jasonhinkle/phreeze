@@ -1,10 +1,17 @@
 <?php
+/** @package    verysimple::Phreeze */
+
+/** import supporting libraries */
 require_once('IRouter.php');
 
 /**
- * @author eventricsupport
+ * Mock router for unit testing purposes
  *
- * Sets up a mock router for testing purposes.
+ * @package    verysimple::Phreeze
+ * @author     VerySimple Inc.
+ * @copyright  1997-2012 VerySimple, Inc.
+ * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
+ * @version    1.0
  */
 class MockRouter implements IRouter
 {
@@ -14,8 +21,8 @@ class MockRouter implements IRouter
 
 	/**
 	 *
-	 * @param unknown_type $paramName
-	 * @param unknown_type $paramName
+	 * @param string $paramName
+	 * @param string $paramName
 	 */
 	public function SetUrlParam( $paramName, $value )
 	{
