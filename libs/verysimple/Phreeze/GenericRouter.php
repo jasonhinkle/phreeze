@@ -195,7 +195,8 @@ class GenericRouter implements IRouter
 		}
 
 		// we stripped this at the beginning, need to add it back
-		if( ! $found ) $url = $url . "/";
+		if( ! $found ) // $url = $url . "/";
+			throw new Exception("404 - Page Not Found");
 
 		return $url;
 	}
