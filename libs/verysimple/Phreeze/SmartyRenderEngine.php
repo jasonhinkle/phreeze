@@ -45,6 +45,14 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	}
 
 	/**
+	 * @see IRenderEngine::display()
+	 */
+	function display($template)
+	{
+		parent::display($template);
+	}
+
+	/**
 	 * @see IRenderEngine::clear()
 	 */
 	function clear($key)
