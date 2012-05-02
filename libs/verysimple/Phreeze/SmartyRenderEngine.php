@@ -15,8 +15,11 @@ require_once("verysimple/Phreeze/IRenderEngine.php");
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
  * @version    1.0
  */
-class SmartyRenderEngine extends Smarty implements IRenderEngine
+class SmartyRenderEngine implements IRenderEngine
 {
+
+	/** @var Smarty */
+	public $smarty;
 
 	/**
 	 * @param string $templatePath
@@ -24,15 +27,15 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function __construct($templatePath = '',$compilePath = '')
 	{
-		parent::__construct();
+		$this->smarty = new Smarty();
 
-		if ($templatePath) $this->template_dir = $templatePath;
+		if ($templatePath) $this->smarty->template_dir = $templatePath;
 
 		if ($compilePath)
 		{
-			$this->compile_dir = $compilePath;
-			$this->config_dir = $compilePath;
-			$this->cache_dir = $compilePath;
+			$this->smarty->compile_dir = $compilePath;
+			$this->smarty->config_dir = $compilePath;
+			$this->smarty->cache_dir = $compilePath;
 		}
 	}
 
@@ -41,7 +44,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function assign($key, $value)
 	{
-		return parent::assign($key,$value,false);
+		return $this->smarty->assign($key,$value);
 	}
 
 	/**
@@ -49,7 +52,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function display($template)
 	{
-		return parent::display($template);
+		return $this->smarty->display($template);
 	}
 
 	/**
@@ -57,7 +60,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function fetch($template)
 	{
-		return parent::fetch($template);
+		return $this->smarty->fetch($template);
 	}
 
 	/**
@@ -65,7 +68,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function clear($key)
 	{
-		$this->clearAssign($key);
+		$this->smarty->clearAssign($key);
 	}
 
 	/**
@@ -73,7 +76,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function clearAll()
 	{
-		$this->clearAllAssign();
+		$this->smarty->clearAllAssign();
 	}
 
 	/**
@@ -81,7 +84,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function getAll()
 	{
-		return $this->getTemplateVars();
+		return $this->smarty->getTemplateVars();
 	}
 
 
