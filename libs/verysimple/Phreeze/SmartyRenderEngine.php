@@ -37,6 +37,14 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	}
 
 	/**
+	 * @see IRenderEngine::assign()
+	 */
+	function assign($key, $value)
+	{
+		parent::assign($key,$value,false);
+	}
+
+	/**
 	 * @see IRenderEngine::clear()
 	 */
 	function clear($key)
