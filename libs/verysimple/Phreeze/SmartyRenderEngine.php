@@ -41,7 +41,7 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function assign($key, $value)
 	{
-		parent::assign($key,$value,false);
+		return parent::assign($key,$value,false);
 	}
 
 	/**
@@ -49,7 +49,15 @@ class SmartyRenderEngine extends Smarty implements IRenderEngine
 	 */
 	function display($template)
 	{
-		parent::display($template);
+		return parent::display($template);
+	}
+
+	/**
+	 * @see IRenderEngine::fetch()
+	 */
+	function fetch($template)
+	{
+		return parent::fetch($template);
 	}
 
 	/**
