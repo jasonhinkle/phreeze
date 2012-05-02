@@ -30,6 +30,13 @@ GlobalConfig::$ROOT_URL = RequestUtil::GetServerRootUrl() . 'phreeze/builder/';
 /** timezone */
 // date_default_timezone_set("UTC");
 
+/** functions for php 5.2 compatibility */
+if (!function_exists('lcfirst')) {
+	function lcfirst($string) {
+		return substr_replace($string, strtolower(substr($string, 0, 1)), 0, 1);
+	}
+}
+
 /** level 2 cache */
 
 /** additional machine-specific settings */

@@ -199,7 +199,7 @@ class Mailer
         if ( $fail || $mailer->ErrorInfo)
         {
             $result = MAILER_RESULT_FAIL;
-            $this->_errors[] = str_replace(array('<p>','</p>'),array(', ',''),$mailer->ErrorInfo);
+            $this->_errors[] = trim( str_replace(array('<p>','</p>'),array(', ',''),$mailer->ErrorInfo) );
         }
 
         return $result;

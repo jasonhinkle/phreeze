@@ -27,6 +27,13 @@ GlobalConfig::$ROOT_URL = RequestUtil::GetServerRootUrl() . '{$appRoot}';
 /** timezone */
 // date_default_timezone_set("UTC");
 
+/** functions for php 5.2 compatibility */
+if (!function_exists('lcfirst')) {
+	function lcfirst($string) {
+		return substr_replace($string, strtolower(substr($string, 0, 1)), 0, 1);
+	}
+}
+
 /** level 2 cache */
 // GlobalConfig::$LEVEL_2_CACHE = new MemCacheProxy(array('localhost'=>'11211'));
 // GlobalConfig::$LEVEL_2_CACHE_TEMP_PATH = sys_get_temp_dir();
