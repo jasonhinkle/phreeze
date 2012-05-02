@@ -46,8 +46,6 @@ class OAuthUtil
 
 		$url = VerySimpleStringUtil::ReplaceFirst('&', '?', $url);
 
-		die($url);
-
 		return $url;
 	}
 }
