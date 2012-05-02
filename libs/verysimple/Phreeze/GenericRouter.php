@@ -151,10 +151,10 @@ class GenericRouter implements IRouter
 	/**
 	 * @inheritdocs
 	 */
-	public function GetUrl( $controller, $method, $params = '' )
+	public function GetUrl( $controller, $method, $params = '', $requestMethod = "" )
 	{
 		$found = false;
-		$requestMethod = RequestUtil::GetMethod();
+		// $requestMethod = RequestUtil::GetMethod();
 
 		if ($params == '') $params = array();
 
@@ -174,7 +174,8 @@ class GenericRouter implements IRouter
 			$keyRequestMethodArr = explode(":",$key,2);
 			$keyRequestMethod = $keyRequestMethodArr[0];
 
-			if( ($routeController == $controller) && ($routeMethod == $method) && ($keyRequestMethod == $requestMethod) &&
+			// echo "$routeController:$controller $routeMethod:$method $keyRequestMethod:$requestMethod)<br/>";
+			if( ($routeController == $controller) && ($routeMethod == $method) && ($requestMethod == "" || ($keyRequestMethod == $requestMethod)) &&
 			    (! array_key_exists("params",$value) || count($params) == count($value["params"]) )
 			  )
 			{
@@ -209,7 +210,7 @@ class GenericRouter implements IRouter
 
 		// we stripped this at the beginning, need to add it back
 		if( ! $found ) // $url = $url . "/";
-			throw new Exception("404 - Page Not Found");
+			throw new Exception("Unknown route specified.");
 
 		return $url;
 	}
