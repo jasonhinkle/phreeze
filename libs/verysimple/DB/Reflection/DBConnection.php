@@ -4,7 +4,6 @@
 /** import supporting libraries */
 require_once("DBEventHandler.php");
 require_once("DBConnectionString.php");
-require_once("PEAR.php");
 
 define("DBC_ERROR_NOT_CONNECTED",1);
 define("DBC_ERROR_IN_QUERY",2);
@@ -18,7 +17,7 @@ define("DBC_ERROR_IN_QUERY",2);
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
  * @version 1.0
  */
-class DBConnection extends PEAR  // extend PEAR to use the destructor functionality
+class DBConnection
 {
 	public $Host;
 	public $Port;
@@ -36,18 +35,17 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 	 * @access public
 	 * @param DBConnectionString $host
 	 * @param DBEventHandler $port
-	 */	
+	 */
 	function __construct($dbconnstring, $handler = null)
 	{
-        $this->PEAR();  // call the base class
-        
+
         $this->dbopen = false;
 		$this->Host = $dbconnstring->Host;
 		$this->Port = $dbconnstring->Port;
 		$this->Username = $dbconnstring->Username;
 		$this->Password = $dbconnstring->Password;
 		$this->DBName = $dbconnstring->DBName;
-		
+
 		if ($handler)
 		{
 			$this->handler =& $handler;
@@ -56,7 +54,7 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 		{
 			$this->handler = new DBEventHandler();
 		}
-		
+
 		$this->handler->Log(DBH_LOG_INFO, "Connection Initialized");
 	}
 
@@ -64,18 +62,18 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
      * Destructor closes the db connection.
      *
      * @access     public
-     */    
-    function _DBConnection()
+     */
+	function __destruct()
     {
         $this->Disconnect();
     }
-    
+
     /**
 	 * Opens a connection to the MySQL Server and selects the specified database
 	 *
 	 * @access public
 	 * @param string $dbname
-	 */	
+	 */
 	function Connect()
 	{
 		$this->handler->Log(DBH_LOG_INFO, "Opening Connection...");
@@ -89,12 +87,12 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 			{
 				$this->handler->Crash("Error connecting to database: " . mysql_error());
 			}
-			
+
 			if (!mysql_select_db($this->DBName, $this->dbconn))
 			{
 				$this->handler->Crash("Unable to select database " . $this->DBName);
 			}
-			
+
 			$this->handler->Log(DBH_LOG_INFO, "Connection Open");
 			$this->dbopen = true;
 		}
@@ -105,7 +103,7 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 	 *
 	 * @access public
 	 * @param bool $auto Automatically try to connect if connection isn't already open
-	 */	
+	 */
 	private function RequireConnection($auto = false)
 	{
 		if (!$this->dbopen)
@@ -125,11 +123,11 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 	 * Closing the connection to the MySQL Server
 	 *
 	 * @access public
-	 */	
+	 */
 	function Disconnect()
 	{
 		$this->handler->Log(DBH_LOG_INFO, "Closing Connection...");
-		
+
 		if ($this->dbopen)
 		{
 			mysql_close($this->dbconn);
@@ -148,18 +146,18 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 	 * @access public
 	 * @param string $sql
 	 * @return mysql_query
-	 */	
+	 */
 	function Select($sql)
 	{
 		$this->RequireConnection(true);
-		
+
 		$this->handler->Log(DBH_LOG_QUERY, "Executing Query", $sql);
-		
+
 		if ( !$rs = mysql_query($sql, $this->dbconn) )
 		{
 		   $this->handler->Crash(0, 'Error executing SQL: ' . mysql_error());
 		}
-		
+
 		return $rs;
 	}
 
@@ -168,7 +166,7 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 	 *
 	 * @access public
 	 * @param string $sql
-	 */	
+	 */
 	function Update($sql)
 	{
 		$this->RequireConnection(true);
@@ -178,14 +176,14 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 		   $this->handler->Crash('Error executing SQL: ' . mysql_error());
 		}
 	}
-	
+
 	/**
 	 * Moves the database curser forward and returns the current row as an associative array
 	 *
 	 * @access public
 	 * @param mysql_query $rs
 	 * @return Array
-	 */	
+	 */
 	function Next($rs)
 	{
 		$this->RequireConnection();
@@ -193,13 +191,13 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 		$this->handler->Log(DBH_LOG_DEBUG, "Fetching next result as array");
 		return mysql_fetch_assoc($rs);
 	}
-	
+
 	/**
 	 * Releases the resources for the given resultset
 	 *
 	 * @access public
 	 * @param mysql_query $rs
-	 */	
+	 */
 	function Release($rs)
 	{
 		$this->RequireConnection();
@@ -207,7 +205,7 @@ class DBConnection extends PEAR  // extend PEAR to use the destructor functional
 		$this->handler->Log(DBH_LOG_DEBUG, "Releasing result resources");
 		mysql_free_result($rs);
 	}
-	
+
 }
 
 ?>
