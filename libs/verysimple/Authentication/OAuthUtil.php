@@ -42,7 +42,7 @@ class OAuthUtil
 
 		$data = $request->signatureBaseString();
 
-		$url = substr( urldecode($data . '&oauth_signature=' . $request->calculateDataSignature($data,$secret,'',$signature_method) ), 4);
+		$url = substr( urldecode($data . '&oauth_signature=' . $request->calculateDataSignature($data,$secret,'',$signature_method) ), strlen($method) + 1);
 
 		$url = VerySimpleStringUtil::ReplaceFirst('&', '?', $url);
 
