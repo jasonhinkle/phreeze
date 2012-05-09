@@ -47,6 +47,7 @@ class RequestUtil
 	 */
 	static function GetRemoteHost()
 	{
+		if (array_key_exists('HTTP_X_CLUSTER_CLIENT_IP',$_SERVER)) return $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
 		if (array_key_exists('HTTP_X_FORWARDED_FOR',$_SERVER)) return $_SERVER['HTTP_X_FORWARDED_FOR'];
 		if (array_key_exists('X_FORWARDED_FOR',$_SERVER)) return $_SERVER['X_FORWARDED_FOR'];
 		if (array_key_exists('REMOTE_ADDR',$_SERVER)) return $_SERVER['REMOTE_ADDR'];
