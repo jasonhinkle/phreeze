@@ -2,19 +2,31 @@
  * backbone model definitions for {$appname}
  */
 
-// Uncomment the following if the server won't support PUT/DELETE or application/json requests
-// Backbone.emulateHTTP = true;
-// Backbone.emulateJSON = true
+/**
+ * Use emulated HTTP if the server doesn't support PUT/DELETE or application/json requests
+ */
+Backbone.emulateHTTP = false;
+Backbone.emulateJSON = false
 
 var model = {};
 
-// duration in miliseconds to automatically re-fetch data from server (0 = do not use long polling)
-// warning!  changing this setting can cause high server load.  change with caution
+/**
+ * long polling duration in miliseconds.  (5000 = recommended, 0 = disabled)
+ * warning: setting this to a low number will increase server load
+ */
 model.longPollDuration = {if $enableLongPolling != '0'}5000{else}0{/if};
+
+/**
+ * whether to refresh the collection immediately after a model is updated
+ */
+model.reloadCollectionOnModelUpdate = true;
 
 {foreach from=$tables item=table}{if isset($tableInfos[$table->Name])}
 {assign var=singular value=$tableInfos[$table->Name]['singular']}
 {assign var=plural value=$tableInfos[$table->Name]['plural']}
+/**
+ * {$singular} Backbone Model
+ */
 model.{$singular}Model = Backbone.Model.extend({
 	urlRoot: 'api/{$singular|lower}',
 	idAttribute: '{$table->GetPrimaryKeyName()|studlycaps|lcfirst}',
@@ -29,6 +41,9 @@ model.{$singular}Model = Backbone.Model.extend({
 	}
 });
 
+/**
+ * {$singular} Backbone Collection
+ */
 model.{$singular}Collection = Backbone.Collection.extend({
 	url: 'api/{$plural|lower}',
 	model: model.{$singular}Model,

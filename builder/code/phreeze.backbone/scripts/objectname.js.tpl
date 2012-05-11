@@ -289,9 +289,9 @@ var page = {
 				// if the collection was initally new then we need to add it to the collection now
 				if (isNew) { page.{$plural|lcfirst}.add(page.{$singular|lcfirst}) }
 
-				// if long-polling is used then re-fetch right away
-				if (model.longPollDuration > 0)
+				if (model.reloadCollectionOnModelUpdate)
 				{
+					// re-fetch and render the collection after the model has been updated
 					page.fetch{$plural}(page.fetchParams,true);
 				}
 		},
@@ -335,9 +335,9 @@ var page = {
 				setTimeout("app.appendAlert('The {$singular} record was deleted','alert-success',3000,'collectionAlert')",500);
 				app.hideProgress('modelLoader');
 
-				// if long-polling is used then re-fetch right away
-				if (model.longPollDuration > 0)
+				if (model.reloadCollectionOnModelUpdate)
 				{
+					// re-fetch and render the collection after the model has been updated
 					page.fetch{$plural}(page.fetchParams,true);
 				}
 			},
