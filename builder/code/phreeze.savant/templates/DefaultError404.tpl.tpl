@@ -5,9 +5,9 @@
 	$this->display('_Header.tpl.php');
 ?>
 
-<h1>Oh Snap!</h1>
-
 <div class="container">
+
+	<h1>Oh Snap!</h1>
 
 	<!-- this is used by app.js for scraping -->
 	<!-- ERROR The page you requested was not found /ERROR -->
