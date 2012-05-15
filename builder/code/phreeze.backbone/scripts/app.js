@@ -64,7 +64,7 @@ var app = {
 	 */
 	hideProgress: function(elementId)
 	{
-		setTimeout("$('#"+elementId+"').fadeOut('slow');",200);
+		setTimeout("$('#"+elementId+"').hide();",100);
 		// $('#'+elementId).animate({width:'0'},'fast');
 	},
 
