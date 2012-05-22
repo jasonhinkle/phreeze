@@ -144,7 +144,7 @@
 <script type="text/javascript" src="scripts/model.js"></script>
 <script type="text/javascript" src="scripts/app.js"></script>
 <script type="text/javascript" src="scripts/view.js"></script>
-<script type="text/javascript" src="scripts/{$plural|lower}.js"></script>
+<script type="text/javascript" src="scripts/model/{$plural|lower}.js"></script>
 
 <?php
 	$this->display('_Footer.tpl.php');
