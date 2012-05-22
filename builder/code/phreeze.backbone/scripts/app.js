@@ -93,7 +93,7 @@ var app = {
 			var dateTime = str.split(' ');
 			var dateParts = dateTime[0].split('-');
 			var timeParts = dateTime.length > 1 ? dateTime[1].split(':') : array('00','00','00');
-			d = new Date(dateParts[0], dateParts[1], dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
+			d = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
 		}
 		catch (error)
 		{
