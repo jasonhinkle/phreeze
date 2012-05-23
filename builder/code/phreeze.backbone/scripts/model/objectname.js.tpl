@@ -2,12 +2,8 @@
  * View logic for {$plural}
  */
 
-$(document).ready(function() {
-	page.init();
-});
-
 /**
- * application logic specific to this page
+ * application logic specific to the {$singular} listing page
  */
 var page = {
 
