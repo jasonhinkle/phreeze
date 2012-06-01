@@ -55,18 +55,35 @@ model.{$singular}Collection = Backbone.Collection.extend({
 	lastResponseText: null,
 	collectionHasChanged: true,
 
-	// override parse to track changes and handle pagination
+	/**
+	 * override parse to track changes and handle pagination
+	 * if the server call has returned page data
+	 */
 	parse: function(response, xhr) {
 
 		this.collectionHasChanged = (this.lastResponseText != xhr.responseText);
 		this.lastResponseText = xhr.responseText;
 
-		this.totalResults = response.totalResults;
-		this.totalPages = response.totalPages;
-		this.currentPage = response.currentPage;
-		this.pageSize = response.pageSize;
+		var rows;
 
-		return response.rows;
+		if (response.currentPage)
+		{
+			rows = response.rows;
+			this.totalResults = response.totalResults;
+			this.totalPages = response.totalPages;
+			this.currentPage = response.currentPage;
+			this.pageSize = response.pageSize;
+		}
+		else
+		{
+			rows = response;
+			this.totalResults = rows.length;
+			this.totalPages = 1;
+			this.currentPage = 1;
+			this.pageSize = this.totalResults;
+		}
+
+		return rows;
 	}
 });
 
