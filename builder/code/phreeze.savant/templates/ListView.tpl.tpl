@@ -6,7 +6,7 @@
 ?>
 
 <script type="text/javascript">
-	$LAB.script("scripts/model/{$plural|lower}.js").wait(function(){
+	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
 		page.init();
 	});
 </script>

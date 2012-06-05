@@ -47,11 +47,9 @@ var page = {
 		// initialize the collection view
 		this.collectionView = new view.CollectionView({
 			el: $("#{$singular|lcfirst}CollectionContainer"),
+			templateEl: $("#{$singular|lcfirst}CollectionTemplate"),
 			collection: page.{$plural|lcfirst}
 		});
-
-		// tell the collection view where it's template is located
-		this.collectionView.templateEl = $("#{$singular|lcfirst}CollectionTemplate");
 
 		// make the rows clickable ('rendered' is a custom event, not a standard backbone event)
 		this.collectionView.on('rendered',function(){
