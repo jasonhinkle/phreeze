@@ -2,6 +2,14 @@
 
 {ldelim}block name=title{rdelim}{$appname} | {$plural}{ldelim}/block{rdelim}
 
+{ldelim}block name=customHeader{rdelim}
+<script type="text/javascript">
+	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
+		page.init();
+	});
+</script>
+{ldelim}/block{rdelim}
+
 {ldelim}block name=banner{rdelim}
 	<h1>
 		<i class="icon-th-list"></i> {$plural}
@@ -131,11 +139,4 @@
 		<button id="new{$singular}Button" class="btn btn-primary">Add {$singular}</button>
 	</p>
 
-{ldelim}/block{rdelim}
-
-{ldelim}block name=customFooterScripts{rdelim}
-	<script type="text/javascript" src="scripts/model.js"></script>
-	<script type="text/javascript" src="scripts/app.js"></script>
-	<script type="text/javascript" src="scripts/view.js"></script>
-	<script type="text/javascript" src="scripts/{$plural|lower}.js"></script>
 {ldelim}/block{rdelim}

@@ -5,6 +5,12 @@
 	$this->display('_Header.tpl.php');
 ?>
 
+<script type="text/javascript">
+	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
+		page.init();
+	});
+</script>
+
 <div class="container">
 
 <h1>
@@ -134,17 +140,6 @@
 	</footer>
 
 </div> <!-- /container -->
-
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="scripts/libs/underscore-min.js"></script>
-<script type="text/javascript" src="scripts/libs/underscore.date.min.js"></script>
-<script type="text/javascript" src="scripts/libs/backbone-min.js"></script>
-<script type="text/javascript" src="scripts/libs/jquery.scrollIntoView.min.js"></script>
-
-<script type="text/javascript" src="scripts/model.js"></script>
-<script type="text/javascript" src="scripts/app.js"></script>
-<script type="text/javascript" src="scripts/view.js"></script>
-<script type="text/javascript" src="scripts/{$plural|lower}.js"></script>
 
 <?php
 	$this->display('_Footer.tpl.php');

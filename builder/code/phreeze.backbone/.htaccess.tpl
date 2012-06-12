@@ -23,5 +23,6 @@ RewriteRule ^scripts/.*$ - [L]
 RewriteRule ^styles/.*$ - [L]
 RewriteRule ^images/.*$ - [L]
 RewriteRule ^bootstrap/.*$ - [L]
+RewriteRule ^qunit/.*$ - [L]
 
 RewriteRule (.*) index.php?_REWRITE_COMMAND=$1 [QSA,L]

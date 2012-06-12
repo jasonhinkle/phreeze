@@ -65,7 +65,7 @@ var view = {
 		events: { 'change': 'handleViewChange' },
 
 		/** initialize is fired by backbone immediately after construction */
-		initialize: function() {
+		initialize: function(options) {
 
 			// if the collection changes these will fire
 			this.collection.bind('add', this.handleCollectionAdd, this);
@@ -74,6 +74,16 @@ var view = {
 
 			// if a model inside the collection changes this will fire
 			this.collection.bind('change', this.handleModelChange, this);
+
+			// allow the custom options to be initialized at construction
+			this.templateEl = options.templateEl;
+			if (options.automaticallyUpdateModel) this.automaticallyUpdateModel = options.automaticallyUpdateModel;
+
+			if (options.on) {
+				for (evt in options.on) {
+					this.on(evt,options.on[evt]);
+				}
+			}
 		},
 
 		/** prepare will pre-compile the underscore template if necessary */
@@ -185,9 +195,21 @@ var view = {
 		events: { 'change': 'handleViewChange' },
 
 		/** initialize is fired by backbone */
-		initialize: function() {
-		},
+		initialize: function(options) {
 
+			// if a model inside the collection changes this will fire
+			if (this.model) this.model.bind('change', this.handleModelChange, this);
+
+			// allow the custom options to be initialized at construction
+			if (options.templateEl) this.templateEl = options.templateEl;
+			if (options.automaticallyUpdateModel) this.automaticallyUpdateModel = options.automaticallyUpdateModel;
+
+			if (options.on) {
+				for (evt in options.on) {
+					this.on(evt,options.on[evt]);
+				}
+			}
+		},
 		/** prepare will pre-compile the underscore template if necessary */
 		prepare: function() {
 
@@ -211,6 +233,11 @@ var view = {
 
 			// let any interested parties know that render is complete
 			this.trigger('rendered');
+		},
+
+		/** if model changes re-render */
+		handleModelChange: function(ev) {
+			this.render();
 		},
 
 		/**

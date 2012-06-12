@@ -94,7 +94,27 @@ class HttpRequest
 	}
 
 	/**
-	* Make an HTTP GET reequest using the best method available on the server
+	 * Make an HTTP GET request using the best method available on the server
+	 *
+	 * @param string $url
+	 * @param array $data (array of field/value pairs)
+	 * @param bool true to require verification of SSL cert
+	 * @return string
+	 */
+	static function Get($url, $data, $verify_cert = false, $timeout = 30)
+	{
+		if (function_exists("curl_init"))
+		{
+			return HttpRequest::CurlPost($url, $data, $verify_cert, $timeout);
+		}
+		else
+		{
+			return HttpRequest::FilePost($url, $data, $verify_cert, $timeout);
+		}
+	}
+
+	/**
+	* Make an HTTP PUT reequest using the best method available on the server
 	*
 	* @param string $url
 	* @param array $data (array of field/value pairs)
@@ -102,15 +122,15 @@ class HttpRequest
 	* @param int timeout (in seconds)
 	* @return string
 	*/
-	static function Get($url, $data = "", $verify_cert = false, $timeout = 30)
+	static function Put($url, $data = "", $verify_cert = false, $timeout = 30)
 	{
 		if (function_exists("curl_init"))
 		{
-			return HttpRequest::CurlGet($url, $data, $verify_cert, $timeout);
+			return HttpRequest::CurlPut($url, $data, $verify_cert, $timeout);
 		}
 		else
 		{
-			return HttpRequest::FileGet($url, $data, $verify_cert, $timeout);
+			throw new Exception('PUT request is not supported on systems without curl installed');
 		}
 	}
 
@@ -205,6 +225,19 @@ class HttpRequest
 	}
 
 	/**
+	 * Make an HTTP PUT request using CURL
+	 *
+	 * @param string $url
+	 * @param variant $data querystring or array of field/value pairs
+	 * @param bool true to require verification of SSL cert
+	 * @return string
+	 */
+	static function CurlPut($url, $data, $verify_cert = false, $timeout = 30)
+	{
+		return HttpRequest::CurlRequest("PUT",$url, $data, $verify_cert, $timeout);
+	}
+
+	/**
 	 * Make an HTTP request using CURL
 	 *
 	 * @param string "POST" or "GET"
@@ -215,17 +248,44 @@ class HttpRequest
 	 */
 	static function CurlRequest($method, $url, $data, $verify_cert = false, $timeout = 30)
 	{
+		// if the data provided is in array format, convert it to a querystring
 		$qs = HttpRequest::ArrayToQueryString($data);
 
 		$agent = "verysimple::HttpRequest";
 
 		// $header[] = "Accept: text/vnd.wap.wml,*.*";
 
+		$fp = null;
+
 		if ($method == "POST")
 		{
 			$ch = curl_init($url);
 			curl_setopt($ch,		CURLOPT_POST, 1);
 			curl_setopt($ch,		CURLOPT_POSTFIELDS, $qs);
+		}
+		elseif ($method == 'PUT')
+		{
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_PUT, true);
+
+			if ($data)
+			{
+				// with a PUT request the body must be written to a file stream
+				$fp = fopen('php://temp/maxmemory:256000', 'w');
+				if (!$fp) {
+					throw new Exception('Unable to write to php://temp for PUT request');
+				}
+				fwrite($fp, $data);
+				fseek($fp, 0);
+
+				// if the PUT request contains JSON data then add the content type header
+				if (json_encode($data)) curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json") );
+
+				curl_setopt($ch, CURLOPT_INFILE, $fp);
+				curl_setopt($ch, CURLOPT_INFILESIZE, strlen($data));
+				curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+			}
+
 		}
 		else
 		{
@@ -246,6 +306,8 @@ class HttpRequest
 
 		$tmp = curl_exec ($ch);
 		$error = curl_error($ch);
+
+		if ($fp) @fclose($fp); // if a PUT request had body data, close the file stream
 
 		if ($error != "") {$tmp .= $error;}
 		curl_close ($ch);

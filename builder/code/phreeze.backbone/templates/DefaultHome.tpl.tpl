@@ -98,6 +98,7 @@
 				<p>The following open-source libraries are used in this application:
 				<a href="http://fortawesome.github.com/Font-Awesome/">FontAwesome</a>,
 				<a href="http://jquery.com/">jQuery</a>,
+				<a href="http://labjs.com/">LABjs</a>,
 				<a href="http://documentcloud.github.com/underscore/">Underscore</a>,
 				<a href="http://www.smarty.net">Smarty</a>,
 				<a href="http://docs.jquery.com/Qunit">QUnit</a>.

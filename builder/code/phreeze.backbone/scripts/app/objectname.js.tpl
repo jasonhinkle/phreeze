@@ -2,12 +2,8 @@
  * View logic for {$plural}
  */
 
-$(document).ready(function() {
-	page.init();
-});
-
 /**
- * application logic specific to this page
+ * application logic specific to the {$singular} listing page
  */
 var page = {
 
@@ -51,11 +47,9 @@ var page = {
 		// initialize the collection view
 		this.collectionView = new view.CollectionView({
 			el: $("#{$singular|lcfirst}CollectionContainer"),
+			templateEl: $("#{$singular|lcfirst}CollectionTemplate"),
 			collection: page.{$plural|lcfirst}
 		});
-
-		// tell the collection view where it's template is located
-		this.collectionView.templateEl = $("#{$singular|lcfirst}CollectionTemplate");
 
 		// make the rows clickable ('rendered' is a custom event, not a standard backbone event)
 		this.collectionView.on('rendered',function(){
@@ -289,9 +283,9 @@ var page = {
 				// if the collection was initally new then we need to add it to the collection now
 				if (isNew) { page.{$plural|lcfirst}.add(page.{$singular|lcfirst}) }
 
-				// if long-polling is used then re-fetch right away
-				if (model.longPollDuration > 0)
+				if (model.reloadCollectionOnModelUpdate)
 				{
+					// re-fetch and render the collection after the model has been updated
 					page.fetch{$plural}(page.fetchParams,true);
 				}
 		},
@@ -335,9 +329,9 @@ var page = {
 				setTimeout("app.appendAlert('The {$singular} record was deleted','alert-success',3000,'collectionAlert')",500);
 				app.hideProgress('modelLoader');
 
-				// if long-polling is used then re-fetch right away
-				if (model.longPollDuration > 0)
+				if (model.reloadCollectionOnModelUpdate)
 				{
+					// re-fetch and render the collection after the model has been updated
 					page.fetch{$plural}(page.fetchParams,true);
 				}
 			},

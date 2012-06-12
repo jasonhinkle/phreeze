@@ -26,6 +26,22 @@
 		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/apple-touch-icon-114-precomposed.png" />
 		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72-precomposed.png" />
 		<link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon-57-precomposed.png" />
+
+		<script type="text/javascript" src="scripts/libs/LAB.min.js"></script>
+		<script type="text/javascript">
+			$LAB
+				.script("//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js").wait()
+				.script("bootstrap/js/bootstrap.min.js").wait()
+				.script("bootstrap/js/bootstrap-datepicker.js")
+				.script("scripts/libs/underscore-min.js").wait()
+				.script("scripts/libs/underscore.date.min.js")
+				.script("scripts/libs/backbone-min.js")
+				.script("scripts/libs/jquery.scrollIntoView.min.js")
+				.script("scripts/app.js")
+				.script("scripts/model.js").wait()
+				.script("scripts/view.js");
+		</script>
+
 	{ldelim}/block{rdelim}
 
 	{ldelim}block name=customHeader{rdelim}
@@ -78,21 +94,6 @@
 				</footer>
 
 			</div> <!-- /container -->
-
-		{ldelim}/block{rdelim}
-
-		{ldelim}block name=footerScripts{rdelim}
-			<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-			<script type="text/javascript" src="scripts/libs/underscore-min.js"></script>
-			<script type="text/javascript" src="scripts/libs/underscore.date.min.js"></script>
-			<script type="text/javascript" src="scripts/libs/backbone-min.js"></script>
-			<script type="text/javascript" src="scripts/libs/jquery.scrollIntoView.min.js"></script>
-
-			<!-- Le javascript
-			================================================== -->
-			<!-- Placed at the end of the document so the pages load faster -->
-			<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-			<script type="text/javascript" src="bootstrap/js/bootstrap-datepicker.js"></script>
 
 		{ldelim}/block{rdelim}
 
