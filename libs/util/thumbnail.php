@@ -50,11 +50,12 @@ class thumbnail {
      * @param integer $maxWidth The maxium width for the resulting thumbnail
      * @param integer $maxHeight The maxium height for the resulting thumbnail
      * @param string $targetFormatOrFilename Either a filename extension (gif|jpg|png) or the
+     * @param bool set to true to set the image to the exact size given (stretching if necessary)
      *   filename the resulting file should be written to. This is optional and if not specified
      *   will send a jpg to the browser.
      * @return boolean true if the image could be created, false if not
      */
-    public function generate($sourceFilename, $maxWidth, $maxHeight, $targetFormatOrFilename = 'jpg') {
+    public function generate($sourceFilename, $maxWidth, $maxHeight, $targetFormatOrFilename = 'jpg', $useExactSize = false) {
 
         $size = getimagesize($sourceFilename); // 0 = width, 1 = height, 2 = type
 
@@ -97,23 +98,34 @@ class thumbnail {
         }
 
         // if the source fits within the maximum then no need to resize
-        if($size[0] <= $maxWidth && $size[1] <= $maxHeight) {
+        if($useExactSize == false && $size[0] <= $maxWidth && $size[1] <= $maxHeight) {
             $function($source, $targetFormatOrFilename);
         }
         else {
 
-            $ratioWidth = $maxWidth / $size[0];
-            $ratioHeight = $maxHeight / $size[1];
+        	$newWidth = 0;
+        	$newHeight = 0;
 
-            // use smallest ratio
-            if($ratioWidth < $ratioHeight) {
-                $newWidth = $maxWidth;
-                $newHeight = round($size[1] * $ratioWidth);
-            }
-            else {
-                $newWidth = round($size[0] * $ratioHeight);
-                $newHeight = $maxHeight;
-            }
+        	if ($useExactSize)
+        	{
+        		$newWidth = $maxWidth;
+        		$newHeight = $maxHeight;
+        	}
+			else
+			{
+	            $ratioWidth = $maxWidth / $size[0];
+	            $ratioHeight = $maxHeight / $size[1];
+
+	            // use smallest ratio
+	            if($ratioWidth < $ratioHeight) {
+	                $newWidth = $maxWidth;
+	                $newHeight = round($size[1] * $ratioWidth);
+	            }
+	            else {
+	                $newWidth = round($size[0] * $ratioHeight);
+	                $newHeight = $maxHeight;
+	            }
+			}
 
             $target = imagecreatetruecolor($newWidth, $newHeight);
             imagecopyresampled($target, $source, 0, 0, 0, 0, $newWidth, $newHeight, $size[0], $size[1]);
