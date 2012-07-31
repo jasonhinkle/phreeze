@@ -7,7 +7,7 @@ are automatically detected and will be used in the names of generated classes.  
 adjust them here.  If you prefix every column in a table consistently (ex a_id, a_name)
 the Column Prefix will be removed for class properties.</p>
 
-<p>Note that ables with no primary key or a
+<p>Note that tables with no primary key or a
 composite primary key are not supported.  Views are supported but depending on the contents
 of the view, update operations may not work.  Views are de-selected by default.</p>
 
