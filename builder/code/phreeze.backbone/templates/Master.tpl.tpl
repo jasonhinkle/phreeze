@@ -55,7 +55,7 @@
 
 			{ldelim}if !isset($nav){rdelim}{ldelim}assign var="nav" value="home"{rdelim}{ldelim}/if{rdelim}
 
-			<div class="navbar navbar-fixed-top">
+			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="navbar-inner">
 					<div class="container">
 						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
