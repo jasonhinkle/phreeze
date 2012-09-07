@@ -201,7 +201,7 @@ var page = {
 {assign var=constraint value=$table->Constraints[$column->Constraints[0]]}
 		// populate the dropdown options for {$column->NameWithoutPrefix|studlycaps|lcfirst}
 		// TODO: load only the selected value, then fetch all options when the drop-down is clicked
-		var {$column->NameWithoutPrefix|studlycaps|lcfirst|escape}Values = new model.{$constraint->ReferenceTableName|studlycaps}Collection();
+		var {$column->NameWithoutPrefix|studlycaps|lcfirst|escape}Values = new model.{$tableInfos[$constraint->ReferenceTableName]['singular']}Collection();
 		{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}Values.fetch({
 			success: function(c){
 				var dd = $('#{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}');

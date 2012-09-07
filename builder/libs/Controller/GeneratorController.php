@@ -71,13 +71,13 @@ class GeneratorController extends BaseController
 		$enableLongPolling = RequestUtil::Get("enableLongPolling");
 
 		$config = new AppConfig($codeRoot  . $packageName);
-
+		
 		foreach ($config->GetTemplateFiles() as $templateFile)
 		{
 
 			if ($templateFile->generate_mode == 2)
 			{
-				// single template where one is generated for the entire project instead of one for each selected table
+				// this is a template that is copied without parsing to the project (ie images, static files, etc)
 				$templateFilename = str_replace(
 						array('{$appname}','{$appname|lower}','{$appname|upper}'),
 						array($appname,strtolower($appname),strtoupper($appname)),
@@ -126,7 +126,7 @@ class GeneratorController extends BaseController
 				$smarty->assign("enableLongPolling",$enableLongPolling);
 
 				$tableInfos = Array();
-
+				
 				// enumerate all selected tables and merge them with the selected template
 				// append each to the zip file for output
 				foreach ($tableNames as $tableName)
@@ -138,7 +138,7 @@ class GeneratorController extends BaseController
 					$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
 					$tableInfos[$tableName]['templateFilename'] = $templateFilename;
 				}
-
+				
 				$smarty->assign("tableInfos",$tableInfos);
 
 				if ($debug)
@@ -182,6 +182,22 @@ class GeneratorController extends BaseController
 					$smarty->assign("includePath",$includePath);
 					$smarty->assign("enableLongPolling",$enableLongPolling);
 
+					$tableInfos = Array();
+					
+					// enumerate all selected tables and merge them with the selected template
+					// append each to the zip file for output
+					foreach ($tableNames as $tableName)
+					{
+						$tableInfos[$tableName] = Array();
+						$tableInfos[$tableName]['table'] = $dbSchema->Tables[$tableName];
+						$tableInfos[$tableName]['singular'] = $_REQUEST[$tableName."_singular"];
+						$tableInfos[$tableName]['plural'] = $_REQUEST[$tableName."_plural"];
+						$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
+						$tableInfos[$tableName]['templateFilename'] = $templateFilename;
+					}
+					
+					$smarty->assign("tableInfos",$tableInfos);
+					
 					foreach ($parameters as $param)
 					{
 						list($key,$val) = explode("=",$param,2);
