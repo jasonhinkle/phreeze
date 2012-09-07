@@ -92,7 +92,9 @@ var app = {
 		{
 			var dateTime = str.split(' ');
 			var dateParts = dateTime[0].split('-');
-			var timeParts = dateTime.length > 1 ? dateTime[1].split(':') : array('00','00','00');
+			var timeParts = dateTime.length > 1 ? dateTime[1].split(':') : ['00','00','00'];
+			// pad the time with zeros if it wasn't provided
+			while (timeParts.length < 3) timeParts[timeParts.length] = '00';
 			d = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
 		}
 		catch (error)
@@ -143,6 +145,6 @@ var app = {
 		return msg ? msg : 'Unknown server error';
 	},
 
-	version: 1.0
+	version: 1.1
 
 }
