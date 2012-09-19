@@ -101,7 +101,7 @@ class HttpRequest
 	 * @param bool true to require verification of SSL cert
 	 * @return string
 	 */
-	static function Get($url, $data, $verify_cert = false, $timeout = 30)
+	static function Get($url, $data = "", $verify_cert = false, $timeout = 30)
 	{
 		if (function_exists("curl_init"))
 		{
