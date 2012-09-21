@@ -30,7 +30,7 @@
 		<script type="text/javascript" src="scripts/libs/LAB.min.js"></script>
 		<script type="text/javascript">
 			$LAB
-				.script("//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js").wait()
+				.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
 				.script("bootstrap/js/bootstrap.min.js").wait()
 				.script("bootstrap/js/bootstrap-datepicker.js")
 				.script("scripts/libs/underscore-min.js").wait()
