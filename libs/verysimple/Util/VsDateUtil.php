@@ -22,6 +22,36 @@ class VsDateUtil
 	}
 	
 	/**
+	 * Returns the timestamp for the beginning of DST for specified year
+	 * @param int the 4-digit year (if not provide then the current year is used)
+	 */
+	static function DstStartNorthAmerica($year = null)
+	{
+		if (!$year) $year = date('Y');
+		return strtotime('03/01/' . $year . ' second sunday');
+	}
+	
+	/**
+	 * Returns the timestamp for the end of DST for the specified year
+	 * @param int the 4-digit year (if not provide then the current year is used)
+	 */
+	static function DstEndNorthAmerica($year = null)
+	{
+		if (!$year) $year = date('Y');
+		return strtotime('11/01/' . $year . ' first sunday');
+	}
+	
+	/**
+	 * Return true if the date is within the DST observation range for North America
+	 * @param int $timestamp (if not provided then the current server time will be used)
+	 */
+	static function IsDstNorthAmerica($timestamp = null)
+	{
+		if (!$timestamp) $timestamp = time();
+		return $timestamp > self::DstStartNorthAmerica() && $timestamp < self::DstEndNorthAmerica();
+	}
+	
+	/**
 	 * Return current date/time as string in the specified format
 	 * @param string $format
 	 */
