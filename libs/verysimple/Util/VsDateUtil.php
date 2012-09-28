@@ -12,6 +12,18 @@
  */
 class VsDateUtil
 {
+	/** @var int one day in milliseconds */
+	static $ONE_DAY = 86400000;
+	
+	/** @var int one hour in milliseconds */
+	static $ONE_HOUR = 3600000;
+	
+	/** @var int one minute in milliseconds */
+	static $ONE_MINUTE = 6000;
+	
+	/** @var int one second in milliseconds */
+	static $ONE_SECOND = 1000;
+	
 	/**
 	 * Return current date as string in the specified format
 	 * @param string $format
