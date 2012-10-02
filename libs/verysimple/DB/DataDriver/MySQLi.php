@@ -38,13 +38,39 @@ class DataDriverMySQLi implements IDataDriver
 	/**
 	 * @inheritdocs
 	 */
-	function Open($connectionstring,$database,$username,$password) 
+	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
 		$connection = mysqli_connect($connectionstring, $username, $password, $database);
 		
 		if ( mysqli_connect_errno() )
 		{
 			throw new Exception("Error connecting to database: " . mysqli_connect_error());
+		}
+		
+		if ($charset)
+		{
+			mysqli_set_charset($connection,$charset);
+			
+			if ( mysqli_connect_errno() )
+			{
+				throw new Exception("Error connecting to database: " . mysqli_connect_error());
+			}
+		}
+		
+		if ($bootstrap)
+		{
+			$statements = explode(';',$bootstrap);
+			foreach ($statements as $sql)
+			{
+				try 
+				{
+					$this->Execute($connection, $sql);
+				}
+				catch (Exception $ex)
+				{
+					throw new Exception("problem with bootstrap sql: " . $ex->getMessage());
+				}
+			}
 		}
 		
 		return $connection;

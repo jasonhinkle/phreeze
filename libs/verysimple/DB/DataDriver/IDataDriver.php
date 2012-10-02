@@ -38,9 +38,11 @@ interface IDataDriver
 	 * @param string $database
 	 * @param string $username
 	 * @param string $password
+	 * @param string $charset the charset that will be used for the connection (example 'utf8')
+	 * @param string $bootstrap SQL that will be executed when the connection is first opened (example 'SET SQL_BIG_SELECTS=1')
 	 * @return connection
 	 */
-	function Open($connectionstring,$database,$username,$password);
+	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='');
 	
 	/**
 	 * Close the given connection reference

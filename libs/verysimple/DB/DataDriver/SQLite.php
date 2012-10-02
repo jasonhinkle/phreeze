@@ -32,13 +32,31 @@ class DataDriverSQLite implements IDataDriver
 	/**
 	 * @inheritdocs
 	 */
-	function Open($connectionstring,$database,$username,$password) 
+	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
 		if ( !$connection =  new SQLite3($connectionstring, SQLITE3_OPEN_READWRITE,$password) )
 		{
 			throw new Exception("Error connecting to database: Unable to open the database file.");
 		}
+		
+		// charset is ignored with sqlite
 
+		if ($bootstrap)
+		{
+			$statements = explode(';',$bootstrap);
+			foreach ($statements as $sql)
+			{
+				try
+				{
+					$this->Execute($connection, $sql);
+				}
+				catch (Exception $ex)
+				{
+					throw new Exception("problem with bootstrap sql: " . $ex->getMessage());
+				}
+			}
+		}
+		
 		return $connection;
 	}
 	

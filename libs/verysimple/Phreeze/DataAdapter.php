@@ -116,7 +116,9 @@ class DataAdapter implements IObservable
 					$this->_csetting->ConnectionString, 
 					$this->_csetting->DBName, 
 					$this->_csetting->Username, 
-					$this->_csetting->Password);
+					$this->_csetting->Password,
+					$this->_csetting->Charset,
+					$this->_csetting->BootstrapSQL);
 			}
 			catch (Exception $ex)
 			{

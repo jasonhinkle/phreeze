@@ -19,6 +19,8 @@ class ConnectionSetting
     var $Username;
     var $Password;
     var $TablePrefix;
+    var $Charset;
+    var $BootstrapSQL;
 
      /**
      * Constructor

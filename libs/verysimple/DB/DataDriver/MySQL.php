@@ -38,7 +38,7 @@ class DataDriverMySQL implements IDataDriver
 	/**
 	 * @inheritdocs
 	 */
-	function Open($connectionstring,$database,$username,$password) 
+	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
 		if ( !$connection = @mysql_connect($connectionstring, $username, $password) )
 		{
@@ -48,6 +48,27 @@ class DataDriverMySQL implements IDataDriver
 		if (!@mysql_select_db($database, $connection))
 		{
 			throw new Exception("Unable to select database " . $database);
+		}
+		
+		if ($charset && !@mysql_set_charset($charset,$connection))
+		{
+			throw new Exception("Unable to set charset " . $charset);
+		}
+		
+		if ($bootstrap) 
+		{
+			$statements = explode(';',$bootstrap);
+			foreach ($statements as $sql)
+			{
+				try 
+				{
+					$this->Execute($connection, $sql);
+				}
+				catch (Exception $ex)
+				{
+					throw new Exception("Connection Bootstrap Error: " . $ex->getMessage());
+				}
+			}
 		}
 		
 		return $connection;
