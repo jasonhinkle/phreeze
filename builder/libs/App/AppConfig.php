@@ -26,21 +26,22 @@ class AppConfig
 	}
 	
 	/**
-	 * 
+	 * Return the text of the config file
 	 */
 	public function GetConfigFileContents()
 	{
 		if (!$this->configFileContents)
 		{
-			$this->configFileContents = file_get_contents($this->configFilePath);
+			// get rid of windows-style carriage returns
+			$this->configFileContents = str_replace("\r\n", "\n", file_get_contents($this->configFilePath) );
 		}
 		
 		return $this->configFileContents;
 	}
 	
 	/**
-	 * 
-	 * @param unknown_type $name
+	 * Return a property from the config file with the given name
+	 * @param string $name
 	 */
 	private function GetProperty($name)
 	{
@@ -57,7 +58,7 @@ class AppConfig
 	}
 
 	/**
-	 * 
+	 * Returns the path to the config file
 	 */
 	public function GetConfigFile()
 	{
@@ -71,7 +72,7 @@ class AppConfig
 	}
 	
 	/**
-	 * 
+	 * Returns the name of the selected app
 	 */
 	public function GetName()
 	{
@@ -84,7 +85,7 @@ class AppConfig
 	}
 	
 	/**
-	 * 
+	 * Returns the description of the selected app
 	 */
 	public function GetDescription()
 	{
@@ -98,7 +99,8 @@ class AppConfig
 	}
 	
 	/**
-	 * 
+	 * Returns an array of TemplateFile objects that will be used when generating
+	 * an application
 	 */
 	public function GetTemplateFiles()
 	{
