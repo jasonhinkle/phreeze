@@ -381,7 +381,7 @@ abstract class Phreezable implements Serializable
 			{
 				$prop = $fm->PropertyName;
 
-				if ($fm->FieldSize && (strlen($this->$prop) > $fm->FieldSize))
+				if (is_numeric($fm->FieldSize) && (strlen($this->$prop) > $fm->FieldSize))
 				{
 					$this->AddValidationError($prop,"$prop exceeds the maximum length of " . $fm->FieldSize . "");
 				}
@@ -410,7 +410,13 @@ abstract class Phreezable implements Serializable
 						case FM_TYPE_DATETIME:
 							if (strtotime($this->$prop) === '')
 							{
-								$this->AddValidationError($prop,"$prop is not a valid date/time value");
+								$this->AddValidationError($prop,"$prop is not a valid date/time value.");
+							}
+							break;
+						case FM_TYPE_ENUM:
+							if ( !in_array($this->$prop, $fm->GetEnumValues()) )
+							{
+								$this->AddValidationError($prop,"$prop is not valid value. Allowed values: " . implode(', ',$fm->GetEnumValues()) );
 							}
 							break;
 						default:

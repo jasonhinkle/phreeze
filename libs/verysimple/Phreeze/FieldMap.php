@@ -45,11 +45,13 @@ class FieldMap
 	public $TableName;
 	public $ColumnName;
 	public $FieldType;
-	public $FieldSize;
 	public $IsPrimaryKey;
 	public $DefaultValue;
 	public $IsAutoInsert;
 
+	/** @variant either an int or an array to indicate max size or acceptable values */
+	public $FieldSize;
+	
 	/**
 	 * Given a MySQL column type, return the Phreeze constant name
 	 * @param string $type
@@ -68,7 +70,7 @@ class FieldMap
 	* @param string $cb DB column name
 	* @param bool $pk True if column is a primary key  (optional default = false)
 	* @param int $ft Field type FM_TYPE_VARCHAR | FM_TYPE_INT | etc...  (optional default = FM_TYPE_UNKNOWN)
-	* @param int $fs Field size, 0 for unlimited  (optional default = 0)
+	* @param variant $fs Field size, 0 for unlimited.  for enums, an array of acceptable values  (default = 0)
 	* @param variant $dv Default value  (optional default = null)
 	* @param bool $iai True if column is auto insert column  (optional default = null)
 	*/
@@ -82,6 +84,24 @@ class FieldMap
 		$this->FieldSize = $fs;
 		$this->DefaultValue = $dv;
 		$this->IsAutoInsert = $iai;
+	}
+	
+	/**
+	 * Return true if this column is an enum type
+	 * @return boolean
+	 */
+	function IsEnum()
+	{
+		return $this->FieldType == FM_TYPE_ENUM;
+	}
+	
+	/**
+	 * Return the enum values if this column type is an enum
+	 * @return array
+	 */
+	function GetEnumValues()
+	{
+		return $this->IsEnum() ? $this->FieldSize : array();
 	}
 
 	/**

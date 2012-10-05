@@ -48,19 +48,47 @@ require_once('verysimple/Phreeze/FieldMap.php');
 		$this->NameWithoutPrefix = $row["Field"];
 		$this->Type = $typesize[0];
 		$this->Unsigned = isset($sizesign[1]);
-		$this->Size = $sizesign[0] ;
 		$this->Null = $row["Null"];
 		$this->Key = $row["Key"];
 		$this->Default = $row["Default"];
 		$this->Extra = $row["Extra"];
 
+		// enums are a little different because they contain a list of legal values instead of a size limit
+		if ($this->IsEnum())
+		{
+			// enum size is in the format 'val1','val2',...
+			$this->Size = explode("','", substr($sizesign[0],1,-1) );
+			$this->MaxSize = 0;
+		}
+		else
+		{
+			$this->Size = $sizesign[0];
+			// size may be saved for decimals as "n,n" so we need to convert that to an int
+			$tmp = explode(",",$this->Size);
+			$this->MaxSize = count($tmp) > 1 ? ($tmp[0] + $tmp[1]) : $this->Size;
+		}
+		
 		// if ($this->Key == "MUL") print " ########################## " . print_r($row,1) . " ########################## ";
-
-		// size may be saved for decimals as "n,n" so we need to convert that to an int
-		$tmp = explode(",",$this->Size);
-		$this->MaxSize = count($tmp) > 1 ? ($tmp[0] + $tmp[1]) : $this->Size;
 	}
-
+	
+	/**
+	 * Return true if this column is an enum type
+	 * @return boolean
+	 */
+	function IsEnum()
+	{
+		return $this->Type == 'enum';
+	}
+	
+	/**
+	 * Return the enum values if this column type is an enum
+	 * @return array
+	 */
+	function GetEnumValues()
+	{
+		return $this->IsEnum() ? $this->Size : array();
+	}
+	
 	/**
 	 * Return the Phreeze column constant that most closely matches this column type
 	 * @return string

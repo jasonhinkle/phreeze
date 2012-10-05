@@ -32,7 +32,7 @@ class {$singular}Map implements IDaoMap
 		if ($fm == null)
 		{ldelim}
 			$fm = Array();
-{foreach from=$table->Columns item=column}			$fm["{$column->NameWithoutPrefix|studlycaps}"] = new FieldMap("{$column->NameWithoutPrefix|studlycaps}","{$table->Name}","{$column->Name}",{if $column->Key == "PRI"}true{else}false{/if},{$column->GetPhreezeType()},{if $column->Size}{$column->Size|replace:',':'.'}{else}null{/if},{if $column->Default}"{$column->Default}"{else}null{/if},{if $column->Extra == 'auto_increment'}true{else}false{/if});
+{foreach from=$table->Columns item=column}			$fm["{$column->NameWithoutPrefix|studlycaps}"] = new FieldMap("{$column->NameWithoutPrefix|studlycaps}","{$table->Name}","{$column->Name}",{if $column->Key == "PRI"}true{else}false{/if},{$column->GetPhreezeType()},{if $column->IsEnum()}array({foreach name=enumvals from=$column->GetEnumValues() item=enumval}{if !$smarty.foreach.enumvals.first},{/if}"{$enumval|replace:'"':'\"'}"{/foreach}){elseif $column->Size}{$column->Size|replace:',':'.'}{else}null{/if},{if $column->Default}"{$column->Default}"{else}null{/if},{if $column->Extra == 'auto_increment'}true{else}false{/if});
 {/foreach}
 		{rdelim}
 		return $fm;
