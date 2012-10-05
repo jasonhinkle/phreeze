@@ -3,7 +3,6 @@
 
 /** import supporting libraries */
 require_once("Model/DAO/AccountDAO.php");
-require_once("Model/DAO/AccountCriteria.php");
 require_once("verysimple/Authentication/IAuthenticatable.php");
 
 // these are some generic permission settings.  You should set your own in
@@ -83,6 +82,11 @@ class AuthAccount extends AccountDAO implements IAuthenticatable
 	 */
 	function Login($username, $password)
 	{
+		// for backwards compatibility with Phreeze 2x, look in multiple places for the AccountCriteria class
+		if (!class_exists("AccountCriteria")) @include_once("Model/AccountCriteria.php");
+		if (!class_exists("AccountCriteria")) @include_once("Model/DAO/AccountCriteria.php");
+		if (!class_exists("AccountCriteria")) throw new Exception("Unable to locate AccountCriteria class.");
+		
 		if ($username == "" || $password == "")
 		{
 			return false;
