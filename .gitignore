@@ -2,3 +2,4 @@
 /.buildpath
 /.gitignore
 /docs
+.DS_Store
