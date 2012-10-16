@@ -717,8 +717,9 @@ abstract class Controller
 	 * @param string if a callback is provided, this will be rendered as JSONP
 	 * @param bool if true then objects will be returned ->GetObject() (only supports ObjectArray or individual Phreezable or Reporter object)
 	 * @param array  (only relvant if useSimpleObject is true) options array passed through to Phreezable->ToString()
+	 * @param bool set to 0 to leave data untouched.  set to 1 to always force value to UTF8. set to 2 to only force UTF8 if an encoding error occurs (WARNING: options 1 or 2 will likely result in unreadable characters.  The recommended fix is to set your database charset to utf8)
 	 */
-	protected function RenderJSON($var, $callback = "",$useSimpleObject = false, $options = null)
+	protected function RenderJSON($var, $callback = "",$useSimpleObject = false, $options = null, $forceUTF8 = 0)
 	{
 		$obj = null;
 
@@ -752,7 +753,33 @@ abstract class Controller
 			$obj = $var;
 		}
 
-		$output = json_encode($obj);
+		if ($forceUTF8 == 1) $this->UTF8Encode($obj);
+
+		try
+		{
+			$output = json_encode($obj);
+		}
+		catch (Exception $ex)
+		{
+			if (strpos($ex->getMessage(),'Invalid UTF-8') !== false)
+			{
+				// a UTF encoding problem has been encountered
+				if ($forceUTF8 == 2) 
+				{
+					$this->UTF8Encode($obj);
+					$output = json_encode($obj);
+				}
+				else
+				{
+					throw new Exception('The object to be encoded contains invalid UTF-8 data.  Please verify your database character encoding or alternatively set the Controller::RenderJSON $forceUTF8 parameter to 1 or 2.');
+				}
+			}
+			else
+			{
+				// we don't know what this is so don't try to handle it here
+				throw $ex;
+			}
+		}
 
 		if ($callback) $output = "$callback(" . $output . ")";
 
@@ -839,6 +866,40 @@ abstract class Controller
 		// don't exit if we are unit testing because it will stop all further tests
 		if (!$this->UnitTestMode) exit;
 
+	}
+
+	/**
+	 * Does a recursive UTF8 encoding on a string/array/object.  This is used
+	 * when json encoding fails due to non UTF8 in the database that cannot
+	 * be repaired with any other means.
+	 * 
+	 * NOTE: this does not have a return value.  value is passed by reference and updated
+	 * 
+	 * @param variant $input
+	 */
+	private function UTF8Encode(&$input) 
+	{
+		if (is_string($input)) 
+		{
+			// pop recursion here
+			$input = utf8_encode($input);
+		} 
+		else if (is_array($input)) 
+		{
+			foreach ($input as &$value) 
+			{
+				$this->UTF8Encode($value);
+			}
+			unset($value);
+		} 
+		else if (is_object($input)) 
+		{
+			$vars = array_keys(get_object_vars($input));
+			foreach ($vars as $var) 
+			{
+				$this->UTF8Encode($input->$var);
+			}
+		}
 	}
 
     /**
