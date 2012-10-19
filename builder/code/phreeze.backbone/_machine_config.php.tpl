@@ -21,7 +21,7 @@ GlobalConfig::$CONNECTION_SETTING->DBName = "{$connection->DBName}";
 GlobalConfig::$CONNECTION_SETTING->Username = "{$connection->Username}";
 GlobalConfig::$CONNECTION_SETTING->Password = "{$connection->Password}";
 GlobalConfig::$CONNECTION_SETTING->Type = "MySQLi";
-// GlobalConfig::$CONNECTION_SETTING->Charset = "utf8";
+GlobalConfig::$CONNECTION_SETTING->Charset = "utf8";
 // GlobalConfig::$CONNECTION_SETTING->BootstrapSQL = "SET SQL_BIG_SELECTS=1";
 
 /** the root url of the application with trailing slash, for example http://localhost/{$appname|lower}/ */
