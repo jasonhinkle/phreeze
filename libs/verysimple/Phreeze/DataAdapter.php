@@ -55,7 +55,7 @@ class DataAdapter implements IObservable
     				break;
     			case "mysqli":
 					include_once("verysimple/DB/DataDriver/MySQLi.php");
-    				$this->_driver  = new DataDriverMySQL();
+    				$this->_driver  = new DataDriverMySQLi();
     				break;
     			case "sqlite":
 					include_once("verysimple/DB/DataDriver/SQLite.php");
