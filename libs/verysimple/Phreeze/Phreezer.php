@@ -853,7 +853,7 @@ class Phreezer extends Observable
 	* @access public
 	* @param string $objectclass The name of the object class
 	* @param string $keyname The unique id of the KeyMap in the objects KeyMaps collection
-	* @param int $load_type (optional) KM_LOAD_EAGER | KM_LOAD_LAZY  (default is KM_LOAD_EAGER)
+	* @param int $load_type (optional) KM_LOAD_INNER | KM_LOAD_EAGER | KM_LOAD_LAZY  (default is KM_LOAD_EAGER)
 	*/
 	public function SetLoadType($objectclass, $keyname, $load_type = KM_LOAD_EAGER)
 	{

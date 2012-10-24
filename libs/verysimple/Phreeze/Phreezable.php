@@ -631,7 +631,7 @@ abstract class Phreezable implements Serializable
 
 		foreach ($kms as $km)
 		{
-			if ($km->LoadType == KM_LOAD_EAGER)
+			if ($km->LoadType == KM_LOAD_EAGER || $km->LoadType == KM_LOAD_INNER)
 			{
 				// load the child object that was obtained eagerly and cache so we
 				// won't ever grab the same object twice in one page load
