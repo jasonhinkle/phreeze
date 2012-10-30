@@ -26,3 +26,11 @@ RewriteRule ^bootstrap/.*$ - [L]
 RewriteRule ^qunit/.*$ - [L]
 
 RewriteRule (.*) index.php?_REWRITE_COMMAND=$1 [QSA,L]
+
+# Add correct mime type for web fonts to prevent browser warnings
+<IfModule mod_mime.c>
+AddType application/vnd.ms-fontobject eot
+AddType font/opentype otf
+AddType font/truetype ttf
+AddType application/x-font-woff woff
+</IfModule>
