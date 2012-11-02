@@ -26,7 +26,7 @@
 {foreach from=$table->Columns item=column name=columnsForEach}
 {if $smarty.foreach.columnsForEach.index == 5}<!-- UNCOMMENT TO SHOW ADDITIONAL COLUMNS
 {/if}
-				<th>{$column->NameWithoutPrefix|underscore2space}</th>
+				<th id="sortBy_{$column->NameWithoutPrefix|ucfirst}">{$column->NameWithoutPrefix|underscore2space}</th>
 {/foreach}
 {if $smarty.foreach.columnsForEach.index >= 5}-->
 {/if}

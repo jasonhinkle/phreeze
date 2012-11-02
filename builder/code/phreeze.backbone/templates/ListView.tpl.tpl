@@ -32,7 +32,7 @@
 {if $smarty.foreach.columnsForEach.index == 5}{ldelim}* UNCOMMENT TO SHOW ADDITIONAL COLUMNS *{rdelim}
 {ldelim}*
 {/if}
-				<th>{$column->NameWithoutPrefix|underscore2space}</th>
+				<th id="sortBy_{$column->NameWithoutPrefix|ucfirst}">{$column->NameWithoutPrefix|underscore2space}</th>
 {/foreach}
 {if $smarty.foreach.columnsForEach.index >= 5}*{rdelim}
 {/if}
