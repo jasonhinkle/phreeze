@@ -72,7 +72,7 @@ var page = {
 
 				page.orderBy = prop;
 				page.orderDesc = desc;
- 				page.fetchPackages({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: 1 });
+ 				page.fetch{$plural}({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: 1 });
  			});
 
 			// attach click handlers to the pagination controls
