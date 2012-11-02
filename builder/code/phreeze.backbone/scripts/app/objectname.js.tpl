@@ -137,18 +137,6 @@ var page = {
 					page.collectionView.render();
 				}
 
- 				if(params.sortBy){
- 					if(params.desc === true){
- 						$('#sort').remove();
- 						$("#"+params.sortBy).append("<i id='sort' class='icon-arrow-up'></i>");	
- 					}
- 					
- 					if(params.desc === false){
- 						$('#sort').remove();
- 						$("#"+params.sortBy).append("<i id='sort' class='icon-arrow-down'></i>");	
- 					}
- 				}
-
 				app.hideProgress('loader');
 				page.fetchInProgress = false;
 			},
