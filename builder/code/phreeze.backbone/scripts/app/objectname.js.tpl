@@ -15,6 +15,9 @@ var page = {
 	fetchParams: null,
 	fetchInProgress: false,
 	dialogIsOpen: false,
+	
+	orderBy: '',
+	orderDesc: false,
 
 	/**
 	 *
@@ -64,18 +67,19 @@ var page = {
 			// make the headers clickable for sorting
  			$('table.collection thead tr th').click(function(e) {
  				e.preventDefault();
- 				var desc = $('#sort').hasClass("icon-arrow-down");
- 				$('#sort').remove();
- 				$(this).append("<i id='sort' class='icon-arrow-" + (desc ? 'up' : 'down') + "'></i>");
- 				page.fetchPackages({ sortBy: this.id , desc: desc, page: 1 });
- 							
+				var prop = this.id.replace('header_','');
+ 				var desc = prop == page.orderBy && page.orderDesc == false; // toggle the sort direction
+
+				page.orderBy = prop;
+				page.orderDesc = desc;
+ 				page.fetchPackages({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: 1 });
  			});
 
 			// attach click handlers to the pagination controls
 			$('.pageButton').click(function(e) {
 				e.preventDefault();
 				var p = this.id.substr(5);
-				page.fetch{$plural}({ page: p });
+				page.fetch{$plural}({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: p });
 			});
 		});
 

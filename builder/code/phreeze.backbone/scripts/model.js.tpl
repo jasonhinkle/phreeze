@@ -52,6 +52,8 @@ model.{$singular}Collection = Backbone.Collection.extend({
 	totalPages: 0,
 	currentPage: 0,
 	pageSize: 0,
+	orderBy: '',
+	orderDesc: false,
 	lastResponseText: null,
 	collectionHasChanged: true,
 
@@ -73,6 +75,8 @@ model.{$singular}Collection = Backbone.Collection.extend({
 			this.totalPages = response.totalPages;
 			this.currentPage = response.currentPage;
 			this.pageSize = response.pageSize;
+			this.orderBy = response.orderBy;
+			this.orderDesc = response.orderDesc;
 		}
 		else
 		{
@@ -81,6 +85,8 @@ model.{$singular}Collection = Backbone.Collection.extend({
 			this.totalPages = 1;
 			this.currentPage = 1;
 			this.pageSize = this.totalResults;
+			this.orderBy = response.orderBy;
+			this.orderDesc = response.orderDesc;
 		}
 
 		return rows;

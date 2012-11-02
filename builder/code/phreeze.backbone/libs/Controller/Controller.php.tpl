@@ -63,19 +63,12 @@ class {$singular}Controller extends AppBaseController
 				}
 			}
 
- 			$sortBy = RequestUtil::Get('sortBy');
- 			$sortBy = str_replace('sortBy_','',$sortBy);
- 			if($sortBy){
- 				
- 				$desc =  RequestUtil::Get('desc') == 'true'? true: false; 
- 				$criteria->SetOrder($sortBy,$desc);
- 				$output->sortBy = $sortBy;
- 				$output->desc = $desc;
- 			}
-
-
-
 			$output = new stdClass();
+
+			// if a sort order was specified then specify in the criteria
+ 			$output->orderBy = RequestUtil::Get('orderBy');
+ 			$output->orderDesc = RequestUtil::Get('orderDesc') != '';
+ 			if ($output->orderBy) $criteria->SetOrder($output->orderBy, $output->orderDesc);
 
 			$page = RequestUtil::Get('page');
 

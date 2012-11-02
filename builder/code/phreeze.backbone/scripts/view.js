@@ -104,7 +104,14 @@ var view = {
 			// convert the collection to a simple json object so the templates are not so verbose
 			var html = this.template({
 				items: this.collection,
-				page: {totalResults: this.collection.totalResults, totalPages: this.collection.totalPages, totalPages: this.collection.totalPages, currentPage: this.collection.currentPage}
+				page: {
+					totalResults: this.collection.totalResults, 
+					totalPages: this.collection.totalPages, 
+					totalPages: this.collection.totalPages, 
+					currentPage: this.collection.currentPage,
+					orderBy: this.collection.orderBy,
+					orderDesc: this.collection.orderDesc
+				}
 			});
 
 			$(this.el).html(html);

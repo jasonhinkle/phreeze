@@ -20,6 +20,10 @@ table.collection td:hover {
     cursor: pointer;
 }
 
+table.collection th:hover {
+    cursor: pointer;
+}
+
 input.date-picker
 {
 	width: 100px;

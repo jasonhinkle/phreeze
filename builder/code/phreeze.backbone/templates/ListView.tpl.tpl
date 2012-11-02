@@ -32,7 +32,7 @@
 {if $smarty.foreach.columnsForEach.index == 5}{ldelim}* UNCOMMENT TO SHOW ADDITIONAL COLUMNS *{rdelim}
 {ldelim}*
 {/if}
-				<th id="sortBy_{$column->NameWithoutPrefix|ucfirst}">{$column->NameWithoutPrefix|underscore2space}</th>
+				<th id="header_{$column->NameWithoutPrefix|studlycaps}">{$column->NameWithoutPrefix|underscore2space}<% if (page.orderBy == '{$column->NameWithoutPrefix|studlycaps}') { %> <i class='icon-arrow-<%= page.orderDesc ? 'up' : 'down' %>' /><% } %></th>
 {/foreach}
 {if $smarty.foreach.columnsForEach.index >= 5}*{rdelim}
 {/if}
