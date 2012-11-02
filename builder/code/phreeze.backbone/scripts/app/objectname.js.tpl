@@ -204,7 +204,11 @@ var page = {
 
 		// initialize any special controls
 		try {
-			$('.date-picker').datepicker({ format: 'yyyy-mm-dd' });
+			$('.date-picker')
+				.datepicker({ format: 'yyyy-mm-dd' })
+				.on('changeDate', function(ev){
+					$('.date-picker').datepicker('hide');
+				});
 		} catch (error) {
 			// this happens if the datepicker input.value isn't a valid date
 			if (console) console.log('datepicker error: '+error.message);

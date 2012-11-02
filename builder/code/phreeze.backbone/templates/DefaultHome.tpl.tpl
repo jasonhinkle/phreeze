@@ -96,6 +96,7 @@
 			<div class="span3">
 				<h2><i class="icon-signin"></i> Libraries</h2>
 				<p>The following open-source libraries are used in this application:
+				<a href="https://github.com/eternicode/bootstrap-datepicker">datepicker</a>,
 				<a href="http://fortawesome.github.com/Font-Awesome/">FontAwesome</a>,
 				<a href="http://jquery.com/">jQuery</a>,
 				<a href="http://labjs.com/">LABjs</a>,
