@@ -61,6 +61,23 @@ var page = {
 				page.showDetailDialog(m);
 			});
 
+			// make the headers clickable for sorting
+ 			$('table.collection thead tr th').click(function(e) {
+ 				e.preventDefault();
+				if($('#sort').hasClass("icon-arrow-down")){
+ 					$('#sort').remove();
+ 					$(this).append("<i id='sort' class='icon-arrow-up'></i>");	
+ 					page.fetch{$plural}({ sortBy: this.id , desc: true });
+ 				}else{
+ 					$('#sort').remove();
+ 					$(this).append("<i id='sort' class='icon-arrow-down'></i>");	
+ 					page.fetch{$plural}({ sortBy: this.id , desc: false });
+ 				}
+ 				
+ 							
+ 			});
+
+
 			// attach click handlers to the pagination controls
 			$('.pageButton').click(function(e) {
 				e.preventDefault();
@@ -122,6 +139,18 @@ var page = {
 					// data returned from the server.  render the collection view
 					page.collectionView.render();
 				}
+
+ 				if(params.sortBy){
+ 					if(params.desc === true){
+ 						$('#sort').remove();
+ 						$("#"+params.sortBy).append("<i id='sort' class='icon-arrow-up'></i>");	
+ 					}
+ 					
+ 					if(params.desc === false){
+ 						$('#sort').remove();
+ 						$("#"+params.sortBy).append("<i id='sort' class='icon-arrow-down'></i>");	
+ 					}
+ 				}
 
 				app.hideProgress('loader');
 				page.fetchInProgress = false;
