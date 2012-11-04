@@ -616,11 +616,12 @@ abstract class Controller
 					$name = trim($parts2[0]);
 
 					Authenticator::ClearAuthentication($this->GUID);
-					throw new Exception("The class definition used for authentication '$name' must be defined (included) before the session is started, for example in _config.php.");
+					throw new Exception("The class definition used for authentication '$name' must be defined (included) before the session is started, for example in _app_config.php.");
 				}
 				else
 				{
-					$this->_cu->Refresh($this->Phreezer);
+					// refresh the current user if the object supports it
+					if (method_exists($this->_cu, 'Refresh')) $this->_cu->Refresh($this->Phreezer);
 				}
 			}
 		}
