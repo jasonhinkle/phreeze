@@ -639,9 +639,11 @@ abstract class Controller
 	 *
 	 * @param int $permission Permission ID requested
 	 * @param string $on_fail_action (optional) The action to redirect if require fails
+	 * @param string $not_authenticated_feedback (optional) Feedback to forward to the on_fail_action if user is not logged in
+	 * @param string $permission_denied_feedback (optional) Feedback to forward to the on_fail_action if user is logged in but does not have permission
 	 * @throws AuthenticationException
 	 */
-	protected function RequirePermission($permission, $on_fail_action = "")
+	protected function RequirePermission($permission, $on_fail_action = "", $not_authenticated_feedback = "Please login to access this page", $permission_denied_feedback = "You are not authorized to view this page and/or your session has expired")
 	{
 		$this->Phreezer->Observe("Checking For Permission '$permission'");
 		$cu = $this->GetCurrentUser();
@@ -649,11 +651,12 @@ abstract class Controller
 		if (!$cu || !$cu->IsAuthorized($permission))
 		{
 			$message = !$cu || $cu->IsAnonymous()
-				? "Please login to access this page"
-				: "You are not authorized to view this page and/or your session has expired";
-
+				? $not_authenticated_feedback
+				: $permission_denied_feedback;
+			
 			if ($on_fail_action)
 			{
+
 				$this->Redirect($on_fail_action,$message);
 			}
 			else
