@@ -32,6 +32,17 @@ set_include_path(
 );
 
 /**
+ * AUTOLOAD
+ * Add any classes here that should be auto-loaded.  Any classes that
+ * will be stored in the session can be added here
+ */
+function __autoload($classname)
+{
+	// example user is stored in the session for the authentication exmaple code
+	if ($classname == 'ExampleUser') include "App/ExampleUser.php";
+}
+
+/**
  * RENDER ENGINE
  * Haters be hatin' on Smarty? You can use any template system that implements
  * IRenderEngine for the view layer.  Phreeze provides pre-built
@@ -52,6 +63,13 @@ GlobalConfig::$ROUTE_MAP = array(
 
 	// default controller when no route specified
 	'GET:' => array('route' => 'Default.Home'),
+
+	// example authentication routes
+	'GET:loginform' => array('route' => 'SecureExample.LoginForm'),
+	'POST:login' => array('route' => 'SecureExample.Login'),
+	'GET:secureuser' => array('route' => 'SecureExample.UserPage'),
+	'GET:secureadmin' => array('route' => 'SecureExample.AdminPage'),
+	'GET:logout' => array('route' => 'SecureExample.Logout'),
 {foreach from=$tables item=table name=tablesForEach}{if isset($tableInfos[$table->Name])}
 	{assign var=singular value=$tableInfos[$table->Name]['singular']}
 	{assign var=plural value=$tableInfos[$table->Name]['plural']}

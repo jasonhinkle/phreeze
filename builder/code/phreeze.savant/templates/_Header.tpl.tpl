@@ -56,7 +56,7 @@
 						<a class="brand" href="./">{$appname}</a>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li <?php if ($this->nav=='home') { echo 'class="active"'; } ?>><a href="./">Home</a></li>
+								<li <?php if ($this->nav=='secureexample') { echo 'class="active"'; } ?>><a href="./loginform">Login</a></li>
 {foreach from=$tables item=table}{if isset($tableInfos[$table->Name])}
 								<li <?php if ($this->nav=='{$tableInfos[$table->Name]['plural']|lower}') { echo 'class="active"'; } ?>><a href="./{$tableInfos[$table->Name]['plural']|lower}">{$tableInfos[$table->Name]['plural']}</a></li>
 {/if}{/foreach}
