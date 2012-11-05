@@ -81,11 +81,22 @@ var app = {
 	 * Accept string in the following format: 'YYYY-MM-DD hh:mm:ss' or 'YYYY-MM-DD'
 	 * If a date object is padded in, it will be returned as-is
 	 * @param string | date:
+	 * @param defaultDate if the provided string can't be parsed, return this instead (default is Now)
 	 * @returns Date
 	 */
-	parseDate: function(str) {
-
+	parseDate: function(str, defaultDate) {
+		
+		// don't re-parse a date obj
 		if (str instanceof Date) return str;
+		
+		if (typeof(str) == 'undefined') defaultDate = new Date();
+		
+		// if the value passed in was blank, default to today
+		if (str == '' || typeof(str) == 'undefined')
+		{
+			if (console) console.log('app.parseDate: empty or undefined date value');
+			return defaultDate;
+		}
 
 		var d;
 		try
@@ -100,10 +111,17 @@ var app = {
 		catch (error)
 		{
 			if (console) console.log('app.parseDate: ' + error.message);
-			d = new Date();
+			d = defaultDate;
 		}
 
-		return d ? d : new Date();
+		// if either of these occur then the date wasn't parsed correctly
+		if ( typeof(d) == 'undefined' || isNaN(d.getTime()) )
+		{
+			if (console) console.log('app.parseDate: unable to parse date value');
+			d = defaultDate;
+		}
+				
+		return d;
 	},
 
 	/**
