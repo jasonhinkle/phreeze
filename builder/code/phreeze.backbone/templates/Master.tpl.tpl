@@ -66,10 +66,31 @@
 						<a class="brand" href="./">{$appname}</a>
 						<div class="nav-collapse">
 							<ul class="nav">
-								<li {ldelim}if $nav=='secureexample'{rdelim} class="active"{ldelim}/if{rdelim}><a href="./loginform">Login</a></li>
-{foreach from=$tables item=table}{if isset($tableInfos[$table->Name])}
+{foreach from=$tables item=table name=ddForEach}{if isset($tableInfos[$table->Name])}
+{if $smarty.foreach.ddForEach.index == 4 && !$smarty.foreach.ddForEach.last}
+							</ul>
+							<ul class="nav">
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+{/if}
 								<li {ldelim}if $nav=='{$tableInfos[$table->Name]['plural']|lower}'{rdelim} class="active"{ldelim}/if{rdelim}><a href="./{$tableInfos[$table->Name]['plural']|lower}">{$tableInfos[$table->Name]['plural']}</a></li>
+{if $smarty.foreach.ddForEach.last && $smarty.foreach.ddForEach.index != 4}
+								</ul>
+								</li>
+{/if}
 {/if}{/foreach}
+							</ul>
+
+							<ul class="nav pull-right">
+								<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="./loginform">Login</a></li>
+									<li><a href="./secureuser">Example User Page</a></li>
+									<li><a href="./secureadmin">Example Admin Page</a></li>
+								</ul>
+								</li>
 							</ul>
 						</div><!--/.nav-collapse -->
 					</div>
