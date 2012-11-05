@@ -2,6 +2,16 @@
  * style overrides and customizations
  */
 
+/* reset for font-awesome 2.0 and bootstrap 2.2.1 */
+[class^="icon-"], [class*=" icon-"] {
+  background-image:none;
+  height:auto;
+  line-height:normal;
+  margin-top:0;
+  vertical-align:baseline;
+  width:auto;
+}
+
 /* note that this gets overridden by bootstrap-responsive.min.css when screen size changes */
 body {
 	padding-top: 65px;
@@ -48,15 +58,21 @@ table thead th {
 	text-decoration: none;
 }
 
+table thead th {
+	white-space: nowrap;
+}
+
 table tbody td.tableNameColumn {
 	padding-top: 14px;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-table tbody td.tableNameColumn i.table {
-	color: #006699;
+table tbody td.tableNameColumn a:hover {
+	text-decoration: none;
 }
 
-table tbody td.tableNameColumn i.view {
+table tbody td.tableNameColumn a.view i {
 	color: #888888;
 }
 
