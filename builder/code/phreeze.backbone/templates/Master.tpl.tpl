@@ -84,7 +84,7 @@
 
 							<ul class="nav pull-right">
 								<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Login <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="icon-lock"></b>Login <b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="./loginform">Login</a></li>
 									<li><a href="./secureuser">Example User Page</a></li>
