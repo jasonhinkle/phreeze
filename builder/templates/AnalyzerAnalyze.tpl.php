@@ -31,7 +31,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			<?php if ($table->IsView) { ?>
 				<input type="checkbox" class="tableCheckbox" name="table_name[]" value="<?php $this->eprint($table->Name); ?>" />
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
-					<a href="#" class="popover-icon" rel="popover" onclick="return false;"
+				<a href="#" class="popover-icon" rel="popover" onclick="return false;"
 					data-content="Phreeze does not currently support tables without a primary key column"
 					data-original-title="No Primary Key"><i class="icon-ban-circle">&nbsp;</i></a>
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
@@ -42,7 +42,16 @@ of the view, update operations may not work.  Views are de-selected by default.<
 				<input type="checkbox" class="tableCheckbox" name="table_name[]" value="<?php $this->eprint($table->Name); ?>" checked="checked" />
 			<?php } ?>
 			</td>
-			<td class="tableNameColumn"><i class="icon-list-alt <?php if ($table->IsView) { ?>view<?php }else{ ?>table<?php } ?>"></i> <?php $this->eprint($table->Name); ?></td>
+			<td class="tableNameColumn">
+			
+			<?php if ($table->IsView) { ?>
+				<a href="#" class="popover-icon view" rel="popover" onclick="return false;"
+					data-content="Views are supported by Phreeze however only read operations will be allowed"
+					data-original-title="View Information"><i class="icon-table">&nbsp;</i></a>
+			<?php }else{ ?>
+				<i class="icon-table">&nbsp;</i>
+			<?php } ?>
+			<?php $this->eprint($table->Name); ?></td>
 			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
 			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
 			<td><input type="text" class="span2" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
