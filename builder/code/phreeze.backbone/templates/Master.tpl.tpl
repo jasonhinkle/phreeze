@@ -15,7 +15,7 @@
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link href="bootstrap/css/font-awesome.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet" />
-
+		
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 			<script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -84,11 +84,11 @@
 
 							<ul class="nav pull-right">
 								<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="icon-lock"></b>Login <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-lock"></i>Login <i class="caret"></i></a>
 								<ul class="dropdown-menu">
 									<li><a href="./loginform">Login</a></li>
-									<li><a href="./secureuser">Example User Page</a></li>
-									<li><a href="./secureadmin">Example Admin Page</a></li>
+									<li><a href="./secureuser">Example User Page <i class="icon-lock"></i></a></li>
+									<li><a href="./secureadmin">Example Admin Page <i class="icon-lock"></i></a></li>
 								</ul>
 								</li>
 							</ul>
