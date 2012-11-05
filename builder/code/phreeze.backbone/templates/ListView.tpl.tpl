@@ -75,6 +75,13 @@
 						<span class="input-xlarge uneditable-input" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}"><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></span>
 {elseif $column->Key == "MUL" && $column->Constraints}
 						<select id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" name="{$column->NameWithoutPrefix|studlycaps|lcfirst}"></select>
+{elseif $column->IsEnum()}
+						<select id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" name="{$column->NameWithoutPrefix|studlycaps|lcfirst}">
+							<option value=""></option>
+{foreach from=$column->GetEnumValues() item=enumVal name=enumValForEach}
+							<option value="{$enumVal|escape}"<% if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')=='{$enumVal|escape}') { %> selected="selected"<% } %>>{$enumVal|escape}</option>
+{/foreach}
+						</select>
 {elseif $column->Type == "datetime" || $column->Type == "timestamp"}
 						<input type="text" class="date-picker input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('YYYY-MM-DD') %>">
 						<input type="text" class="time-picker input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}-time" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %>">

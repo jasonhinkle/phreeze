@@ -287,7 +287,7 @@ var page = {
 		page.{$singular|lcfirst}.save({
 {foreach from=$table->Columns item=column name=columnsForEach}
 {if $column->Extra != 'auto_increment'}
-			'{$column->NameWithoutPrefix|studlycaps|lcfirst}': {if $column->Type == "datetime" || $column->Type == "timestamp"}$('input#{$column->NameWithoutPrefix|studlycaps|lcfirst}').val()+' '+$('input#{$column->NameWithoutPrefix|studlycaps|lcfirst}-time').val(){else}$('{if $column->Key == "MUL" && $column->Constraints}select{elseif $column->Type == 'text' || $column->Type == 'tinytext' || $column->Type == 'mediumtext' || $column->Type == 'longtext'}textarea{else}input{/if}#{$column->NameWithoutPrefix|studlycaps|lcfirst}').val(){/if}{if !$smarty.foreach.columnsForEach.last},{/if}
+			'{$column->NameWithoutPrefix|studlycaps|lcfirst}': {if $column->Type == "datetime" || $column->Type == "timestamp"}$('input#{$column->NameWithoutPrefix|studlycaps|lcfirst}').val()+' '+$('input#{$column->NameWithoutPrefix|studlycaps|lcfirst}-time').val(){else}$('{if (($column->Key == "MUL" && $column->Constraints) || $column->IsEnum())}select{elseif $column->Type == 'text' || $column->Type == 'tinytext' || $column->Type == 'mediumtext' || $column->Type == 'longtext'}textarea{else}input{/if}#{$column->NameWithoutPrefix|studlycaps|lcfirst}').val(){/if}{if !$smarty.foreach.columnsForEach.last},{/if}
 {/if}
 
 {/foreach}
