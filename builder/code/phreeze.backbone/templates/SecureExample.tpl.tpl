@@ -3,6 +3,9 @@
 
 {block name=title}{/literal}{$appname|escape}{literal} Secure Example{/block}
 
+{block name=banner}
+{/block}
+
 {block name=content}
 
 
