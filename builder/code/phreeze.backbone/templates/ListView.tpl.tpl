@@ -47,7 +47,7 @@
 {/if}
 {if $column->Type == "date"}
 				<td><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY') %></td>
-{elseif $column->Type == "datetime"}
+{elseif $column->Type == "datetime" ||  $column->Type == "timestamp"}
 				<td><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY h:mm A') %></td>
 {else}
 				<td><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></td>
@@ -75,7 +75,7 @@
 						<span class="input-xlarge uneditable-input" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}"><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></span>
 {elseif $column->Key == "MUL" && $column->Constraints}
 						<select id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" name="{$column->NameWithoutPrefix|studlycaps|lcfirst}"></select>
-{elseif $column->Type == "datetime"}
+{elseif $column->Type == "datetime" || $column->Type == "timestamp"}
 						<input type="text" class="date-picker input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('YYYY-MM-DD') %>">
 						<input type="text" class="time-picker input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}-time" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %>">
 {elseif $column->Type == "date"}

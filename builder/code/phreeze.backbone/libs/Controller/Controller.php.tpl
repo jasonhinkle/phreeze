@@ -148,7 +148,7 @@ class {$singular}Controller extends AppBaseController
 			// ${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = $this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}');
 
 {else}
-{if $column->Type == "date" or $column->Type == "datetime"}
+{if $column->Type == "date" or $column->Type == "datetime" or $column->Type == "timestamp"}
 			${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = date('Y-m-d H:i:s',strtotime($this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}')));
 {else}
 			${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = $this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}');
@@ -208,7 +208,7 @@ class {$singular}Controller extends AppBaseController
 			// ${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = $this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}', ${$singular|lower}->{$column->NameWithoutPrefix|studlycaps});
 
 {else}
-{if $column->Type == "date" or $column->Type == "datetime"}
+{if $column->Type == "date" or $column->Type == "datetime" or $column->Type == "timestamp"}
 			${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = date('Y-m-d H:i:s',strtotime($this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}', ${$singular|lower}->{$column->NameWithoutPrefix|studlycaps})));
 {else}
 			${$singular|lower}->{$column->NameWithoutPrefix|studlycaps} = $this->SafeGetVal($json, '{$column->NameWithoutPrefix|studlycaps|lcfirst}', ${$singular|lower}->{$column->NameWithoutPrefix|studlycaps});
