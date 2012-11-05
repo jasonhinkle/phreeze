@@ -29,7 +29,7 @@ class {$singular}Controller extends AppBaseController
 		// TODO: add controller-wide bootstrap code
 		
 		// TODO: if authentiation is required for this entire controller, for example:
-		// $this->RequirePermission(ExampleUser::$PERMISSION_USER);
+		// $this->RequirePermission(ExampleUser::$PERMISSION_USER,'SecureExample.LoginForm');
 	}
 
 	/**
