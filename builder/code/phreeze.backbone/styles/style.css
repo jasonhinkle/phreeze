@@ -26,12 +26,18 @@ p.buttonContainer {
 
 }
 
-table.collection td:hover {
+table.collection tr:hover {
     cursor: pointer;
+    background-color: #fbfbfb
+}
+
+table.collection th{
+    background-color: #eeeeee;
 }
 
 table.collection th:hover {
     cursor: pointer;
+    background-color: #dfdfdf;
 }
 
 input.date-picker
