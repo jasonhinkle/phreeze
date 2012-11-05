@@ -32,15 +32,11 @@ set_include_path(
 );
 
 /**
- * AUTOLOAD
- * Add any classes here that should be auto-loaded.  Any classes that
- * will be stored in the session can be added here
+ * SESSION CLASSES
+ * Any classes that will be stored in the session can be added here
+ * and will be pre-loaded on every page
  */
-function __autoload($classname)
-{
-	// example user is stored in the session for the authentication exmaple code
-	if ($classname == 'ExampleUser') include "App/ExampleUser.php";
-}
+require_once "App/ExampleUser.php";
 
 /**
  * RENDER ENGINE
