@@ -39,9 +39,9 @@
 {if $smarty.foreach.columnsForEach.index == 5}<!-- UNCOMMENT TO SHOW ADDITIONAL COLUMNS
 {/if}
 {if $column->Type == "date"}
-				<td><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY') %></td>
+				<td><%if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')) { %><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY') %><% } else { %>NULL<% } %></td>
 {elseif $column->Type == "datetime" ||  $column->Type == "timestamp"}
-				<td><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY h:mm A') %></td>
+				<td><%if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')) { %><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY h:mm A') %><% } else { %>NULL<% } %></td>
 {else}
 				<td><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></td>
 {/if}
