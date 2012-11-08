@@ -114,6 +114,9 @@ var view = {
 				}
 			});
 
+			// if this.el is null then it's likely that the collection view was initialized prior to document.ready firing
+			if (typeof(this.el) == 'undefined' && console) console.warn('CollectionView.render element is not defined.  Collection may not render properly.');
+
 			$(this.el).html(html);
 
 			// let any interested parties know that render is complete
@@ -235,6 +238,9 @@ var view = {
 			var html = this.template({
 				item: this.model
 			});
+
+			// if this.el is null then it's likely that the collection view was initialized prior to document.ready firing
+			if (typeof(this.el) == 'undefined' && console) console.warn('ModelView.render element is not defined.  Model may not render properly.');
 
 			$(this.el).html(html);
 
