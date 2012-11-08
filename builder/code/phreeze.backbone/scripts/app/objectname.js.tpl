@@ -24,6 +24,9 @@ var page = {
 	 */
 	init: function()
 	{
+	
+		if (!$.isReady && console) console.warn('page was initialized before dom is ready.  views may not render properly.');
+
 		// make the new button clickable
 		$("#new{$singular}Button").click(function(e) {
 			e.preventDefault();
