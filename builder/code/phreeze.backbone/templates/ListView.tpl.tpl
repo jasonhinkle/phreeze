@@ -5,7 +5,9 @@
 {ldelim}block name=customHeader{rdelim}
 <script type="text/javascript">
 	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
-		page.init();
+		$(document).ready(function(){
+			page.init();
+		});
 	});
 </script>
 {ldelim}/block{rdelim}
