@@ -16,7 +16,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	<table class="collection table table-bordered">
 	<thead>
 		<tr>
-			<th class="checkboxColumn"><input type="checkbox" id="selectAll"
+			<th class="checkboxColumn"><input type="checkbox" id="selectAll" checked="checked"
 				onclick="$('input.tableCheckbox').attr('checked', $('#selectAll').attr('checked')=='checked');"/></th>
 			<th>Table</th>
 			<th>Singular Name</th>
