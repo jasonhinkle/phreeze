@@ -8,7 +8,7 @@
 	@if (isset($feedback))
 		<div class="alert alert-error">
 			<button type="button" class="close" data-dismiss="alert">×</button>
-			{ldelim}{ldelim} $feedback {rdelim}{rdelim}
+			{ldelim}{ldelim} htmlentities($feedback) {rdelim}{rdelim}
 		</div>
 	@endif
 	
@@ -48,7 +48,7 @@
 		<div class="hero-unit">
 			<h1>Secure @if ($page == 'userpage') User @else Admin @endif Page</h1>
 			<p>This page is accessible only to @if ($page == 'userpage') authenticated users @else administrators @endif.  
-			You are currently logged in as '<strong>{ldelim}{ldelim} $currentUser->Username {rdelim}{rdelim}</strong>'</p>
+			You are currently logged in as '<strong>{ldelim}{ldelim} htmlentities($currentUser->Username) {rdelim}{rdelim}</strong>'</p>
 			<p>
 				<a href="secureuser" class="btn btn-primary btn-large">Visit User Page</a>
 				<a href="secureadmin" class="btn btn-primary btn-large">Visit Admin Page</a>
