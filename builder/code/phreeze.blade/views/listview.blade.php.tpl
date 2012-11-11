@@ -1,5 +1,7 @@
 @layout('Master')
 
+<?php $nav = '{$plural|lower}' ?>
+
 @section('title'){$appname} | {$plural}@endsection
 
 @section('customHeader')
