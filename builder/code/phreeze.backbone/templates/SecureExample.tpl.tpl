@@ -32,7 +32,7 @@
 			</p>
 		</div>
 	
-		<form method="post" action="login">
+		<form class="well" method="post" action="login">
 			<fieldset>
 			<legend>Enter your credentials</legend>
 				<div class="control-group">
