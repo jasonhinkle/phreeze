@@ -12,15 +12,32 @@
  */
 class ConnectionSetting
 {
-
+	/** @var string database type, for example mysql, mysqli, sqlite */
     var $Type = "mysql";
+    
+    /** @var string connection string used to connect to the database, for example  localhost:3306 */
     var $ConnectionString;
+    
+    /** @var string name of the database/schema */
     var $DBName;
+    
+    /** @var string database username used to connect */
     var $Username;
+    
+    /** @var string database password used to connect */
     var $Password;
+    
+    /** @var string if all tables share a common prefix, this can be used so object names do not include the prefix */
     var $TablePrefix;
-    var $Charset;
+    
+    /** @var string any arbitrary SQL that should be run upon first opening the connection, for example SET SQL_BIG_SELECTS=1 */
     var $BootstrapSQL;
+    
+    /** @var string characterset used for the database, for example 'utf8' */
+    var $Charset;
+    
+    /** @var boolean set to true and multi-byte functions will be used when evaluating strings */
+    var $Multibyte = false;
 
      /**
      * Constructor
@@ -85,7 +102,10 @@ class ConnectionSetting
         $this->DBName = $tmp->DBName;
         $this->Type = $tmp->Type;
         $this->TablePrefix = $tmp->TablePrefix;
-    }
+   		$this->Charset = $tmp->Charset;
+   		$this->BootstrapSQL = $tmp->BootstrapSQL;
+   		$this->Multibyte = $tmp->Multibyte;
+        }
     
 }
 

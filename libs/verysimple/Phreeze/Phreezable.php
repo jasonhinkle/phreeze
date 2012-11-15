@@ -373,6 +373,10 @@ abstract class Phreezable implements Serializable
     */
 	private function _DoBaseValidation()
 	{
+		$lenfunction = $this->_phreezer->DataAdapter->ConnectionSetting->Multibyte
+			? 'mb_strlen'
+			: 'strlen';
+		
 		if (!$this->_base_validation_complete)
 		{
 			$fms = $this->_phreezer->GetFieldMaps(get_class($this));
@@ -381,7 +385,7 @@ abstract class Phreezable implements Serializable
 			{
 				$prop = $fm->PropertyName;
 
-				if (is_numeric($fm->FieldSize) && (strlen($this->$prop) > $fm->FieldSize))
+				if (is_numeric($fm->FieldSize) && ($lenfunction($this->$prop) > $fm->FieldSize))
 				{
 					$this->AddValidationError($prop,"$prop exceeds the maximum length of " . $fm->FieldSize . "");
 				}

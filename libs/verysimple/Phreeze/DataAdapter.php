@@ -21,8 +21,12 @@ require_once("verysimple/DB/DataDriver/IDataDriver.php");
 class DataAdapter implements IObservable
 {
     
+	/**
+	 * @var ConnectionSetting
+	 */
+    public $ConnectionSetting;
+	
     private $_observers = Array();
-    private $_csetting;
 	private $_dbconn;
 	private $_dbopen;
 	private $_driver;
@@ -72,7 +76,7 @@ class DataAdapter implements IObservable
     	DataAdapter::$DRIVER_INSTANCE = $this->_driver;
     	
 		$this->AttachObserver($listener);
-		$this->_csetting =& $csetting;
+		$this->ConnectionSetting =& $csetting;
 		$this->Observe("DataAdapter Instantiated", OBSERVE_DEBUG);
 	}
 	
@@ -96,7 +100,7 @@ class DataAdapter implements IObservable
 	 */	
 	function GetDBName()
 	{
-		return $this->_csetting->DBName;
+		return $this->ConnectionSetting->DBName;
 	}
 	
     /**
@@ -117,12 +121,12 @@ class DataAdapter implements IObservable
 			try
 			{
 				$this->_dbconn = $this->_driver->Open(
-					$this->_csetting->ConnectionString, 
-					$this->_csetting->DBName, 
-					$this->_csetting->Username, 
-					$this->_csetting->Password,
-					$this->_csetting->Charset,
-					$this->_csetting->BootstrapSQL);
+					$this->ConnectionSetting->ConnectionString, 
+					$this->ConnectionSetting->DBName, 
+					$this->ConnectionSetting->Username, 
+					$this->ConnectionSetting->Password,
+					$this->ConnectionSetting->Charset,
+					$this->ConnectionSetting->BootstrapSQL);
 			}
 			catch (Exception $ex)
 			{
