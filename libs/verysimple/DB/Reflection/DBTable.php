@@ -77,6 +77,28 @@ class DBTable
 		{
 			return ($remove_prefix) ? $this->RemovePrefix($key->KeyColumn) : $key->KeyColumn;
 		}
+		
+		// views don't technically have a primary key but we will return the first column if anybody asks
+		if ($this->IsView) return $this->GetColumnNameByIndex(0,$remove_prefix);
+	}
+	
+	/**
+	 * Returns the name of the column at the given index
+	 *
+	 * @access public
+	 * @param int $index (zero based)
+	 * @param bool $remove_prefix
+	 * @return string
+	 */
+	function GetColumnNameByIndex($index, $remove_prefix = true)
+	{
+		$count = 0;
+		foreach ($this->Columns as $column)
+		{
+			if ($count == $index) return ($remove_prefix) ? $column->NameWithoutPrefix : $column->Name;
+		}
+		
+		throw new Exception('Index out of bounds');
 	}
 
 	/**
@@ -88,7 +110,8 @@ class DBTable
 	 */
 	function PrimaryKeyIsAutoIncrement()
 	{
-		return $this->Columns[$this->GetPrimaryKeyName(false)]->Extra == "auto_increment";
+		$pk = $this->GetPrimaryKeyName(false);
+		return $pk && $this->Columns[$pk]->Extra == "auto_increment";
 	}
 
 	/**
@@ -205,6 +228,9 @@ class DBTable
 			{
 				$this->IsView = true;
 				$create_table = $row["Create View"];
+				
+				// treat the 1st column in a view as the primary key
+				$this->Columns[$this->GetColumnNameByIndex(0,false)]->Key = 'PRI';
 			}
 			else
 			{
