@@ -22,6 +22,7 @@ GlobalConfig::$CONNECTION_SETTING->Username = "{$connection->Username}";
 GlobalConfig::$CONNECTION_SETTING->Password = "{$connection->Password}";
 GlobalConfig::$CONNECTION_SETTING->Type = "MySQLi";
 GlobalConfig::$CONNECTION_SETTING->Charset = "utf8";
+GlobalConfig::$CONNECTION_SETTING->Multibyte = true;
 // GlobalConfig::$CONNECTION_SETTING->BootstrapSQL = "SET SQL_BIG_SELECTS=1";
 
 /** the root url of the application with trailing slash, for example http://localhost/{$appname|lower}/ */
@@ -36,6 +37,11 @@ if (!function_exists('lcfirst')) {
 		return substr_replace($string, strtolower(substr($string, 0, 1)), 0, 1);
 	}
 }
+
+// if Multibyte support is specified then we need to check if multibyte functions are available
+// if you receive this error then either install multibyte extensions or set Multibyte to false
+if (GlobalConfig::$CONNECTION_SETTING->Multibyte && !function_exists('mb_strlen'))
+	die('<html>Multibyte extensions are not installed but Multibyte is set to true in _machine_config.php</html>');
 
 /** level 2 cache */
 // GlobalConfig::$LEVEL_2_CACHE = new MemCacheProxy(array('localhost'=>'11211'));
