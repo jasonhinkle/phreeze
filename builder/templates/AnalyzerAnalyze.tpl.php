@@ -46,7 +46,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			
 			<?php if ($table->IsView) { ?>
 				<a href="#" class="popover-icon view" rel="popover" onclick="return false;"
-					data-content="Views are supported by Phreeze however only read operations will be allowed"
+					data-content="Views are supported by Phreeze however only read-operations will be allowed by default.<br/><br/>Because views do not support keys or indexes, Phreeze will treat the leftmost column of the view as the primary key.  For optimal results please design your view so that the leftmost column returns a unique value for each row."
 					data-original-title="View Information"><i class="icon-table">&nbsp;</i></a>
 			<?php }else{ ?>
 				<i class="icon-table">&nbsp;</i>
