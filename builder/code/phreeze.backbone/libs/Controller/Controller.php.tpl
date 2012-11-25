@@ -131,6 +131,10 @@ class {$singular}Controller extends AppBaseController
 	{
 		try
 		{
+			{if $table->IsView}// TODO: views are read-only by default.  uncomment at your own discretion
+			throw new Exception('Database views are read-only and cannot be updated');
+			{/if}
+			
 			$json = json_decode(RequestUtil::GetBody());
 
 			if (!$json)
@@ -186,6 +190,10 @@ class {$singular}Controller extends AppBaseController
 	{
 		try
 		{
+			{if $table->IsView}// TODO: views are read-only by default.  uncomment at your own discretion
+			throw new Exception('Database views are read-only and cannot be updated');
+			{/if}
+			
 			$json = json_decode(RequestUtil::GetBody());
 
 			if (!$json)
@@ -255,6 +263,10 @@ class {$singular}Controller extends AppBaseController
 	{
 		try
 		{
+			{if $table->IsView}// TODO: views are read-only by default.  uncomment at your own discretion
+			throw new Exception('Database views are read-only and cannot be updated');
+			{/if}
+			
 			// TODO: if a soft delete is prefered, change this to update the deleted flag instead of hard-deleting
 
 			$pk = $this->GetRouter()->GetUrlParam('{$table->GetPrimaryKeyName()|studlycaps|lcfirst}');
