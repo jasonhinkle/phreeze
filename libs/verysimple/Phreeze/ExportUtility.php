@@ -77,8 +77,11 @@ class ExportUtility
 			{
 				// no fieldmaps exist, so use the reflection class instead
 				$reflect = new ReflectionClass($objects[0]);
-				$props = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
-	
+				$publicAttributes = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
+				$staticAttributes = $reflect->getStaticProperties();
+				// only include non-static public properties
+				$props = array_diff($publicAttributes,$staticAttributes);
+
 				foreach ($props as $prop) 
 				{
 					$column = $prop->getName();
