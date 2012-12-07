@@ -1,0 +1,59 @@
+# PHREEZE CONF FILE FOR NGNIX 
+#
+# This is a partial example conf file to demonstrate how to configure
+# URL rewriting in ngnix for Phreeze applications.  This example assumes
+# that you are forwarding php requests to php-fpm via port 9000.
+# you should be able to update the php location block without affecting
+# the Phreeze location blocks
+#
+# Do not replace your entire ngnix.conf file with this, rather select the relevant
+# location blocks.  PLEASE NOTE that the Phreeze application location blocks
+# must appear *after* the ~ \.php$ location block, otherwise you will see server
+# errors due to an infinite redirection loop
+
+server {
+    listen       8080;
+    server_name  localhost;
+    root   /path/to/htdocs;
+    index  index.php index.html index.htm;
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    # NOTE: change "fastcgi_pass" to the correct port or socket as necessary 
+    # based on your php-fpm configuration (ex. /tmp/php-fpm.sock)
+    #
+    location ~ \.php$ {
+        include fastcgi.conf;
+        fastcgi_intercept_errors on;
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index index.php;
+    }
+
+    # url rewriting for the phreeze builder application
+    #
+    location ~ ^/phreeze/builder/(.*) {
+        try_files /phreeze/builder/$1 /phreeze/builder/$1/ /phreeze/builder/index.php?_REWRITE_COMMAND=$1&args;
+    }
+
+    # url rewriting for a Phreeze application called "example" 
+    #
+    location ~ ^/example/(.*) {
+        try_files /example/$1 /example/$1/ /example/index.php?_REWRITE_COMMAND=$1&args;
+    }
+    
+    # url rewriting for phreeze app that is installed in the htdocs root
+    #
+    #location ~ ^/(.*) {
+    #    try_files /$1 /$1/ /index.php?_REWRITE_COMMAND=$1&args;
+    #}
+    
+    # this is an alternate method of rewriting.  this method is discouraged
+    # in the ngnix documentation for performance reasons, however it may be
+    # helpful or necessary in some situations.  it's here for reference purposes only
+    #
+    #location ~ ^/example2/(.*) {
+    #    if (!-e $request_filename){
+    #        rewrite  ^/example2/(.*)$  /example2/index.php?_REWRITE_COMMAND=$1?  last;
+    #    }
+    #}
+}
