@@ -48,6 +48,13 @@ class {$singular}Controller extends AppBaseController
 		try
 		{
 			$criteria = new {$singular}Criteria();
+			
+			// TODO: this will limit results based on all properties included in the filter list 
+			$filter = RequestUtil::Get('filter');
+			if ($filter) $criteria->AddFilter(
+				new CriteriaFilter('{foreach from=$table->Columns item=column name=filterForEach}{$column->NameWithoutPrefix|studlycaps}{if !$smarty.foreach.filterForEach.last},{/if}{/foreach}'
+				, '%'.$filter.'%')
+			);
 
 			// TODO: this is generic query filtering based only on criteria properties
 			foreach (array_keys($_REQUEST) as $prop)
