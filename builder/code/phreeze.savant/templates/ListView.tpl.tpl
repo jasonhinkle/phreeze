@@ -134,6 +134,11 @@
 
 	<div id="collectionAlert"></div>
 
+	<div class='input-append pull-right'>
+		<input id='filter' type="text" placeholder="Search..." />
+		<button class='btn add-on'><i class="icon-search"></i></button>
+	</div>
+	
 	<div id="{$singular|lcfirst}CollectionContainer" class="collectionContainer">
 	</div>
 

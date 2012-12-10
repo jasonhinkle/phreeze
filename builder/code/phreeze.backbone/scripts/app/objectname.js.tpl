@@ -12,12 +12,9 @@ var page = {
 	{$singular|lcfirst}: null,
 	modelView: null,
 
-	fetchParams: null,
+	fetchParams: { filter: '', orderBy: '', orderDesc: '', page: 1 },
 	fetchInProgress: false,
 	dialogIsOpen: false,
-	
-	orderBy: '',
-	orderDesc: false,
 
 	/**
 	 *
@@ -57,6 +54,13 @@ var page = {
 			collection: page.{$plural|lcfirst}
 		});
 
+		// initialize the search filter
+		$('#filter').change(function(obj){
+			page.fetchParams.filter = $('#filter').val();
+			page.fetchParams.page = 1;
+			page.fetchPackages(page.fetchParams);
+		});
+		
 		// make the rows clickable ('rendered' is a custom event, not a standard backbone event)
 		this.collectionView.on('rendered',function(){
 
@@ -71,18 +75,19 @@ var page = {
  			$('table.collection thead tr th').click(function(e) {
  				e.preventDefault();
 				var prop = this.id.replace('header_','');
- 				var desc = prop == page.orderBy && page.orderDesc == false; // toggle the sort direction
 
-				page.orderBy = prop;
-				page.orderDesc = desc;
- 				page.fetch{$plural}({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: 1 });
+				// toggle the ascending/descending before we change the sort prop
+				page.fetchParams.orderDesc = (prop == page.fetchParams.orderBy && !page.fetchParams.orderDesc) ? '1' : '';
+				page.fetchParams.orderBy = prop;
+				page.fetchParams.page = 1;
+ 				page.fetchPackages(page.fetchParams);
  			});
 
 			// attach click handlers to the pagination controls
 			$('.pageButton').click(function(e) {
 				e.preventDefault();
-				var p = this.id.substr(5);
-				page.fetch{$plural}({ orderBy: page.orderBy , orderDesc: page.orderDesc ? '1' : '', page: p });
+				page.fetchParams.page = this.id.substr(5);
+				page.fetchPackages(page.fetchParams);
 			});
 		});
 
@@ -117,6 +122,7 @@ var page = {
 	 */
 	fetch{$plural}: function(params, hideLoader)
 	{
+		// persist the params so that paging/sorting/filtering will play together nicely
 		page.fetchParams = params;
 
 		if (page.fetchInProgress)
