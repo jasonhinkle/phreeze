@@ -58,7 +58,7 @@ var page = {
 		$('#filter').change(function(obj){
 			page.fetchParams.filter = $('#filter').val();
 			page.fetchParams.page = 1;
-			page.fetchPackages(page.fetchParams);
+			page.fetch{$plural}(page.fetchParams);
 		});
 		
 		// make the rows clickable ('rendered' is a custom event, not a standard backbone event)
@@ -80,14 +80,14 @@ var page = {
 				page.fetchParams.orderDesc = (prop == page.fetchParams.orderBy && !page.fetchParams.orderDesc) ? '1' : '';
 				page.fetchParams.orderBy = prop;
 				page.fetchParams.page = 1;
- 				page.fetchPackages(page.fetchParams);
+ 				page.fetch{$plural}(page.fetchParams);
  			});
 
 			// attach click handlers to the pagination controls
 			$('.pageButton').click(function(e) {
 				e.preventDefault();
 				page.fetchParams.page = this.id.substr(5);
-				page.fetchPackages(page.fetchParams);
+				page.fetch{$plural}(page.fetchParams);
 			});
 		});
 
