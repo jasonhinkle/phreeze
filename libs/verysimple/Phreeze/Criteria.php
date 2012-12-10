@@ -3,6 +3,7 @@
 
 /** import supporting libraries */
 require_once("DataAdapter.php");
+require_once("CriteriaFilter.php");
 require_once("verysimple/IO/Includer.php");
 
 /**
@@ -33,6 +34,11 @@ class Criteria
 	
 	public $PrimaryKeyField;
 	public $PrimaryKeyValue;
+	
+	/**
+	 * @var $Filters a CriteriaFilter or array of CriteriaFilters to be applied to the query
+	 */
+	public $Filters;
 	
 	public function __construct($where = "", $order = "")
 	{
@@ -130,7 +136,20 @@ class Criteria
 				foreach ($props as $prop => $val)
 				{
 					// TODO: tighten this up a bit to reduce redundant code
-					if (substr($prop,-7) == "_Equals" && strlen($this->$prop))
+					if ($prop == "Filters" && isset($val) && (is_array($val) || is_a($val, 'CriteriaFilter')) )
+					{
+						// a filter object will take care of generating it's own where statement
+						
+						// normalize the input to accept either an individual filter or multiple filters
+						$filters = (is_array($val)) ? $val : array($val);
+						
+						foreach ($filters as $filter)
+						{
+							$this->_where .= $this->_where_delim . ' ' . $filter->GetWhere($this);
+							$this->_where_delim = " and";
+						}
+					}
+					elseif (substr($prop,-7) == "_Equals" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_Equals","",$prop));
 						$this->_where .= $this->_where_delim . " " . $dbfield ." = '". $this->Escape($val) . "'";
@@ -377,7 +396,7 @@ class Criteria
 	}
 	
 
-	protected function GetFieldFromProp($propname)
+	public function GetFieldFromProp($propname)
 	{
 		if (get_class($this) == "Criteria")
 		{
