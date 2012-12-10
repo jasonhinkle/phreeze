@@ -59,6 +59,24 @@ class Criteria
 	}
 	
 	/**
+	 * Add a CriteriaFilter to the criteria for custom filtering of results
+	 * @param CriteriaFilter $filter
+	 */
+	public function AddFilter(CriteriaFilter $filter)
+	{
+		$this->Filters[] = $filter;
+	}
+
+	/**
+	 * Return an array of CriteriaFilters that have been added to this criteria
+	 * @return array
+	 */
+	public function GetFilters()
+	{
+		return $this->Filters;
+	}
+	
+	/**
 	 * Adds a criteria to be joined w/ an "and" statement.
 	 * Criterias to foreign objects may be added as long as they
 	 * have an immediate relationship to the foreign table
@@ -71,14 +89,19 @@ class Criteria
 	{
 		$this->_and[] = $criteria;
 	}
-	
+		
+	/**
+	 * Return any and criterias that have been added to this criteria
+	 * @return array
+	 */
 	public function GetAnds()
 	{
 		return $this->_and;
 	}
 	
 	/**
-	 * 
+	 * Escape values for insertion into a SQL query string
+	 * @return string
 	 */
 	public function Escape($val)
 	{
@@ -99,6 +122,10 @@ class Criteria
 		$this->_or[] = $criteria;
 	}
 	
+	/**
+	 * Return any 'or' criterias that have been added to this criteria
+	 * @return array
+	 */
 	public function GetOrs()
 	{
 		return $this->_or;
