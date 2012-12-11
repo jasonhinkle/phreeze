@@ -63,6 +63,7 @@ input.time-picker
 /* search filter input */
 .input-append button.add-on {
     height: inherit !important;
+    color: #999999;
 }
 
 span.loader {
