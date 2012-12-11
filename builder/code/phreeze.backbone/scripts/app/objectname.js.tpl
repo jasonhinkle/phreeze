@@ -11,6 +11,7 @@ var page = {
 	collectionView: null,
 	{$singular|lcfirst}: null,
 	modelView: null,
+	isInitialized: false,
 
 	fetchParams: { filter: '', orderBy: '', orderDesc: '', page: 1 },
 	fetchInProgress: false,
@@ -89,6 +90,8 @@ var page = {
 				page.fetchParams.page = this.id.substr(5);
 				page.fetch{$plural}(page.fetchParams);
 			});
+			
+			page.isInitialized = true;
 		});
 
 		// backbone docs recommend bootstrapping data on initial page load, but we live by our own rules!
@@ -241,12 +244,17 @@ var page = {
 						page.{$singular|lcfirst}.get('{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}') == item.get('{$constraint->ReferenceKeyColumnNoPrefix|studlycaps|lcfirst}')
 					));
 				});
+				
+				if (!app.browserSucks()) dd.combobox();
 
 			},
 			error: function(collection,response,scope){
 				app.appendAlert(app.getErrorMessage(response), 'alert-error',0,'modelAlert');
 			}
 		});
+
+{elseif $column->IsEnum()}
+	if (!app.browserSucks()) $('#{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}').combobox();
 
 {/if}
 {/foreach}
