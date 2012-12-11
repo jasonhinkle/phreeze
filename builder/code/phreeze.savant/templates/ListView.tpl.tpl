@@ -31,6 +31,10 @@
 <h1>
 	<i class="icon-th-list"></i> {$plural}
 	<span id=loader class="loader progress progress-striped active"><span class="bar"></span></span>
+	<span class='input-append pull-right searchContainer'>
+		<input id='filter' type="text" placeholder="Search..." />
+		<button class='btn add-on'><i class="icon-search"></i></button>
+	</span>
 </h1>
 
 	<!-- underscore template for the collection -->
@@ -146,11 +150,6 @@
 	</div>
 
 	<div id="collectionAlert"></div>
-
-	<div class='input-append pull-right'>
-		<input id='filter' type="text" placeholder="Search..." />
-		<button class='btn add-on'><i class="icon-search"></i></button>
-	</div>
 	
 	<div id="{$singular|lcfirst}CollectionContainer" class="collectionContainer">
 	</div>

@@ -60,12 +60,23 @@ input.time-picker
 	width: 65px;
 }
 
-/* search filter input */
+.searchContainer input, searchContainer button
+{
+	margin-top: 8px;
+}
+
+.searchContainer input
+{
+	margin-top: 8px;
+}
+
+/* search filter button */
 .input-append button.add-on {
     height: inherit !important;
     color: #999999;
     padding-left: 10px;
     padding-right: 10px;
+    margin-top: 8px;
 }
 
 span.loader {
