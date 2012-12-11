@@ -11,7 +11,6 @@
 	.script("scripts/libs/underscore-min.js").wait()
 	.script("scripts/libs/underscore.date.min.js")
 	.script("scripts/libs/backbone-min.js")
-	.script("scripts/libs/jquery.scrollIntoView.min.js")
 	.script("scripts/app.js")
 	.script("scripts/model.js").wait()
 	.script("scripts/view.js").wait()

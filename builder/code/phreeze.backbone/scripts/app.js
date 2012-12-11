@@ -29,7 +29,7 @@ var app = {
 			+ '</div>';
 
 		$('#' + containerId).append(html);
-		$('#'+containerId).scrollIntoView();
+		$('#'+containerId).parent().scrollTop(); // TODO: this doesn't scroll to the top of the modal window
 		$('#'+id).slideDown('fast');
 
 		if (timeout > 0) {
