@@ -28,8 +28,13 @@ var app = {
 			+ '<span>'+ this.escapeHtml(message) +'</span>'
 			+ '</div>';
 
-		$('#' + containerId).append(html);
-		$('#'+containerId).parent().scrollTop(); // TODO: this doesn't scroll to the top of the modal window
+		// scroll the alert message into view
+		var container = $('#' + containerId);
+		container.append(html);
+		container.parent().animate({
+			scrollTop: container.offset().top - container.parent().offset().top + container.parent().scrollTop() - 10 // (10 is for top padding)
+		});
+		
 		$('#'+id).slideDown('fast');
 
 		if (timeout > 0) {
