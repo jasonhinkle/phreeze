@@ -245,7 +245,11 @@ var page = {
 					));
 				});
 				
-				if (!app.browserSucks()) dd.combobox();
+				if (!app.browserSucks())
+				{
+					dd.combobox();
+					$('div.combobox-container + span.help-inline').hide(); // TODO: hack because combobox is making the inline help div have a height
+				}
 
 			},
 			error: function(collection,response,scope){
@@ -254,7 +258,11 @@ var page = {
 		});
 
 {elseif $column->IsEnum()}
-	if (!app.browserSucks()) $('#{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}').combobox();
+	if (!app.browserSucks()) 
+	{
+		$('#{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}').combobox();
+		$('div.combobox-container + span.help-inline').hide(); // TODO: hack because combobox is making the inline help div have a height
+	}
 
 {/if}
 {/foreach}
@@ -338,6 +346,7 @@ var page = {
 						$.each(json.errors, function(key, value) {
 							$('#'+key+'InputContainer').addClass('error');
 							$('#'+key+'InputContainer span.help-inline').html(value);
+							$('#'+key+'InputContainer span.help-inline').show();
 						});
 					}
 				} catch (e2) {
