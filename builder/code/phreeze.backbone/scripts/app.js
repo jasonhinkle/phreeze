@@ -76,6 +76,15 @@ var app = {
 	escapeHtml: function(unsafe) {
 		return _.escape(unsafe);
 	},
+	
+	/**
+	 * return true if user interface should be limited based on browser support
+	 * @returns bool
+	 */
+	browserSucks: function()
+	{
+		return $.browser.msie && $.browser.version < 9;
+	},
 
 	/**
 	 * Accept string in the following format: 'YYYY-MM-DD hh:mm:ss' or 'YYYY-MM-DD'
