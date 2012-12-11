@@ -240,7 +240,7 @@ var page = {
 				{
 					dd.append(app.getOptionHtml(
 						item.get('{$constraint->ReferenceKeyColumnNoPrefix|studlycaps|lcfirst}'),
-						item.get('{$constraint->ReferenceTable->GetDescriptorName()|studlycaps|lcfirst}'),
+						item.get('{$constraint->ReferenceTable->GetDescriptorName()|studlycaps|lcfirst}'), // TODO: change fieldname if the dropdown doesn't show the desired column
 						page.{$singular|lcfirst}.get('{$column->NameWithoutPrefix|studlycaps|lcfirst|escape}') == item.get('{$constraint->ReferenceKeyColumnNoPrefix|studlycaps|lcfirst}')
 					));
 				});
