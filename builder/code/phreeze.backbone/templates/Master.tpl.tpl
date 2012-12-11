@@ -15,6 +15,7 @@
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link href="bootstrap/css/font-awesome.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet" />
+		<link href="bootstrap/css/bootstrap-combobox.css" rel="stylesheet" />
 		
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
@@ -31,15 +32,7 @@
 		<script type="text/javascript">
 			$LAB
 				.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
-				.script("bootstrap/js/bootstrap.min.js").wait()
-				.script("bootstrap/js/bootstrap-datepicker.js")
-				.script("scripts/libs/underscore-min.js").wait()
-				.script("scripts/libs/underscore.date.min.js")
-				.script("scripts/libs/backbone-min.js")
-				.script("scripts/libs/jquery.scrollIntoView.min.js")
-				.script("scripts/app.js")
-				.script("scripts/model.js").wait()
-				.script("scripts/view.js");
+				.script("bootstrap/js/bootstrap.min.js");
 		</script>
 
 	{ldelim}/block{rdelim}

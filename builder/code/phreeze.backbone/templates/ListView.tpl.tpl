@@ -4,10 +4,24 @@
 
 {ldelim}block name=customHeader{rdelim}
 <script type="text/javascript">
-	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
+	$LAB.script("bootstrap/js/bootstrap-datepicker.js")
+	.script("bootstrap/js/bootstrap-combobox.js")
+	.script("scripts/libs/underscore-min.js").wait()
+	.script("scripts/libs/underscore.date.min.js")
+	.script("scripts/libs/backbone-min.js")
+	.script("scripts/libs/jquery.scrollIntoView.min.js")
+	.script("scripts/app.js")
+	.script("scripts/model.js").wait()
+	.script("scripts/view.js").wait()
+	.script("scripts/app/{$plural|lower}.js").wait(function(){
 		$(document).ready(function(){
 			page.init();
 		});
+
+		// hack for IE9 which may respond inconsistently with document.ready
+		setTimeout(function(){
+			if (!page.isInitialized) page.init();
+		},1000);
 	});
 </script>
 {ldelim}/block{rdelim}
