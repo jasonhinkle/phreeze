@@ -73,6 +73,7 @@ class BladeRenderEngine implements IRenderEngine
 	public function display($template)
 	{
 		//die('template = ' . $template);
+		$template = str_replace('.tpl', '', $template); // normalize any old smarty template paths
 		echo $this->fetch($template);
 	}
 
