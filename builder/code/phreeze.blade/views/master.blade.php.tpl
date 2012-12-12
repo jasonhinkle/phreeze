@@ -57,8 +57,8 @@
 						<a class="brand" href="./">{$appname}</a>
 						<div class="nav-collapse">
 							<ul class="nav">
-{foreach from=$tables item=table name=ddForEach}{if isset($tableInfos[$table->Name])}
-{if $smarty.foreach.ddForEach.index == 6 && !$smarty.foreach.ddForEach.last}
+{foreach from=$selectedTables item=table name=ddForEach}{if isset($tableInfos[$table->Name])}
+{if $smarty.foreach.ddForEach.index == $max_items_in_topnav && !$smarty.foreach.ddForEach.last}
 							</ul>
 							<ul class="nav">
 								<li class="dropdown">
@@ -66,7 +66,7 @@
 								<ul class="dropdown-menu">
 {/if}
 								<li @if (isset($nav) && $nav=='{$tableInfos[$table->Name]['plural']|lower}') class="active"@endif><a href="./{$tableInfos[$table->Name]['plural']|lower}">{$tableInfos[$table->Name]['plural']}</a></li>
-{if $smarty.foreach.ddForEach.last && $smarty.foreach.ddForEach.index != 6}
+{if $smarty.foreach.ddForEach.last && $smarty.foreach.ddForEach.index != $max_items_in_topnav}
 								</ul>
 								</li>
 {/if}

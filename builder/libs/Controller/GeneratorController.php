@@ -19,6 +19,13 @@ include_once("smarty/Smarty.class.php");
 class GeneratorController extends BaseController
 {
 
+	/** 
+	 * @var number of items to display in the topnav (including the home line).  
+	 * If there are more tables than will fit then the last item will be a 
+	 * dropdown containing all of the remaining tables
+	 */
+	static $DEFAULT_MAX_ITEMS_IN_TOPNAV = 4;
+	
 	/**
 	 * Override here for any controller-specific functionality
 	 */
@@ -47,10 +54,31 @@ class GeneratorController extends BaseController
 		$dbSchema = new DBSchema($server);
 
 		$debug = isset($_REQUEST["debug"]) && $_REQUEST["debug"] == "1";
-		$parameters = array(); // explode("\n", trim(str_replace("\r","", $_REQUEST["parameters"])));
+		$parameters = array();
 		$tableNames = $_REQUEST["table_name"];
 		$packageName = $_REQUEST["package"];
 		$debug_output = "";
+		
+		$selectedTables = array();
+		foreach ($tableNames as $tableName)
+		{
+			$selectedTables[] = $dbSchema->Tables[$tableName];
+		}
+		
+		// see if arbitrary parameters were passed in - in which case they will be passed through to the templates
+		$tmp = RequestUtil::Get('parameters');
+		if ($tmp)
+		{
+			$pairs = explode("\n", str_replace("\r","", $tmp) );
+			foreach ($pairs as $pair)
+			{
+				list($key,$val) = explode("=",$pair,2);
+				$parameters[$key] = $val;
+			}
+		}
+		
+		// check for required parameters
+		if (!array_key_exists('max_items_in_topnav', $parameters)) $parameters['max_items_in_topnav'] = self::$DEFAULT_MAX_ITEMS_IN_TOPNAV;
 
 		$zipFile = new zipfile();
 
@@ -74,7 +102,7 @@ class GeneratorController extends BaseController
 		
 		foreach ($config->GetTemplateFiles() as $templateFile)
 		{
-
+			
 			if ($templateFile->generate_mode == 2)
 			{
 				// this is a template that is copied without parsing to the project (ie images, static files, etc)
@@ -109,9 +137,8 @@ class GeneratorController extends BaseController
 
 				$smarty->clearAllAssign();
 
-				foreach ($parameters as $param)
+				foreach ($parameters as $key => $val)
 				{
-					list($key,$val) = explode("=",$param,2);
 					$smarty->assign($key,$val);
 				}
 
@@ -127,19 +154,23 @@ class GeneratorController extends BaseController
 
 				$tableInfos = Array();
 				
-				// enumerate all selected tables and merge them with the selected template
-				// append each to the zip file for output
-				foreach ($tableNames as $tableName)
+				// add all tables to a tableInfos array that can be used for cross-referencing by table name
+						foreach ($dbSchema->Tables as $table)
 				{
-					$tableInfos[$tableName] = Array();
-					$tableInfos[$tableName]['table'] = $dbSchema->Tables[$tableName];
-					$tableInfos[$tableName]['singular'] = $_REQUEST[$tableName."_singular"];
-					$tableInfos[$tableName]['plural'] = $_REQUEST[$tableName."_plural"];
-					$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
-					$tableInfos[$tableName]['templateFilename'] = $templateFilename;
+					if ($table->GetPrimaryKeyName())
+					{
+						$tableName = $table->Name;
+						$tableInfos[$tableName] = Array();
+						$tableInfos[$tableName]['table'] = $dbSchema->Tables[$tableName];
+						$tableInfos[$tableName]['singular'] = $_REQUEST[$tableName."_singular"];
+						$tableInfos[$tableName]['plural'] = $_REQUEST[$tableName."_plural"];
+						$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
+						$tableInfos[$tableName]['templateFilename'] = $templateFilename;
+					}
 				}
 				
 				$smarty->assign("tableInfos",$tableInfos);
+				$smarty->assign("selectedTables",$selectedTables);
 
 				if ($debug)
 				{
@@ -184,23 +215,26 @@ class GeneratorController extends BaseController
 
 					$tableInfos = Array();
 					
-					// enumerate all selected tables and merge them with the selected template
-					// append each to the zip file for output
-					foreach ($tableNames as $tableName)
+					// add all tables to a tableInfos array that can be used for cross-referencing by table name
+					foreach ($dbSchema->Tables as $table)
 					{
-						$tableInfos[$tableName] = Array();
-						$tableInfos[$tableName]['table'] = $dbSchema->Tables[$tableName];
-						$tableInfos[$tableName]['singular'] = $_REQUEST[$tableName."_singular"];
-						$tableInfos[$tableName]['plural'] = $_REQUEST[$tableName."_plural"];
-						$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
-						$tableInfos[$tableName]['templateFilename'] = $templateFilename;
+						if ($table->GetPrimaryKeyName())
+						{
+							$tableName = $table->Name;
+							$tableInfos[$tableName] = Array();
+							$tableInfos[$tableName]['table'] = $dbSchema->Tables[$tableName];
+							$tableInfos[$tableName]['singular'] = $_REQUEST[$tableName."_singular"];
+							$tableInfos[$tableName]['plural'] = $_REQUEST[$tableName."_plural"];
+							$tableInfos[$tableName]['prefix'] = $_REQUEST[$tableName."_prefix"];
+							$tableInfos[$tableName]['templateFilename'] = $templateFilename;
+						}
 					}
 					
 					$smarty->assign("tableInfos",$tableInfos);
+					$smarty->assign("selectedTables",$selectedTables);
 					
-					foreach ($parameters as $param)
+					foreach ($parameters as $key => $val)
 					{
-						list($key,$val) = explode("=",$param,2);
 						$smarty->assign($key,$val);
 					}
 
