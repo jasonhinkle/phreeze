@@ -63,8 +63,11 @@ model.{$singular}Collection = Backbone.Collection.extend({
 	 */
 	parse: function(response, xhr) {
 
-		this.collectionHasChanged = (this.lastResponseText != xhr.responseText);
-		this.lastResponseText = xhr.responseText;
+		// check the raw response to determine if collection actually changed
+		// note xhr param was removed from backbone 0.99
+		var responseText = xhr ? xhr.responseText : JSON.stringify(response);
+		this.collectionHasChanged = (this.lastResponseText != responseText);
+		this.lastResponseText = responseText;
 
 		var rows;
 
