@@ -51,7 +51,7 @@ class CriteriaFilter
 		foreach ($propertyNames as $propName)
 		{
 			$dbfield = $criteria->GetFieldFromProp($propName);
-			$where .= $orDelim . $dbfield ." like '". $criteria->Escape($this->Value) . "'";
+			$where .= $orDelim . $criteria->Escape($dbfield) ." like '". $criteria->Escape($this->Value) . "'";
 			$orDelim = ' or ';
 		}
 		$where .= ') ';
