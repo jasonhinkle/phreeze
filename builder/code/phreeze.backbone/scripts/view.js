@@ -107,7 +107,6 @@ var view = {
 				page: {
 					totalResults: this.collection.totalResults, 
 					totalPages: this.collection.totalPages, 
-					totalPages: this.collection.totalPages, 
 					currentPage: this.collection.currentPage,
 					orderBy: this.collection.orderBy,
 					orderDesc: this.collection.orderDesc
