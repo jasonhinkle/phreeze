@@ -160,7 +160,7 @@ var view = {
 		 */
 		handleViewChange: function(ev) {
 
-			if (automaticallyUpdateModel) {
+			if (this.automaticallyUpdateModel) {
 
 				// use the name of the input element to determine what field changed
 				var pair = ev.target.id.split('_');
