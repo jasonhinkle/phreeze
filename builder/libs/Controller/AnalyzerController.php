@@ -47,6 +47,13 @@ class AnalyzerController extends BaseController
 		{
 			$packages[] = new AppConfig($fileHelper->Path);
 		}
+		
+		uasort(
+			$packages,
+			function ($a, $b) {
+				return $a->GetName() > $b->GetName() ? 1 : -1;
+			}
+		);
 
 		// read and parse the database structure
 		$dbSchema = new DBSchema($server);
