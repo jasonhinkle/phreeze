@@ -15,7 +15,10 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="styles/style.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
-		<link href="bootstrap/css/font-awesome.css" rel="stylesheet" />
+		<link href="bootstrap/css/font-awesome.min.css" rel="stylesheet" />
+		<!--[if IE 7]>
+		<link rel="stylesheet" href="bootstrap/css/font-awesome-ie7.min.css">
+		<![endif]-->
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-combobox.css" rel="stylesheet" />
 		
