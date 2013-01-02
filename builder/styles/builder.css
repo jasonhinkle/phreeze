@@ -2,16 +2,6 @@
  * style overrides and customizations
  */
 
-/* reset for font-awesome 2.0 and bootstrap 2.2.1 */
-[class^="icon-"], [class*=" icon-"] {
-  background-image:none;
-  height:auto;
-  line-height:normal;
-  margin-top:0;
-  vertical-align:baseline;
-  width:auto;
-}
-
 /* note that this gets overridden by bootstrap-responsive.min.css when screen size changes */
 body {
 	padding-top: 65px;
