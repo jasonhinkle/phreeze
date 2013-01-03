@@ -17,12 +17,10 @@
 	Options +FollowSymLinks
 	RewriteEngine On
 	
-	## some servers require this to be changed to app directory
+	## TODO: some hosts require the app root must be specified
 	# RewriteBase /
-</IfModule>
 
-# Redirect all requests to index.php unless the directory, file or link exists
-<IfModule mod_rewrite.c>
+	# Redirect all requests to index.php unless the directory, file or link exists
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-l
