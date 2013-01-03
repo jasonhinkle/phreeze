@@ -23,8 +23,8 @@ class CriteriaFilter
 	
 	/**
 	 * 
-	 * @param variant $propertyNames comma-delimited string or array of property names
-	 * @param string $value criteria value
+	 * @param variant $propertyNames comma-delimited string or array of property names (ie haystack)
+	 * @param string $value search term (ie needle)
 	 * @param int $type (default CriteriaFilter::TYPE_SEARCH)
 	 */
 	public function __construct($propertyNames,$value,$type = null)
@@ -35,9 +35,8 @@ class CriteriaFilter
 	}
 	
 	/**
-	 * 
-	 * @param unknown_type $criteria
-	 * @param unknown_type $whereDelim
+	 * Return the "where" portion of the SQL statement (without the where prefix)
+	 * @param Criteria $criteria the Criteria object to which this filter has been added
 	 */
 	public function GetWhere($criteria)
 	{
