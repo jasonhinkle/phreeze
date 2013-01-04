@@ -140,7 +140,9 @@ class ExportUtility
 		}
 		
 		$workbook->send($fileName);
-		$workbook->close();
+		
+		// this has errors suppressed due to strict mode
+		@$workbook->close();
 	}
 	
 	/**
