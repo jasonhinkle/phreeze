@@ -7,6 +7,7 @@
 @section('customHeader')
 <script type="text/javascript">
 	$LAB.script("bootstrap/js/bootstrap-datepicker.js")
+	.script("bootstrap/js/bootstrap-timepicker.js")
 	.script("bootstrap/js/bootstrap-combobox.js")
 	.script("scripts/libs/underscore-min.js").wait()
 	.script("scripts/libs/underscore.date.min.js")
@@ -105,9 +106,11 @@
 							<span class="add-on"><i class="icon-calendar"></i></span>
 						</div>
 {if $column->Type == "datetime" || $column->Type == "timestamp"}
-						<input type="text" class="time-picker input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}-time" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %>">
+						<div class="input-append bootstrap-timepicker-component">
+							<input id="{$column->NameWithoutPrefix|studlycaps|lcfirst}-time" type="text" class="timepicker-default input-small" value="<%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %>" />
+							<span class="add-on"><i class="icon-time"></i></span>
+						</div>
 {/if}
-
 {elseif $column->Type == 'text' || $column->Type == 'tinytext' || $column->Type == 'mediumtext' || $column->Type == 'longtext'}
 						<textarea class="input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" rows="3"><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></textarea>
 {elseif false}

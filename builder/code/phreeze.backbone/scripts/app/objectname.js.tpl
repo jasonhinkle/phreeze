@@ -225,6 +225,8 @@ var page = {
 			// this happens if the datepicker input.value isn't a valid date
 			if (console) console.log('datepicker error: '+error.message);
 		}
+		
+		$('.timepicker-default').timepicker({ defaultTime: 'value' });
 
 {foreach from=$table->Columns item=column name=columnsForEach}
 {if $column->Key == "MUL" && $column->Constraints}

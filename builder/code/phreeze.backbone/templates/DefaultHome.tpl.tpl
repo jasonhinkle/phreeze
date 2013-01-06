@@ -103,6 +103,7 @@
 				<a href="http://labjs.com/">LABjs</a>,
 				<a href="http://documentcloud.github.com/underscore/">Underscore</a>,
 				<a href="http://www.smarty.net">Smarty</a>,
+				<a href="https://github.com/jdewit/bootstrap-timepicker">timepicker</a>,
 				<a href="http://docs.jquery.com/Qunit">QUnit</a>.
 				All libraries and plugins have a permissive license for personal and commercial use.
 				</p>

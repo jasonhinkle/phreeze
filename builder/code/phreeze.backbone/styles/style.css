@@ -42,14 +42,16 @@ table.collection th:hover {
 	margin-left: -1px;
 }
 
-.date-picker:hover
+.bootstrap-timepicker-component input
 {
-	cursor: pointer
+	width: 70px;
 }
 
-.time-picker
+.bootstrap-timepicker-component i
 {
-	width: 65px;
+	color: #999;
+	margin-top: 3px;
+	margin-left: 0px;
 }
 
 .searchContainer input, searchContainer button
