@@ -30,22 +30,24 @@ table.collection th:hover {
     background-color: #dfdfdf;
 }
 
-input.date-picker
+.date-picker input
 {
-	width: 100px;
-	margin-top: -1px;
-
-	background-image:url("../bootstrap/img/calendar.png");
-	background-position:87px 4px;
-	background-repeat:no-repeat;
+	width: 80px;
 }
 
-input.date-picker:hover
+.date-picker i
+{
+	color: #999;
+	margin-top: 2px;
+	margin-left: -1px;
+}
+
+.date-picker:hover
 {
 	cursor: pointer
 }
 
-input.time-picker
+.time-picker
 {
 	width: 65px;
 }

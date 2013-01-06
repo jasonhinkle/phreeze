@@ -217,7 +217,7 @@ var page = {
 		// initialize any special controls
 		try {
 			$('.date-picker')
-				.datepicker({ format: 'yyyy-mm-dd' })
+				.datepicker()
 				.on('changeDate', function(ev){
 					$('.date-picker').datepicker('hide');
 				});
