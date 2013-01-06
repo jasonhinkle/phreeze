@@ -17,7 +17,8 @@
 		<!--[if IE 7]>
 		<link rel="stylesheet" href="bootstrap/css/font-awesome-ie7.min.css">
 		<![endif]-->
-		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet" />
+		<link href="bootstrap/css/datepicker.css" rel="stylesheet" />
+		<link href="bootstrap/css/timepicker.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-combobox.css" rel="stylesheet" />
 		
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
