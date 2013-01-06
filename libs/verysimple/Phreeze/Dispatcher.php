@@ -87,15 +87,19 @@ class Dispatcher
 
 		// create an instance of the controller class
 		$controller = new $controller_class($phreezer,$renderEngine,$context,$router);
-
+		
 		// we have a valid instance, just verify there is a matching method
 		if (!is_callable(array($controller, $method_param)))
 		{
 			throw new Exception("'".$controller_class.".".$method_param."' is not a valid action");
 		}
 
-		// file, class and method all are ok, go ahead and call it
-		call_user_func(array(&$controller, $method_param));
+		// do not call the requested method/route if the controller request has been cancelled
+		if (!$controller->IsTerminated())
+		{
+			// file, class and method all are ok, go ahead and call it
+			call_user_func(array(&$controller, $method_param));
+		}
 
 		// reset error handling back to whatever it was
 		//restore_exception_handler();

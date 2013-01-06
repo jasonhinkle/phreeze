@@ -50,6 +50,8 @@ abstract class Controller
 	public $DebugOutput = "";
 	public $UnitTestMode = false;
 	public $CaptureOutputMode = false;
+	
+	private $_terminate = false;
 
 	/** Prefix this to the name of the view templates */
 	static $SmartyViewPrefix = "View";
@@ -99,6 +101,24 @@ abstract class Controller
 		$this->Context->Set("feedback",null);
 
 		$this->Init();
+	}
+	
+	/**
+	 * Calling Terminate in Init will tell the dispatcher to halt execution
+	 * without calling the requested method/route
+	 */
+	protected function Terminate()
+	{
+		$this->_terminate = true;
+	}
+	
+	/**
+	 * Returns true if Terminate() has been fired
+	 * @return bool
+	 */
+	public function IsTerminated()
+	{
+		return $this->_terminate;
 	}
 
 	/**
