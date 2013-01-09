@@ -627,7 +627,7 @@ class Phreezer extends Observable
 
 		$this->IncludeModel($objectclass);
 
-		if (!class_exists($objectclass."Map")) throw new Exception("Class '" . $objectclass."Map' is not defined.");
+		if (!class_exists($objectclass."Map")) throw new Exception($objectclass . " must either implement GetCustomQuery or '" . $objectclass."Map' class must exist in the include path.");
 		$fms = call_user_func( array($objectclass."Map","GetFieldMaps") );
 
 		$this->_mapCache->Set($objectclass."FieldMaps",$fms);

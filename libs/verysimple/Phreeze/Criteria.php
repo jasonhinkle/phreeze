@@ -435,7 +435,7 @@ class Criteria
 		// make sure this property is defined
 		if (!isset($fms[$propname]))
 		{
-			throw new Exception("Unknown Property '$propname' specified.");
+			throw new Exception(get_class($this) . " is unable to determine the database column for the property: '$propname'");
 		}
 		//print_r($this->_fieldmaps);
 		$fm = $fms[$propname];
