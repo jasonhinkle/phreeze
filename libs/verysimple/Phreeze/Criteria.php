@@ -407,7 +407,14 @@ class Criteria
 	*/
 	public function IncludeMap($objectclass)
 	{
-		Includer::RequireClass($objectclass,"Model/DAO/");
+		try
+		{
+			Includer::RequireClass($objectclass,"Model/DAO/");
+		}
+		catch (IncludeException $ex)
+		{
+			throw new Exception($ex->getMessage() . '.  If a map file does not exist then ' . get_class($this) . ' can implement GetFieldFromProp instead.');
+		}
 	}
 	
 	protected function GetFieldMaps()
