@@ -30,6 +30,7 @@ class {$singular}Reporter extends Reporter
 	* GetCustomQuery returns a fully formed SQL statement.  The result columns
 	* must match with the properties of this reporter object.
 	*
+	* @see Reporter::GetCustomQuery
 	* @param Criteria $criteria
 	* @return string SQL statement
 	*/
@@ -41,6 +42,27 @@ class {$singular}Reporter extends Reporter
 			,`{$table->Name}`.`{$column->Name}` as {$column->NameWithoutPrefix|studlycaps}
 {/foreach}
 		from `{$table->Name}`";
+
+		// the criteria can be used or you can write your own custom logic.
+		// be sure to escape any user input with $criteria->Escape()
+		$sql .= $criteria->GetWhere();
+		$sql .= $criteria->GetOrder();
+
+		return $sql;
+	{rdelim}
+	
+	/*
+	* GetCustomCountQuery returns a fully formed SQL statement that will count
+	* the results.  This query must return the correct number of results that
+	* GetCustomQuery would, given the same criteria
+	*
+	* @see Reporter::GetCustomCountQuery
+	* @param Criteria $criteria
+	* @return string SQL statement
+	*/
+	static function GetCustomCountQuery($criteria)
+	{ldelim}
+		$sql = "select count(1) as counter from `{$table->Name}`";
 
 		// the criteria can be used or you can write your own custom logic.
 		// be sure to escape any user input with $criteria->Escape()
