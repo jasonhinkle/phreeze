@@ -1,5 +1,5 @@
 <?php
-/** @package    {$connection->DBName|studlycaps}::Model::DAO */
+/** @package    {$connection->DBName|studlycaps}::Reporter */
 
 /** import supporting libraries */
 require_once("verysimple/Phreeze/Reporter.php");
