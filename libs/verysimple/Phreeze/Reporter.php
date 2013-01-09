@@ -261,8 +261,13 @@ abstract class Reporter
     }
 
     /**
-    * This static function can be overridden to count the number of results
-    * in the query
+	 * This may be overridden to return SQL used for counting the number of rows
+	 * in a result.  This method is not required, however it will allow 
+	 * Phreeze to use an efficient query for counting results.  This query 
+	 * must return the correct number of results that GetCustomQuery would, 
+	 * given the same criteria
+	 * 
+	 * The resultant SQL must return only one row with one column named 'counter'
     *
     * @access     public
     * @param      Criteria $criteria
