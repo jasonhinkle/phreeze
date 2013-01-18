@@ -25,10 +25,17 @@
 		<li><a href="dispatcher.php">The Dispatcher</a></li>
 	</ul>
 	
-	<h3>Phreeze Inner Workings</h3>
+	<h3>Advanced Topics</h3>
 	
 	<ul>
 		<li><a href="debug.php">Debugging Phreeze</a></li>
+		<li><a href="unittests.php">Unit Testing</a></li>
+		<li><a href="docs.php">Generating API Documentation</a></li>
+	</ul>
+	
+	<h3>Phreeze Inner Workings</h3>
+	
+	<ul>
 		<li><a href="maps.php">Field and Key Maps</a></li>
 		<li><a href="querybuilder.php">Query Builder</a></li>
 		<li><a href="renderengine.php">View Render Engines</a></li>
