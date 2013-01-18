@@ -5,7 +5,7 @@
 		<base href="<?php $this->eprint($this->ROOT_URL) ?>" />
 		<title>Phreeze | Builder</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="Adserv auto-generated application" />
+		<meta name="description" content="Phreeze Framework for PHP - Application Builder" />
 		<meta name="author" content="phreeze.com" />
 
 		<!-- Le styles -->
