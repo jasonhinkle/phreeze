@@ -5,8 +5,8 @@
 require_once("IObserver.php");
  
 /**
- * ObserverToBrowser is an implementation of IObserver that prints all
- * messages to the browser
+ * ObserverToBrowser is an implementation of IObserver that outputs all
+ * messages to the smarty debug console
  *
  * @package    verysimple::Phreeze 
  * @author     VerySimple Inc.

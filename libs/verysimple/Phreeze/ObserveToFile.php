@@ -5,8 +5,8 @@
 require_once("IObserver.php");
 require_once("verysimple/HTTP/RequestUtil.php");
 /**
- * ObserverToBrowser is an implementation of IObserver that prints all
- * messages to the browser
+ * ObserverToBrowser is an implementation of IObserver that writes all
+ * messages to a file
  *
  * @package    verysimple::Phreeze 
  * @author     VerySimple Inc.
