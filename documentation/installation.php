@@ -71,9 +71,8 @@ in your web root.</p>
 <p>Now that you have /phreeze saved in your web root, open the builder application to 
 verify that everything is working by opening the following URL in your browser:</p>
 
-<pre>
-http://localhost/phreeze/builder/
-</pre>
+<p><code>
+http://localhost/phreeze/builder/</code></p>
 
 <p>If you run into any issues with 401 page-not-found errors, then you will need to check that
 your web server URL rewriting functionality is enabled.  Phreeze includes three config files 
