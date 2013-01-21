@@ -16,6 +16,7 @@
 	<h3>The Basics</h3>
 	
 	<ul>
+		<li><a href="configuration.php">Configuration Files</a></li>
 		<li><a href="routes.php">Routes</a></li>
 		<li><a href="controllers.php">Controllers</a></li>
 		<li><a href="models.php">Models</a></li>

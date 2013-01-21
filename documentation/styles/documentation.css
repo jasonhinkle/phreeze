@@ -12,6 +12,12 @@ a.brand img {
 	margin: -8px 0px -8px 0px;
 }
 
+.hero-unit p {
+	margin-top: 8px;
+	margin-left: 82px;
+	font-style: italic;
+}
+
 h1 {
 	margin-bottom: 8px;
 }
