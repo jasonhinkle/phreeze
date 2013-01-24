@@ -1,6 +1,8 @@
 Phreeze 3.0 
 ===========
 
+Live demo of a Phreeze auto-generated application at http://phreeze.com/cargo/
+
 Phreeze is an ORM and MVC Framework for PHP with an included code generator that creates a clean, functional site based on your existing database schema.
 
 Apps generated with the Phreeze builder provide a RESTful API on the server side.  The client utilizes backbone.js for model and collection binding and bootstrap for a clean layout and user interface.
