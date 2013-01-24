@@ -2,6 +2,24 @@
 
 <h3 id="top">Installing Phreeze</h3>
 
+<h4>Related Files and Videos</h4>
+
+<div><a href="#video1Modal" data-toggle="modal"><i class="icon-play-circle"></i> Basic Training Video #1: File Structure</a></div>
+<div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Phreeze Training Video</h3>
+	</div>
+	<div class="modal-body">
+		<iframe width="530" height="298" src="http://www.youtube.com/embed/obIfetsy5Is" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+
+<div><a href="serverconfig.php"><i class="icon-link"></i> Apache, Ngnix, IIS Server Configuration</a></div>
+
 <h4 id="requirements">System Requirements</h4>
 
 <ul>
@@ -79,6 +97,6 @@ your web server URL rewriting functionality is enabled.  Phreeze includes three 
 that can be used for reference depending on your web server: /.htaccess for Apache, 
 /builder/web.config for IIS and /nginx.conf.example for Ngnix.  If you need further assistance
 you can refer to this page for 
-<a href="http://phreeze.com/installation.html">additional information about URL rewrite configuration</a>.</p>
+<a href="serverconfig.php">additional information about URL rewrite configuration</a>.</p>
 
 <?php include_once '_footer.php' ?>

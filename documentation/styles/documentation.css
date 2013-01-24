@@ -14,7 +14,6 @@ a.brand img {
 
 .hero-unit p {
 	margin-top: 8px;
-	margin-left: 82px;
 	font-style: italic;
 }
 
@@ -22,7 +21,9 @@ h1 {
 	margin-bottom: 8px;
 }
 
-h4 {color: #08c;}
+h4 {
+	color: #555;
+}
 
 p.buttonContainer {
 
@@ -74,4 +75,28 @@ table tbody td.tableNameColumn a.view i {
 	color: #FF6633;
 }
 
+.training {
+	width: 700px; 
+	margin: 40px 0px 40px 0px;
+}
+
+.training h4 {
+	margin-top: 0px;
+}
+
+.video-link {
+	float: left;
+	border: solid 1px #999999;
+}
+
+.video-link iframe {
+	background-color: #cccccc;
+}
+
+.video-desc {
+	float: left; 
+	padding-left: 15px;
+	width: 350px;
+	text-align: left;
+}
 

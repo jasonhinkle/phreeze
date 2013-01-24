@@ -2,6 +2,24 @@
 
 <h3 id="top">Routes</h3>
 
+<h4 id="related">Related Files and Videos</h4>
+
+<div><a href="#video1Modal" data-toggle="modal"><i class="icon-play-circle"></i> Basic Training Video #2: Routes and Controllers</a></div>
+<div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Phreeze Training Video</h3>
+	</div>
+	<div class="modal-body">
+		<iframe width="530" height="298" src="http://www.youtube.com/embed/p5pXlNqO1Tc" frameborder="0" allowfullscreen></iframe>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	</div>
+</div>
+
+<h4 id="overview">Overview</h4>
+
 <p>In a simple PHP application you might have a stand-alone PHP
 file for each page such as /customer.php, /product.php, etc and each
 script is executed when it's requested by name in the URL.  With a Phreeze
@@ -55,7 +73,7 @@ them all separately.</p>
 
 <h4 id="params">URL Parameters</h4>
 
-<p>The above example allowed you to map a URL to a controller class so long as there was an exact match.
+<p>The previous example allowed you to map a URL to a controller class so long as there was an exact match.
 However in a typical application you will have parameters as part of your URL, for example:
 <code>http://localhost/api/sales/customer/25</code>.  Most likely this URL would have something to do
 with a customer record with an ID of 25.  But, how would we get the route to respond to any ID number
@@ -134,7 +152,7 @@ The controller won't know or care whether it is running in a web environment or 
 
 <h4 id="wildcard">Wildcard Patterns</h4>
 
-<p>In the above example we the pattern <code>(:num)</code> as a placeholder for any valid number in the 
+<p>In the previous example we used the pattern <code>(:num)</code> as a placeholder for any valid number in the 
 URL.  What if the ID we want is not a numerical value?  We can also use <code>(:any)</code> to match
 any character in the URL for example:</p>
 
@@ -176,5 +194,14 @@ GlobalConfig::$ROUTE_MAP = array(
 
 <p>If you were to reverse the order of the two routes above, then the 'update' route would be hit and the (:any)
 route would be hit for any other match.</p>
+
+<h4 id="more">More Information</h4>
+
+<p>The route map array is process by a class in the Phreeze library names "GenericRouter"  This class is an
+implementation of the IRouter interface.  You can write your own implementation of IRouter to process your
+own specialized routes.</p>
+
+<p>Classes that use the Router are the <a href="controllers.php">Controller</a> 
+and the <a href="dispatcher.php">Dispatcher</a>. </p>
 
 <?php include_once '_footer.php' ?>
