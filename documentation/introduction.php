@@ -12,8 +12,8 @@ all parts of the framework, however they can be used independently of each other
 The three components are:</p>
 
 <ul>
-	<li>An <a href="#mvc">MVC</a> (Model, View Controller) Framework</li>
-	<li>An <a href="#orm">ORM</a> (Object-Relational Model) for mapping database tables to PHP objects</li>
+	<li>An <a href="#mvc">MVC</a> (Model-view-controller) Framework</li>
+	<li>An <a href="#orm">ORM</a> (Object-Relational Mapping) for manipulating the database via PHP classes</li>
 	<li><a href="#builder">Phreeze Builder</a> - a utility for generating Phreeze applications</li>
 </ul>
 
@@ -28,9 +28,9 @@ you would use this application as a starting point for your final product.</p>
 
 <p>
 <img src="images/mvc.png" class="pull-right" />
-The Phreeze MVC Framework provides an MVC which is very similar to other frameworks
-for PHP and all languages.  The MVC is a design pattern described in the notable
-book "Design Patterns" by ..., otherwise known as the Gang of Four.
+The Phreeze MVC Framework implements the Model-view-controller design pattern
+which is commonly used in web appliations.   You can read more information about 
+<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC design pattern on Wikipedia</a>.
 The MVC allows you to organize an application into three parts so that you can 
 achive separation of concerns - meaning each part of your code serves a specific
 function and can operate independently of the other parts.</p>
@@ -72,7 +72,8 @@ grow in complexity while keeping the code organized.</p>
 The Phreeze ORM are the classes that are used by the Model layer
 and handle the communication between your classes and the database.
 ORM stands for "Object-Relational Mapping" which basically means
-mapping an Object to a relational database.</p>
+mapping an Object to a relational database.  More in-depth <a href="http://en.wikipedia.org/wiki/Object-relational_mapping">information
+about ORMs is available on Wikipedia</a></p>
 
 <p>Ultimately what an ORM does is let you work with classes and 
 objects in your application and some lower layer of the code
@@ -88,8 +89,11 @@ will have foreign keys and constraints.  Mapping these conceptually
 to a database gets more complicated.  If you are a developer who
 utilizes complicated queries in your applications, it can be
 very challenging to use an ORM because it puts a new layer between
-you and your SQL code.  Different ORMS have different strategies
-for dealing with this.  Some provide an abstracted query language
+you and your schema which may not offer the most efficient access
+to the data.  This is sometimes referred to as an 
+<a href="http://en.wikipedia.org/wiki/Object-relational_impedance_mismatch">object-relational impedence mismatch</a>.
+Different ORMs have different strategies
+for dealing with this problem.  Some provide an abstracted query language
 that you need to learn.  Some simply handle relationships badly and
 result in poor performance.  Phreeze take the approach of handling
 the basic code, but allowing you to override things with your own
