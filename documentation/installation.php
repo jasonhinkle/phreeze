@@ -4,7 +4,11 @@
 
 <h4>Related Files and Videos</h4>
 
-<div><a href="#video1Modal" data-toggle="modal"><i class="icon-play-circle"></i> Basic Training Video #1: File Structure</a></div>
+<ul class="nobullets">
+	<li><i class="icon-play"></i> <a href="#video1Modal" data-toggle="modal">Basic Training Video #1: File Structure</a></li>
+	<li><i class="icon-link"></i> <a href="serverconfig.php">Apache, Ngnix, IIS Server Configuration</a></li>
+</ul>
+
 <div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -18,7 +22,7 @@
 	</div>
 </div>
 
-<div><a href="serverconfig.php"><i class="icon-link"></i> Apache, Ngnix, IIS Server Configuration</a></div>
+
 
 <h4 id="requirements">System Requirements</h4>
 

@@ -4,7 +4,11 @@
 
 <h4 id="related">Related Files and Videos</h4>
 
-<div><a href="#video1Modal" data-toggle="modal"><i class="icon-play-circle"></i> Example Video: CriteriaFilter</a></div>
+<ul class="nobullets">
+	<li><i class="icon-play"></i> <a href="#video1Modal" data-toggle="modal">Example Video: CriteriaFilter</a></li>
+	<li><i class="icon-download"></i> <a href="assets/reporter-criteria.zip">Reporter CriteriaFilter Example Code</a></li>
+</ul>
+
 <div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -17,8 +21,6 @@
 		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 	</div>
 </div>
-
-<div><a href="assets/reporter-criteria.zip"><i class="icon-download"></i> Reporter CriteriaFilter Example Code</a></div>
 
 <h4 id="overview">Overview</h4>
 

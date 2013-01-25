@@ -4,7 +4,9 @@
 
 <h4>Related Files and Videos</h4>
 
-<div><a href="assets/m2m-example.zip"><i class="icon-download"></i> Many-To-Many Example App</a></div>
+<ul class="nobullets">
+	<li><i class="icon-download"></i> <a href="assets/m2m-example.zip">Many-To-Many Example App</a></li>
+</ul>
 
 <h4 id="overview">Overview</h4>
 

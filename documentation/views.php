@@ -4,7 +4,10 @@
 
 <h4 id="related">Related Files and Videos</h4>
 
-<div><a href="#video1Modal" data-toggle="modal"><i class="icon-play-circle"></i> Basic Training Video #4: Views</a></div>
+<ul class="nobullets">
+	<li><i class="icon-play"></i> <a href="#video1Modal" data-toggle="modal">Basic Training Video #4: Views</a></li>
+</ul>
+
 <div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

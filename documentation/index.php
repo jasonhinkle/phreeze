@@ -14,7 +14,12 @@
 		<li><a href="builder.php">Phreeze Builder</a></li>
 	</ul>
 	
-	<p><a href="assets/cargo.sql.zip"><i class="icon-download"></i> Download Example MySQL Schema: cargo.sql.zip</a></p>
+	<h3>Resources</h3>
+	
+	<ul>
+	<li><a href="assets/cargo.sql.zip">Example MySQL Schema: cargo.sql.zip</a></li>
+	<li><a href="https://github.com/jasonhinkle/phreeze/issues">Phreeze Support Forum</a></li>
+	</ul>
 	
 	<h3>The Basics</h3>
 	
