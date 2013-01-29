@@ -40,6 +40,8 @@ class DataDriverMySQL implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
+		if (!function_exists("mysql_connect")) throw new Exception('mysql extension is not enabled on this server.');
+		
 		if ( !$connection = @mysql_connect($connectionstring, $username, $password) )
 		{
 			throw new Exception("Error connecting to database: " . mysql_error());

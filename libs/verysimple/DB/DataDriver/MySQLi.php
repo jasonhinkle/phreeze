@@ -40,6 +40,8 @@ class DataDriverMySQLi implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
+		if (!function_exists("mysqli_connect")) throw new Exception('mysqli extension is not enabled on this server.');
+		
 		$connection = mysqli_connect($connectionstring, $username, $password, $database);
 		
 		if ( mysqli_connect_errno() )

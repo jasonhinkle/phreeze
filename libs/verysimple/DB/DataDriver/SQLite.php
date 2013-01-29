@@ -34,6 +34,8 @@ class DataDriverSQLite implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
+		if (!class_exists("SQLite3")) throw new Exception('SQLite3 extension is not enabled on this server.');
+		
 		if ( !$connection =  new SQLite3($connectionstring, SQLITE3_OPEN_READWRITE,$password) )
 		{
 			throw new Exception("Error connecting to database: Unable to open the database file.");
