@@ -8,6 +8,7 @@ require_once("DataPage.php");
 require_once("DataSet.php");
 require_once("QueryBuilder.php");
 require_once("verysimple/DB/DataDriver/IDataDriver.php");
+require_once("verysimple/IO/Includer.php");
 
 /**
  * DataAdapter abstracts and provides access to the data store
@@ -66,11 +67,19 @@ class DataAdapter implements IObservable
     				$this->_driver  = new DataDriverSQLite();
     				break;
     			default:
-					include_once("verysimple/DB/DataDriver/".$csetting->Type.".php");
-					$classname = "DataDriver" . $csetting->Type;
-    				$this->_driver  = new $classname();
+    				try
+    				{
+    					Includer::IncludeFile("verysimple/DB/DataDriver/".$csetting->Type.".php");
+						$classname = "DataDriver" . $csetting->Type;
+    					$this->_driver  = new $classname();
+    				}
+    				catch (IncludeException $ex)
+		    		{
+		    			throw new Exception('Unknown DataDriver "' . $csetting->Type . '" specified in connection settings');
+		    		}
     				break;
     		}
+
     	}
     	
     	DataAdapter::$DRIVER_INSTANCE = $this->_driver;
