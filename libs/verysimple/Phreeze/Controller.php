@@ -165,6 +165,28 @@ abstract class Controller
 			}
 		}
 	}
+	
+	/**
+	 * Start observing messages from Phreeze.  If no observer is provided, then
+	 * an ObserveToBrowser will be used and debug messages will be output to the browser
+	 * @param IObserver $observer
+	 * @param bool $with_styles if true then basic styles will be output to the browser
+	 */
+	protected function StartObserving($observer = null, $with_styles = true)
+	{
+		if ($observer == null)
+		{
+			require_once "ObserveToBrowser.php";
+			$observer = new ObserveToBrowser();
+		}
+		
+		if ($with_styles)
+		{
+			$this->PrintOut("<style>.debug, .query, .info {font-family: courier new; border-bottom: solid 1px #999;} .debug {color: blue;} .query {color: green;}</style>");
+		}
+		
+		$this->Phreezer->AttachObserver($observer);
+	}
 
 	/**
 	 * accept username passed in either headers or querystring.  if a querystring parameter name is
