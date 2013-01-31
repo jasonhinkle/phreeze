@@ -18,6 +18,7 @@ class ActionRouter implements IRouter
 {
 	private $_mode;
 	private $_appRoot;
+	private $_defaultRoute;
 
 	protected $stripApi = true;
 	protected $delim = '&';
@@ -29,11 +30,12 @@ class ActionRouter implements IRouter
 	 *
 	 * @param string $format sprintf compatible format
 	 */
-	public function __construct($format = "%s.%s.page?%s", $mode = UrlWriterMode::WEB, $appRoot = '')
+	public function __construct($format = "%s.%s.page?%s", $mode = UrlWriterMode::WEB, $appRoot = '', $defaultRoute = '')
 	{
 		$this->_format = $format;
 		$this->_mode = $mode;
 		$this->_appRoot = $appRoot;
+		$this->_defaultRoute = $defaultRoute;
 	}
 
 	/**
@@ -49,7 +51,7 @@ class ActionRouter implements IRouter
 	*/
 	public function GetUrlParams()
 	{
-		throw new Exception('Not Implemented');
+		return $_REQUEST;
 	}
 
 	/**
@@ -57,13 +59,13 @@ class ActionRouter implements IRouter
 	*/
 	public function GetUrlParam($key, $default = '')
 	{
-		throw new Exception('Not Implemented');
+		return RequestUtil::Get($key,$default);
 	}
 
 	/**
 	* @inheritdocs
 	*/
-	public function GetUrl($controller,$method,$params = '')
+	public function GetUrl($controller,$method,$params='',$requestMethod='')
 	{
 		$format = str_replace("{delim}",$this->delim,$this->_format);
 
@@ -103,8 +105,13 @@ class ActionRouter implements IRouter
 	 */
 	public function GetRoute($uri = "")
 	{
+
 		if( $uri == "" )
-			$uri = RequestUtil::GetCurrentURL();
+		{
+			$action = RequestUtil::Get('action');
+			if (!$action) $action = $this->_defaultRoute;
+			$uri = $action ? $action : RequestUtil::GetCurrentURL();
+		}
 
 		// get the action requested
 		$params = explode(".", str_replace("/",".", $uri) );
@@ -118,7 +125,7 @@ class ActionRouter implements IRouter
 
 		$method_param = isset($params[1]) && $params[1] ? $params[1] : "";
 		if ( !$method_param ) $method_param = "DefaultAction";
-
+		
 		return array($controller_param,$method_param);
 	}
 

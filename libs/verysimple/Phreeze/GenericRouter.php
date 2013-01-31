@@ -157,6 +157,17 @@ class GenericRouter implements IRouter
 		// $requestMethod = RequestUtil::GetMethod();
 
 		if ($params == '') $params = array();
+		
+		if (!is_array($params))
+		{
+			$pairs = explode('&',$params);
+			$params = array();
+			foreach ($pairs as $pair)
+			{
+				$keyval = explode('=',$pair);
+				$params[$keyval[0]] = count($keyval) > 1 ? $keyval[1] : '';
+			}
+		}
 
 		// if an appRootUrl was provided then use that, otherwise figure it out based on the root url
 		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetBaseURL();
@@ -192,13 +203,19 @@ class GenericRouter implements IRouter
 				if( array_key_exists("params",$value) )
 				{
 					foreach( $value["params"] as $rKey => $rVal )
+					{
+						if (!array_key_exists($rKey, $params))
+							throw new Exception('Missing parameter "' . $rKey . "' for route " . $controller.'.'.$method);
 						$keyArr[$value["params"][$rKey]] = $params[$rKey];
+					}
 				}
 
 				// put the url together:
 				foreach( $keyArr as $urlPiece )
+				{
 					$url = $url . ($urlPiece != '' ? "/$urlPiece" : '');
-
+				}
+				
 				// no route, just a request method? RESTful to add a trailing slash:
 				if( $keyRequestMethodArr[1] == "")
 					$url = $url . "/";
@@ -210,7 +227,7 @@ class GenericRouter implements IRouter
 
 		// we stripped this at the beginning, need to add it back
 		if( ! $found ) // $url = $url . "/";
-			throw new Exception("Unknown route specified.");
+			throw new Exception("No route found for " . $controller.'.'.$method. ($params ? '?' . implode('&',$params) : '' ));
 
 		return $url;
 	}

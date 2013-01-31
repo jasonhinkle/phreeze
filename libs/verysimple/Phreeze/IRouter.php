@@ -21,7 +21,7 @@ interface IRouter
 	 * @param array $params in the format param1=val1&param2=val2
 	 * @return string URL
 	 */
-	public function GetUrl($controller,$method,$params = '');
+	public function GetUrl($controller,$method,$params = '', $requestMethod = '');
 
 	/**
 	 * Returns the controller and method for the given URI
