@@ -62,6 +62,8 @@
 				<td><%if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')) { %><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY') %><% } else { %>NULL<% } %></td>
 {elseif $column->Type == "datetime" ||  $column->Type == "timestamp"}
 				<td><%if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')) { %><%= _date(app.parseDate(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('MMM D, YYYY h:mm A') %><% } else { %>NULL<% } %></td>
+{elseif $column->Type == "time"}
+				<td><%if (item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}')) { %><%= _date(app.parseTime(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %><% } else { %>NULL<% } %></td>
 {else}
 				<td><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></td>
 {/if}
@@ -106,6 +108,11 @@
 							<span class="add-on"><i class="icon-time"></i></span>
 						</div>
 {/if}
+{elseif $column->Type == 'time'}
+						<div class="input-append bootstrap-timepicker-component">
+							<input id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" type="text" class="timepicker-default input-small" value="<%= _date(app.parseTime(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}'))).format('h:mm A') %>" />
+							<span class="add-on"><i class="icon-time"></i></span>
+						</div>
 {elseif $column->Type == 'text' || $column->Type == 'tinytext' || $column->Type == 'mediumtext' || $column->Type == 'longtext'}
 						<textarea class="input-xlarge" id="{$column->NameWithoutPrefix|studlycaps|lcfirst}" rows="3"><%= _.escape(item.get('{$column->NameWithoutPrefix|studlycaps|lcfirst}') || '') %></textarea>
 {elseif false}
