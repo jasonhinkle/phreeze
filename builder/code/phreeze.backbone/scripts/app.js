@@ -90,55 +90,11 @@ var app = {
 	{
 		return $.browser.msie && $.browser.version < 9;
 	},
-	
-	/**
-	 * Accept string in the following format: 'hh:mm:ss' and returns a Date object with
-	 * today's date, and the given time.  If a date object is passed in, it will be returned as-is
-	 * @param string | date:
-	 * @param defaultDate if the provided string can't be parsed, return this instead (default is Now)
-	 * @returns Date
-	 */
-	parseTime: function(str, defaultTime)
-	{
-		// don't re-parse a date obj
-		if (str instanceof Date) return str;
-		
-		if (typeof(defaultDate) == 'undefined') defaultDate = new Date();
-		
-		// if the value passed in was blank, default to today
-		if (str == '' || typeof(str) == 'undefined')
-		{
-			if (console) console.log('app.parseTime: empty or undefined time value');
-			return defaultDate;
-		}
-
-		var d;
-		try
-		{
-			var timeParts = str.split(':');
-			// pad the time with zeros if it wasn't provided
-			while (timeParts.length < 3) timeParts[timeParts.length] = '00';
-			d = new Date(defaultDate.getYear(), defaultDate.getMonth(), defaultDate.getDate(), timeParts[0], timeParts[1], timeParts[2]);
-		}
-		catch (error)
-		{
-			if (console) console.log('app.parseTime: ' + error.message);
-			d = defaultDate;
-		}
-
-		// if either of these occur then the date wasn't parsed correctly
-		if ( typeof(d) == 'undefined' || isNaN(d.getTime()) )
-		{
-			if (console) console.log('app.parseTime: unable to parse time value');
-			d = defaultDate;
-		}
-				
-		return d;
-	},
 
 	/**
 	 * Accept string in the following format: 'YYYY-MM-DD hh:mm:ss' or 'YYYY-MM-DD'
-	 * If a date object is passed in, it will be returned as-is
+	 * If a date object is passed in, it will be returned as-is.  if a time-only 
+	 * value is provided, then it will be given the date of 1970-01-01
 	 * @param string | date:
 	 * @param defaultDate if the provided string can't be parsed, return this instead (default is Now)
 	 * @returns Date
@@ -161,6 +117,17 @@ var app = {
 		try
 		{
 			var dateTime = str.split(' ');
+			
+			if (dateTime.length == 1)
+			{
+				// if this was a time-only value then add an arbitrary date
+				if (dateTime[0].split(':').length > 1)
+				{
+					dateTime[1] = dateTime[0];
+					dateTime[0] = '1970-01-01';
+				}
+			}
+			
 			var dateParts = dateTime[0].split('-');
 			var timeParts = dateTime.length > 1 ? dateTime[1].split(':') : ['00','00','00'];
 			// pad the time with zeros if it wasn't provided
