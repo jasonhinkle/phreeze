@@ -2,6 +2,7 @@
 /** @package verysimple::DB::DataDriver */
 
 require_once("IDataDriver.php");
+require_once("verysimple/DB/DatabaseException.php");
 
 /**
  * An implementation of IDataDriver that communicates with
@@ -40,13 +41,13 @@ class DataDriverMySQLi implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
-		if (!function_exists("mysqli_connect")) throw new Exception('mysqli extension is not enabled on this server.');
+		if (!function_exists("mysqli_connect")) throw new DatabaseException('mysqli extension is not enabled on this server.',DatabaseException::$NOT_CONNECTED);
 		
 		$connection = mysqli_connect($connectionstring, $username, $password, $database);
 		
 		if ( mysqli_connect_errno() )
 		{
-			throw new Exception("Error connecting to database: " . mysqli_connect_error());
+			throw new DatabaseException("Error connecting to database: " . mysqli_connect_error(),DatabaseException::$NOT_CONNECTED);
 		}
 		
 		if ($charset)
@@ -55,7 +56,7 @@ class DataDriverMySQLi implements IDataDriver
 			
 			if ( mysqli_connect_errno() )
 			{
-				throw new Exception("Error connecting to database: " . mysqli_connect_error());
+				throw new DatabaseException("Unable to set charset: " . mysqli_connect_error(),DatabaseException::$NOT_CONNECTED);
 			}
 		}
 		
@@ -70,7 +71,7 @@ class DataDriverMySQLi implements IDataDriver
 				}
 				catch (Exception $ex)
 				{
-					throw new Exception("problem with bootstrap sql: " . $ex->getMessage());
+					throw new DatabaseException("problem with bootstrap sql: " . $ex->getMessage(),DatabaseException::$ERROR_IN_QUERY);
 				}
 			}
 		}
@@ -93,7 +94,7 @@ class DataDriverMySQLi implements IDataDriver
 	{
 		if ( !$rs = @mysqli_query($connection,$sql) )
 		{
-			throw new Exception(mysqli_error($connection));
+			throw new DatabaseException(mysqli_error($connection),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return $rs;
@@ -106,7 +107,7 @@ class DataDriverMySQLi implements IDataDriver
 	{
 		if ( !$result = @mysqli_query($connection,$sql) )
 		{
-			throw new Exception(mysqli_error($connection));
+			throw new DatabaseException(mysqli_error($connection),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return mysqli_affected_rows($connection);

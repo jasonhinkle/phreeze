@@ -2,6 +2,7 @@
 /** @package verysimple::DB::DataDriver */
 
 require_once("IDataDriver.php");
+require_once("verysimple/DB/DatabaseException.php");
 
 /**
  * An implementation of IDataDriver that communicates with
@@ -40,21 +41,21 @@ class DataDriverMySQL implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
-		if (!function_exists("mysql_connect")) throw new Exception('mysql extension is not enabled on this server.');
+		if (!function_exists("mysql_connect")) throw new DatabaseException('mysql extension is not enabled on this server.',DatabaseException::$NOT_CONNECTED);
 		
 		if ( !$connection = @mysql_connect($connectionstring, $username, $password) )
 		{
-			throw new Exception("Error connecting to database: " . mysql_error());
+			throw new DatabaseException("Error connecting to database: " . mysql_error(),DatabaseException::$NOT_CONNECTED);
 		}
 
 		if (!@mysql_select_db($database, $connection))
 		{
-			throw new Exception("Unable to select database " . $database);
+			throw new DatabaseException("Unable to select database " . $database,DatabaseException::$NOT_CONNECTED);
 		}
 		
 		if ($charset && !@mysql_set_charset($charset,$connection))
 		{
-			throw new Exception("Unable to set charset " . $charset);
+			throw new DatabaseException("Unable to set charset " . $charset,DatabaseException::$NOT_CONNECTED);
 		}
 		
 		if ($bootstrap) 
@@ -68,7 +69,7 @@ class DataDriverMySQL implements IDataDriver
 				}
 				catch (Exception $ex)
 				{
-					throw new Exception("Connection Bootstrap Error: " . $ex->getMessage());
+					throw new DatabaseException("Connection Bootstrap Error: " . $ex->getMessage(),DatabaseException::$ERROR_IN_QUERY);
 				}
 			}
 		}
@@ -91,7 +92,7 @@ class DataDriverMySQL implements IDataDriver
 	{
 		if ( !$rs = @mysql_query($sql, $connection) )
 		{
-			throw new Exception(mysql_error());
+			throw new DatabaseException(mysql_error(),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return $rs;
@@ -104,7 +105,7 @@ class DataDriverMySQL implements IDataDriver
 	{
 		if ( !$result = @mysql_query($sql, $connection) )
 		{
-			throw new Exception(mysql_error());
+			throw new DatabaseException(mysql_error(),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return mysql_affected_rows($connection);

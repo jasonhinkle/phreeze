@@ -2,6 +2,9 @@
 /** @package    verysimple::DB::Reflection */
 
 /** import supporting libraries */
+
+require_once('verysimple/DB/DatabaseException.php');
+
 define("DBH_LOG_NONE",1);
 define("DBH_LOG_INFO",2);
 define("DBH_LOG_DEBUG",4);
@@ -64,13 +67,13 @@ define("DBH_LOG_ERROR",32);
 	 * Called by DB objects when a critical error occurs
 	 *
 	 * @access public
-	 * @param int $id
-	 * @param string $message
-	 * @param string $data
+	 * @param int $code unique numerical identifier for error
+	 * @param string $message human-readable error
+	 * @param string $data any additional information that may help with debugging
 	 */	
-	function Crash($id, $message, $data = "")
+	function Crash($code, $message = "", $data = "")
 	{
-		throw new Exception("Error $id: $message: $data");
+		throw new DatabaseException($message,$code,$data);
 	}
 }
 

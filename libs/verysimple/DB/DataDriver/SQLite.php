@@ -2,6 +2,7 @@
 /** @package verysimple::DB::DataDriver */
 
 require_once("IDataDriver.php");
+require_once("verysimple/DB/DatabaseException.php");
 
 /**
  * An implementation of IDataDriver that communicates with
@@ -26,7 +27,7 @@ class DataDriverSQLite implements IDataDriver
 	
 	function Ping($connection)
 	{
-		 throw new Exception("Not Implemented");
+		 throw new DatabaseException("Not Implemented");
 	}
 	
 	/**
@@ -34,11 +35,11 @@ class DataDriverSQLite implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
-		if (!class_exists("SQLite3")) throw new Exception('SQLite3 extension is not enabled on this server.');
+		if (!class_exists("SQLite3")) throw new DatabaseException('SQLite3 extension is not enabled on this server.',DatabaseException::$NOT_CONNECTED);
 		
 		if ( !$connection =  new SQLite3($connectionstring, SQLITE3_OPEN_READWRITE,$password) )
 		{
-			throw new Exception("Error connecting to database: Unable to open the database file.");
+			throw new DatabaseException("Error connecting to database: Unable to open the database file.",DatabaseException::$NOT_CONNECTED);
 		}
 		
 		// charset is ignored with sqlite
@@ -54,7 +55,7 @@ class DataDriverSQLite implements IDataDriver
 				}
 				catch (Exception $ex)
 				{
-					throw new Exception("problem with bootstrap sql: " . $ex->getMessage());
+					throw new DatabaseException("problem with bootstrap sql: " . $ex->getMessage(),DatabaseException::$ERROR_IN_QUERY);
 				}
 			}
 		}
@@ -78,7 +79,7 @@ class DataDriverSQLite implements IDataDriver
 
 		if ( !$rs = $connection->query($sql) )
 		{
-			throw new Exception($connection->lastErrorMsg());
+			throw new DatabaseException($connection->lastErrorMsg(),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return $rs;
@@ -138,7 +139,7 @@ class DataDriverSQLite implements IDataDriver
 	 */
  	function GetTableNames($connection, $dbname, $ommitEmptyTables = false) 
 	{
-		if ($ommitEmptyTables) throw new Exception("SQLite DataDriver doesn't support returning only non-empty tables.  Set ommitEmptyTables arg to false to use this method.");
+		if ($ommitEmptyTables) throw new DatabaseException("SQLite DataDriver doesn't support returning only non-empty tables.  Set ommitEmptyTables arg to false to use this method.");
 		
 		$rs = $this->Query($connection,"SELECT name FROM sqlite_master WHERE type='table' and name != 'sqlite_sequence' ORDER BY name");
 
@@ -158,7 +159,7 @@ class DataDriverSQLite implements IDataDriver
 	 */
  	function Optimize($connection,$table) 
 	{
-		if ($table) throw new Exception("SQLite optimization is database-wide.  Call Optimize() with a blank/null table arg to use this method.");
+		if ($table) throw new DatabaseException("SQLite optimization is database-wide.  Call Optimize() with a blank/null table arg to use this method.");
 		$this->Execute($connection,"VACUUM");
 	}
 	

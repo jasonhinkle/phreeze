@@ -4,9 +4,7 @@
 /** import supporting libraries */
 require_once("DBEventHandler.php");
 require_once("DBConnectionString.php");
-
-define("DBC_ERROR_NOT_CONNECTED",1);
-define("DBC_ERROR_IN_QUERY",2);
+require_once('verysimple/DB/DatabaseException.php');
 
 /**
  * DBConnection provides connectivity to a MySQL Server
@@ -85,12 +83,12 @@ class DBConnection
 		{
 			if ( !$this->dbconn = mysql_connect($this->Host . ":" . $this->Port, $this->Username, $this->Password) )
 			{
-				$this->handler->Crash("Error connecting to database: " . mysql_error());
+				$this->handler->Crash(DatabaseException::$CONNECTION_ERROR,"Error connecting to database: " . mysql_error());
 			}
 
 			if (!mysql_select_db($this->DBName, $this->dbconn))
 			{
-				$this->handler->Crash("Unable to select database " . $this->DBName);
+				$this->handler->Crash(DatabaseException::$CONNECTION_ERROR,"Unable to select database " . $this->DBName);
 			}
 
 			$this->handler->Log(DBH_LOG_INFO, "Connection Open");
@@ -114,7 +112,7 @@ class DBConnection
 			}
 			else
 			{
-				$this->handler->Crash(DBC_ERROR_NOT_CONNECTED, "DB is not connected.  Please call DBConnection->Connect() first.");
+				$this->handler->Crash(DatabaseException::$CONNECTION_ERROR, "DB is not connected.  Please call DBConnection->Connect() first.");
 			}
 		}
 	}
@@ -155,7 +153,7 @@ class DBConnection
 
 		if ( !$rs = mysql_query($sql, $this->dbconn) )
 		{
-		   $this->handler->Crash(0, 'Error executing SQL: ' . mysql_error());
+		   $this->handler->Crash(DatabaseException::$ERROR_IN_QUERY, 'Error executing SQL: ' . mysql_error());
 		}
 
 		return $rs;
@@ -173,7 +171,7 @@ class DBConnection
 
 		if ( !$result = mysql_query($sql, $this->dbconn) )
 		{
-		   $this->handler->Crash('Error executing SQL: ' . mysql_error());
+		   $this->handler->Crash(DatabaseException::$ERROR_IN_QUERY,'Error executing SQL: ' . mysql_error());
 		}
 	}
 
