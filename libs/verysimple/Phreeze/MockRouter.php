@@ -48,7 +48,7 @@ class MockRouter implements IRouter
 	/**
 	 * @inheritdocs
 	 */
-	public function GetUrl( $controller, $method, $params = '' )
+	public function GetUrl( $controller, $method, $params = '', $requestMethod = '' )
 	{
 		return $this->_url;
 	}
