@@ -14,7 +14,7 @@ class DatabaseException extends Exception
 	
 	/** codes used to determine error sub-type */
 	static $UNKNOWN = 0;
-	static $NOT_CONNECTED = 1;
+	static $CONNECTION_ERROR = 1;
 	static $ERROR_IN_QUERY = 2;
 	
 	public $data;

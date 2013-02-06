@@ -41,21 +41,21 @@ class DataDriverMySQL implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
-		if (!function_exists("mysql_connect")) throw new DatabaseException('mysql extension is not enabled on this server.',DatabaseException::$NOT_CONNECTED);
+		if (!function_exists("mysql_connect")) throw new DatabaseException('mysql extension is not enabled on this server.',DatabaseException::$CONNECTION_ERROR);
 		
 		if ( !$connection = @mysql_connect($connectionstring, $username, $password) )
 		{
-			throw new DatabaseException("Error connecting to database: " . mysql_error(),DatabaseException::$NOT_CONNECTED);
+			throw new DatabaseException("Error connecting to database: " . mysql_error(),DatabaseException::$CONNECTION_ERROR);
 		}
 
 		if (!@mysql_select_db($database, $connection))
 		{
-			throw new DatabaseException("Unable to select database " . $database,DatabaseException::$NOT_CONNECTED);
+			throw new DatabaseException("Unable to select database " . $database,DatabaseException::$CONNECTION_ERROR);
 		}
 		
 		if ($charset && !@mysql_set_charset($charset,$connection))
 		{
-			throw new DatabaseException("Unable to set charset " . $charset,DatabaseException::$NOT_CONNECTED);
+			throw new DatabaseException("Unable to set charset " . $charset,DatabaseException::$CONNECTION_ERROR);
 		}
 		
 		if ($bootstrap) 

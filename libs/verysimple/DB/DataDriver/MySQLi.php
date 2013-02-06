@@ -41,13 +41,13 @@ class DataDriverMySQLi implements IDataDriver
 	 */
 	function Open($connectionstring,$database,$username,$password,$charset='',$bootstrap='') 
 	{
-		if (!function_exists("mysqli_connect")) throw new DatabaseException('mysqli extension is not enabled on this server.',DatabaseException::$NOT_CONNECTED);
+		if (!function_exists("mysqli_connect")) throw new DatabaseException('mysqli extension is not enabled on this server.',DatabaseException::$CONNECTION_ERROR);
 		
 		$connection = mysqli_connect($connectionstring, $username, $password, $database);
 		
 		if ( mysqli_connect_errno() )
 		{
-			throw new DatabaseException("Error connecting to database: " . mysqli_connect_error(),DatabaseException::$NOT_CONNECTED);
+			throw new DatabaseException("Error connecting to database: " . mysqli_connect_error(),DatabaseException::$CONNECTION_ERROR);
 		}
 		
 		if ($charset)
@@ -56,7 +56,7 @@ class DataDriverMySQLi implements IDataDriver
 			
 			if ( mysqli_connect_errno() )
 			{
-				throw new DatabaseException("Unable to set charset: " . mysqli_connect_error(),DatabaseException::$NOT_CONNECTED);
+				throw new DatabaseException("Unable to set charset: " . mysqli_connect_error(),DatabaseException::$CONNECTION_ERROR);
 			}
 		}
 		
