@@ -19,7 +19,7 @@
 
 			<script type="text/javascript">
 				$(document).ready(function() {
-					$('.popover-icon').popover();
+					$('.popover-icon').popover({ trigger: "hover", html: true });
 				});
 			</script>
 	</body>
