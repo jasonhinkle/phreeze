@@ -66,6 +66,11 @@
 			considered a starting point with some of the repetitive work done for you. This leaves you to
 			focus on the functionality that makes your app unique.  Read below for more information about
 			the technologies used to generate this application.</p>
+
+			<p><em>Generated with Phreeze {$PHREEZE_VERSION}.
+			{literal}Running on Phreeze {{$PHREEZE_VERSION}}@if($PHREEZE_PHAR) 
+			({{basename($PHREEZE_PHAR)}})@endif.</em></p>{/literal}
+			
 			<p><a class="btn btn-primary btn-large" data-toggle="modal" href="#getStartedDialog">Get Started &raquo;</a></p>
 		</div>
 

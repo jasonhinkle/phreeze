@@ -67,7 +67,11 @@
 			considered a starting point with some of the repetitive work done for you. This leaves you to
 			focus on the functionality that makes your app unique.  Read below for more information about
 			the technologies used to generate this application.</p>
-			<p><a class="btn btn-primary btn-large" data-toggle="modal" href="#getStartedDialog">Get Started &raquo;</a></p>
+			
+			<p><em>Generated with Phreeze {$PHREEZE_VERSION}.
+			Running on Phreeze <?php $this->eprint($this->PHREEZE_VERSION); ?><?php if ($this->PHREEZE_PHAR) { $this->eprint(' (' . basename($this->PHREEZE_PHAR) . ')'); } ?>.</em></p>
+			
+			<a class="btn btn-primary btn-large" data-toggle="modal" href="#getStartedDialog">Get Started &raquo;</a></p>
 		</div>
 
 		<!-- Example row of columns -->

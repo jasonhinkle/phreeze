@@ -166,6 +166,7 @@ class GeneratorController extends BaseController
 				$smarty->assign("includePath",$includePath);
 				$smarty->assign("includePhar",$includePhar);
 				$smarty->assign("enableLongPolling",$enableLongPolling);
+				$smarty->assign("PHREEZE_VERSION",Phreezer::$Version);
 
 				$tableInfos = Array();
 				
@@ -228,6 +229,7 @@ class GeneratorController extends BaseController
 					$smarty->assign("includePath",$includePath);
 					$smarty->assign("includePhar",$includePhar);
 					$smarty->assign("enableLongPolling",$enableLongPolling);
+					$smarty->assign("PHREEZE_VERSION",Phreezer::$Version);
 
 					$tableInfos = Array();
 					
