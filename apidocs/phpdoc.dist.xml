@@ -5,10 +5,10 @@
     <target>docs</target>
   </parser>
   <transformer>
-    <target>docs</target>
+    <target>html</target>
   </transformer>
   <files>
-    <directory>./libs/verysimple</directory>
+    <directory>../libs/verysimple</directory>
     <ignore>.*</ignore>
   </files>
 </phpdoc>

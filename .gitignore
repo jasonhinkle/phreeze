@@ -1,5 +1,5 @@
 /.settings
 /.buildpath
 /.gitignore
-/docs
+/apidocs/html
 .DS_Store
