@@ -109,7 +109,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 					data-content="Unless your app is self-contained (see next option) then it must be able to locate the Phreeze framework class files in <code>/phreeze/libs/</code>.  The app will check the PHP include path, however you can specify an additional relative file path here.<br/><br/>This setting can be adjusted in <code>_app_config.php</code>"></i></label>
 			<div class="controls inline-inputs">
 				<input type="text" name="includePath" id="includePath" value="../phreeze/libs" />
-				<span class="help-inline">This can be adjusted in /_app_config.php</span>
+				<span class="help-inline"></span>
 			</div>
 		</div>
 
