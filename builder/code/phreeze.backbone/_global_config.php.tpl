@@ -197,6 +197,8 @@ class GlobalConfig
 			}
 			$this->render_engine = new $engine_class(self::$TEMPLATE_PATH,self::$TEMPLATE_CACHE_PATH);
 			$this->render_engine->assign("ROOT_URL",self::$ROOT_URL);
+			$this->render_engine->assign("PHREEZE_VERSION",Phreezer::$Version);
+			$this->render_engine->assign("PHREEZE_PHAR",Phreezer::PharPath());
 		}
 
 		return $this->render_engine;
