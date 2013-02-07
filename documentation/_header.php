@@ -31,7 +31,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
-						<a class="brand" href="./"><i class="icon-cogs"></i> Phreeze Framework Documentation</a> 
+						<a class="brand" href="./"><i class="icon-book"></i> Phreeze Framework Documentation</a> 
 						<div class="nav-collapse">
 							<ul class="nav">
 							</ul>

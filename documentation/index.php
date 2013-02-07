@@ -1,7 +1,7 @@
 <?php include_once '_header.php' ?>
 
 	<div class="hero-unit">
-		<h1><i class="icon-cogs"></i> Phreeze Documentation</h1>
+		<h1><i class="icon-book"></i> Phreeze Documentation</h1>
 		<p>Documentation and code samples for the <a href="http://phreeze.com/">Phreeze Framework</a> for PHP.</p>
 	</div>
 
