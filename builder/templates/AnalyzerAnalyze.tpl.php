@@ -69,36 +69,44 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	<fieldset class="well">
 
 		<div id="packageContainer" class="control-group">
-			<label class="control-label" for="package">Package To Generate</label>
+			<label class="control-label" for="package">Package To Generate <i class="popover-icon icon-question-sign" 
+					data-title="Package To Generate" 
+					data-content="You may choose from various packages to generate.  Most likely you will be interested in choosing the Phreeze App that uses your preferred template engine (RenderEngine) for the view layer.<br/><br/>The RenderEngine cna be changed in <code>_app_config.php</code>, however your templates will also need to be re-generated."></i></label>
 			<div class="controls inline-inputs">
-				<select name="package">
+				<select name="package" class="input-xxlarge">
 				<?php foreach ($this->packages as $package) { ?>
 					<option value="<?php $this->eprint($package->GetConfigFile()) ?>"><?php $this->eprint($package->GetName()) ?></option>
 				<?php } ?>
 				</select>
-				<span class="help-inline">This specified which application package to generate</span>
+				<span class="help-inline"></span>
 			</div>
 		</div>
 
 		<div id="appNameContainer" class="control-group">
-			<label class="control-label" for=""appname"">Application Name</label>
+			<label class="control-label" for=""appname"">Application Name <i class="popover-icon icon-question-sign" 
+					data-title="Application Name" 
+					data-content="The name of the application will appear in the top nav/header as well as the footer of the app.  You can change this later in the templates folder."></i></label>
 			<div class="controls inline-inputs">
 				<input type="text" name="appname" id="appname" value="<?php $this->eprint(strtoupper($this->appname)); ?>" />
-				<span class="help-inline">This can be adjusted in /templates/Master.tpl</span>
+				<span class="help-inline"></span>
 			</div>
 		</div>
 
 		<div id="appRootContainer" class="control-group">
-			<label class="control-label" for="appRoot">Application Root URL</label>
+			<label class="control-label" for="appRoot">Application Root URL <i class="popover-icon icon-question-sign" 
+					data-title="Application Root URL" 
+					data-content="Your Phreeze application must know it's root location in order to support clean URLs.  You will need to ensure this is the correct URL for your app.  When deploying your app to another server, this value will need to be adjusted.<br/><br/>The GlobalConfig::$ROOT_URL setting is found in <code>_machine_config.php</code>"></i></label>
 			<div class="controls inline-inputs">
 				<span>http://servername/</span>
 				<input type="text" class="span2" name="appRoot" id="appRoot" value="<?php $this->eprint(strtolower($this->appname)); ?>/" />
-				<span class="help-inline">This can be adjusted in /_machine_config.php</span>
+				<span class="help-inline"></span>
 			</div>
 		</div>
 
 		<div id="includePathContainer" class="control-group">
-			<label class="control-label" for="includePath">Path to phreeze/libs</label>
+			<label class="control-label" for="includePath">Path to /phreeze/libs <i class="popover-icon icon-question-sign" 
+					data-title="Path to Phreeze Libs" 
+					data-content="Unless your app is self-contained (see next option) then it must be able to locate the Phreeze framework class files in <code>/phreeze/libs/</code>.  The app will check the PHP include path, however you can specify an additional relative file path here.<br/><br/>This setting can be adjusted in <code>_app_config.php</code>"></i></label>
 			<div class="controls inline-inputs">
 				<input type="text" name="includePath" id="includePath" value="../phreeze/libs" />
 				<span class="help-inline">This can be adjusted in /_app_config.php</span>
@@ -106,15 +114,31 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		</div>
 
 		<div id="enableLongPollingContainer" class="control-group">
-			<label class="control-label" for="enableLongPolling">Long Polling</label>
+			<label class="control-label" for="includePhar">Make Self-Contained <i class="popover-icon icon-question-sign" 
+					data-title="Make Self-Contained" 
+					data-content="Selecting 'Yes' will include the Phreeze Framework as a pre-build .phar file located in /libs/.  This will allow your application to stand-alone without the need for the Phreeze libraries on the server.<br/><br/>This is recommended when distributing pre-packaged apps and will make them easier to install.  It is not recommended during development."></i></label>
+			<div class="controls inline-inputs">
+				<select name="includePhar" id="includePhar"  class="input-xxlarge">
+					<option value="0">No (Require External Phreeze Libraries)</option>
+					<option value="1">Yes (Include Phreeze Libraries as Phar)</option>
+				</select>
+				<span class="help-inline"></span>
+			</div>
+		</div>
+		
+		<div id="enableLongPollingContainer" class="control-group">
+			<label class="control-label" for="enableLongPolling">Long Polling <i class="popover-icon icon-question-sign" 
+					data-title="Long Polling" 
+					data-content="With long polling enabled, the table views will 'poll' the database every few seconds for changes and update the page automatically if necessary.  This will make your site appear to be a real-time collaberative app.  Use with caution as this will also place additional load on the server.<br/><br/>This setting can be adjusted in <code>/scripts/model.js</code>"></i></label>
 			<div class="controls inline-inputs">
 				<select name="enableLongPolling" id="enableLongPolling">
 					<option value="0">Disabled</option>
 					<option value="1">Enabled</option>
 				</select>
-				<span class="help-inline">This can be adjusted in /scripts/model.js</span>
+				<span class="help-inline"></span>
 			</div>
 		</div>
+		
 	</fieldset>
 
 	<p>

@@ -26,7 +26,9 @@ GlobalConfig::$APP_ROOT = realpath("./");
  */
 set_include_path(
 		GlobalConfig::$APP_ROOT . '/libs/' . PATH_SEPARATOR .
-		GlobalConfig::$APP_ROOT . '/libs/phreeze/libs/' . PATH_SEPARATOR .
+{if ($includePhar == '1')}
+		'phar://' . GlobalConfig::$APP_ROOT . '/libs/phreeze-3.3.phar' . PATH_SEPARATOR .
+{/if}
 		GlobalConfig::$APP_ROOT . '/{$includePath}' . PATH_SEPARATOR .
 		get_include_path()
 );

@@ -96,12 +96,26 @@ class GeneratorController extends BaseController
 		$appname = RequestUtil::Get("appname");
 		$appRoot = RequestUtil::Get("appRoot");
 		$includePath = RequestUtil::Get("includePath");
+		$includePhar = RequestUtil::Get("includePhar");
 		$enableLongPolling = RequestUtil::Get("enableLongPolling");
 
 		$config = new AppConfig($codeRoot  . $packageName);
 		
 		foreach ($config->GetTemplateFiles() as $templateFile)
 		{
+			if ($templateFile->generate_mode == 3)
+			{
+				if ($includePhar == '1')
+				{
+					// proceed, copy the phar file
+					$templateFile->generate_mode = 2;
+				}
+				else
+				{
+					// skip the phar file
+					continue;
+				}
+			}
 			
 			if ($templateFile->generate_mode == 2)
 			{
@@ -150,6 +164,7 @@ class GeneratorController extends BaseController
 				$smarty->assign("appname",$appname);
 				$smarty->assign("appRoot",$appRoot);
 				$smarty->assign("includePath",$includePath);
+				$smarty->assign("includePhar",$includePhar);
 				$smarty->assign("enableLongPolling",$enableLongPolling);
 
 				$tableInfos = Array();
@@ -211,6 +226,7 @@ class GeneratorController extends BaseController
 					$smarty->assign("connection",$cstring);
 					$smarty->assign("appRoot",$appRoot);
 					$smarty->assign("includePath",$includePath);
+					$smarty->assign("includePhar",$includePhar);
 					$smarty->assign("enableLongPolling",$enableLongPolling);
 
 					$tableInfos = Array();
