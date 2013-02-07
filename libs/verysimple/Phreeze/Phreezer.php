@@ -21,7 +21,7 @@ require_once("verysimple/IO/Includer.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2008 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    3.2
+ * @version    3.3
  */
 class Phreezer extends Observable
 {
@@ -33,7 +33,7 @@ class Phreezer extends Observable
 	 */
 	public $RenderEngine;
 
-	public $Version = 3.2;
+	public static $Version = '3.3';
 
 	/**
 	 * @var int expiration time for query & value cache (in seconds) default = 5
@@ -76,6 +76,17 @@ class Phreezer extends Observable
 	 * @var string path used for saving lock files to prevent cache stampedes
 	 */
 	public $LockFilePath;
+	
+	
+	/**
+	 * If Phreeze is loaded from a .phar file, return the path of that file
+	 * otherwise return empty string
+	 * @return string
+	 */
+	static function PharPath()
+	{
+		return Phar::running();
+	}
 
     /**
     * Contructor initializes the object.  The database connection is opened upon instantiation
