@@ -21,7 +21,7 @@ require_once("verysimple/IO/Includer.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2008 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    3.3
+ * @version    3.3.1
  */
 class Phreezer extends Observable
 {
@@ -33,7 +33,7 @@ class Phreezer extends Observable
 	 */
 	public $RenderEngine;
 
-	public static $Version = '3.3';
+	public static $Version = '3.3.1';
 
 	/**
 	 * @var int expiration time for query & value cache (in seconds) default = 5
