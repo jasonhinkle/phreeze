@@ -2,4 +2,5 @@
 /.buildpath
 /.gitignore
 /apidocs/html
+/phar/*.phar
 .DS_Store
