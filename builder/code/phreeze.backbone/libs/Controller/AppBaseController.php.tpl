@@ -28,6 +28,16 @@ class AppBaseController extends Controller
 	protected function Init()
 	{
 		// TODO: add app-wide bootsrap code
+		
+		// EXAMPLE: require authentication to access the app
+		/*
+		require_once("App/ExampleUser.php");
+		$uri = $this->GetRouter()->GetUri();
+		if ($uri != 'login' && $uri != 'loginform' && $uri != 'logout')
+		{
+			$this->RequirePermission(ExampleUser::$PERMISSION_ADMIN,'SecureExample.LoginForm');
+		}
+		*/
 	}
 
 	/**
