@@ -18,16 +18,11 @@ p.buttonContainer {
 
 table.collection tr:hover {
     cursor: pointer;
-    background-color: #fbfbfb
-}
-
-table.collection th{
-    background-color: #eeeeee;
 }
 
 table.collection th:hover {
     cursor: pointer;
-    background-color: #dfdfdf;
+    opacity: 0.5;
 }
 
 .date-picker input

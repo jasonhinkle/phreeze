@@ -45,7 +45,7 @@
 
 	<!-- underscore template for the collection -->
 	<script type="text/template" id="{$singular|lcfirst}CollectionTemplate">
-		<table class="collection table table-bordered">
+		<table class="collection table table-bordered table-hover">
 		<thead>
 			<tr>
 {foreach from=$table->Columns item=column name=columnsForEach}
