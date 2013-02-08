@@ -33,7 +33,7 @@ class Phreezer extends Observable
 	 */
 	public $RenderEngine;
 
-	public static $Version = '3.3.1';
+	public static $Version = '3.3.1 HEAD';
 
 	/**
 	 * @var int expiration time for query & value cache (in seconds) default = 5
