@@ -108,7 +108,7 @@
 				<hr>
 
 				<footer>
-					<p>&copy; {ldelim}$smarty.now|date_format:'%Y'{rdelim} {$appname}</p>
+					<p class="muted"><small>&copy; {ldelim}$smarty.now|date_format:'%Y'{rdelim} {$appname}</small></p>
 				</footer>
 
 			</div> <!-- /container -->

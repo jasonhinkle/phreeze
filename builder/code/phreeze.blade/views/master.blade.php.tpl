@@ -107,7 +107,7 @@
 				<hr>
 
 				<footer>
-					<p>&copy; <?php echo date('Y'); ?> {$appname}</p>
+					<p class="muted"><small>&copy; <?php echo date('Y'); ?> {$appname}</small></p>
 				</footer>
 
 			</div> <!-- /container -->
