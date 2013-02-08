@@ -14,13 +14,6 @@
 
 	<p>The page you requested was not found.  Please check that you typed the URL correctly.</p>
 
-<!-- footer -->
-	<hr>
-
-	<footer>
-		<p>&copy; <?php echo date('Y'); ?> {$appname|escape}</p>
-	</footer>
-
 </div> <!-- /container -->
 
 <?php

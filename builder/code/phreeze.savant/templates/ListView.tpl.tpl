@@ -172,13 +172,6 @@
 		<button id="new{$singular}Button" class="btn btn-primary">Add {$singular}</button>
 	</p>
 
-	<!-- footer -->
-	<hr>
-
-	<footer>
-		<p>&copy; <?php echo date('Y'); ?> {$appname|escape}</p>
-	</footer>
-
 </div> <!-- /container -->
 
 <?php

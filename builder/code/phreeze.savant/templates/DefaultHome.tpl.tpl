@@ -114,12 +114,6 @@
 			</div>
 		</div>
 
-		<hr>
-
-		<footer>
-			<p>&copy; <?php echo date('Y'); ?> {$appname|escape}</p>
-		</footer>
-
 	</div> <!-- /container -->
 
 <?php
