@@ -29,6 +29,7 @@ class DefaultController extends BaseController
 	 */
 	public function Home()
 	{
+		$this->Assign('hidenav', true);
 		$this->Render();
 	}
 

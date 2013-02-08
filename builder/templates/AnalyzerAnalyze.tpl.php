@@ -13,7 +13,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 
 <form action="generate" method="post" class="form-horizontal">
 
-	<table class="collection table table-bordered">
+	<table class="collection table table-bordered table-striped">
 	<thead>
 		<tr>
 			<th class="checkboxColumn"><input type="checkbox" id="selectAll" checked="checked"
@@ -148,7 +148,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<input type="hidden" name="username" id="username" value="<?php $this->eprint($this->username) ?>" />
 		<input type="hidden" name="password" id="password" value="<?php $this->eprint($this->password) ?>" />
 
-		<button class="btn btn-primary"><i class="icon-play"></i> Generate Application</button>
+		<button class="btn btn-inverse"><i class="icon-play"></i> Generate Application</button>
 	</p>
 </form>
 

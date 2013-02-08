@@ -22,7 +22,7 @@
 	</head>
 
 	<body>
-
+			<?php if (!isset($this->hidenav)) { ?>
 			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="navbar-inner">
 					<div class="container">
@@ -39,5 +39,6 @@
 					</div>
 				</div>
 			</div>
-
+			<?php } ?>
+			
 			<div class="container">

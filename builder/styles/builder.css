@@ -20,15 +20,6 @@ p.buttonContainer {
 
 }
 
-footer {
-	font-style: italic;
-	color: #999999;
-}
-
-table thead th {
-    background-color: #f5f5f5;
-}
-
 .checkboxColumn {
 	width: 25px;
 }
