@@ -16,7 +16,7 @@ require_once("verysimple/HTTP/RequestUtil.php");
 
 /** database connection settings */
 GlobalConfig::$CONNECTION_SETTING = new ConnectionSetting();
-GlobalConfig::$CONNECTION_SETTING->ConnectionString = "{$connection->Host}:{$connection->Port}";
+GlobalConfig::$CONNECTION_SETTING->ConnectionString = "{$connection->Host}{if $connection->Port}:{$connection->Port}{/if}";
 GlobalConfig::$CONNECTION_SETTING->DBName = "{$connection->DBName}";
 GlobalConfig::$CONNECTION_SETTING->Username = "{$connection->Username}";
 GlobalConfig::$CONNECTION_SETTING->Password = "{$connection->Password}";
