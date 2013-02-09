@@ -1,9 +1,11 @@
 <?php include_once '_header.tpl.php'; ?>
 
 <div class="hero-unit">
-	<h1><i class="icon-cogs"></i> Phreeze Builder</h1>
-	<p>Enter your MySQL connection information in the form below. Phreeze will
-	analyze your schema and generate an awesome application.</p>
+	<h1><img src="images/banner.png" alt="Phreeze Builder" /></h1>
+	<div class="subheader">
+		<div>Enter your MySQL connection information in the form below.</div>
+		<div>Phreeze will analyze your schema and generate an awesome application.</div>
+	</div>
 </div>
 
 <form action="analyze" method="post" class="form-horizontal">

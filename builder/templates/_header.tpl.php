@@ -22,7 +22,6 @@
 	</head>
 
 	<body>
-			<?php if (!isset($this->hidenav)) { ?>
 			<div class="navbar navbar-inverse navbar-fixed-top">
 				<div class="navbar-inner">
 					<div class="container">
@@ -31,7 +30,9 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
-						<a class="brand" href="./"><img src="images/phreeze.png" alt="Phreeze" /></a>
+						<?php if (!isset($this->hidenav)) { ?>
+						<a class="brand" href="./"><img src="images/phreeze.png" alt="Phreeze" /> BUILDER</a>
+						<?php } ?>
 						<div class="nav-collapse">
 							<ul class="nav">
 							</ul>
@@ -39,6 +40,6 @@
 					</div>
 				</div>
 			</div>
-			<?php } ?>
+			
 			
 			<div class="container">
