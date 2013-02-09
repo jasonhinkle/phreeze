@@ -25,6 +25,15 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		</tr>
 	</thead>
 	<tbody>
+	<?php 
+	/* these are not all of the reserved words, but some that might be used an an app */
+	function is_reserved_word($name)
+	{
+		$reserved = array('criteria','phreezer','phreezable','reporter','controller','dataset');
+		return in_array(strtolower($name), $reserved);
+	} 
+	?>
+	
 	<?php foreach ($this->dbSchema->Tables as $table) { ?>
 		<tr id="">
 			<td class="checkboxColumn">
@@ -44,7 +53,11 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			</td>
 			<td class="tableNameColumn">
 			
-			<?php if ($table->IsView) { ?>
+			<?php if (is_reserved_word($table->Name)) { ?>
+				<a href="#" class="popover-icon error" rel="popover" onclick="return false;"
+					data-content="This table name is a reserve word in the Phreeze framework.<br/><br/>'Model' has been appended to the end of your class name.  You can change this to something else as long as you do not use the reserved Phreeze classname as-is."
+					data-original-title="Reserved Word"><i class="icon-info-sign">&nbsp;</i></a>
+			<?php } elseif ($table->IsView) { ?>
 				<a href="#" class="popover-icon view" rel="popover" onclick="return false;"
 					data-content="Views are supported by Phreeze however only read-operations will be allowed by default.<br/><br/>Because views do not support keys or indexes, Phreeze will treat the leftmost column of the view as the primary key.  For optimal results please design your view so that the leftmost column returns a unique value for each row."
 					data-original-title="View Information"><i class="icon-table">&nbsp;</i></a>
@@ -52,8 +65,14 @@ of the view, update operations may not work.  Views are de-selected by default.<
 				<i class="icon-table">&nbsp;</i>
 			<?php } ?>
 			<?php $this->eprint($table->Name); ?></td>
-			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
-			<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
+			
+			<?php if (is_reserved_word($table->Name)) { ?>
+				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Model" /></td>
+				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Models" /></td>
+			<?php } else { ?>
+				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
+				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
+			<?php } ?>
 			<td><input type="text" class="span2" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
 		</tr>
 	<?php } ?>
