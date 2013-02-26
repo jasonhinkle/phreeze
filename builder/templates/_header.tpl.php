@@ -33,7 +33,7 @@
 						<?php if (!isset($this->hidenav)) { ?>
 						<a class="brand" href="./"><img src="images/phreeze.png" alt="Phreeze" /> BUILDER</a>
 						<?php } ?>
-						<div class="nav-collapse">
+						<div class="nav-collapse collapse">
 							<ul class="nav">
 							</ul>
 						</div><!--/.nav-collapse -->
