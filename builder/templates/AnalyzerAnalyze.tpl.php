@@ -11,7 +11,7 @@ the Column Prefix will be removed for class properties.</p>
 composite primary key are not supported.  Views are supported but depending on the contents
 of the view, update operations may not work.  Views are de-selected by default.</p>
 
-<form action="generate" method="post" class="form-horizontal">
+<form id="generateForm" action="generate" method="post" class="form-horizontal">
 
 	<table class="collection table table-bordered table-striped">
 	<thead>
@@ -67,13 +67,13 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			<?php $this->eprint($table->Name); ?></td>
 			
 			<?php if (is_reserved_word($table->Name)) { ?>
-				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Model" /></td>
-				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Models" /></td>
+				<td><input class="objname objname-singular" type="text" id="<?php $this->eprint($table->Name); ?>_singular" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Model" /></td>
+				<td><input class="objname objname-plural" type="text" id="<?php $this->eprint($table->Name); ?>_plural" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Models" /></td>
 			<?php } else { ?>
-				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
-				<td><input type="text" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
+				<td><input class="objname objname-singular" type="text" id="<?php $this->eprint($table->Name); ?>_singular" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>" /></td>
+				<td><input class="objname objname-plural" type="text" id="<?php $this->eprint($table->Name); ?>_plural" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($this->plural($table->Name))); ?>" /></td>
 			<?php } ?>
-			<td><input type="text" class="span2" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
+			<td><input type="text" class="colprefix span2" id="<?php $this->eprint($table->Name); ?>_prefix" name="<?php $this->eprint($table->Name); ?>_prefix" value="<?php $this->eprint($table->ColumnPrefix); ?>" size="15" /></td>
 		</tr>
 	<?php } ?>
 	</tbody>
@@ -159,6 +159,8 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		</div>
 		
 	</fieldset>
+	
+	<div id="errorContainer"></div>
 
 	<p>
 		<input type="hidden" name="host" id="host" value="<?php $this->eprint($this->host) ?>" />
@@ -170,5 +172,8 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<button class="btn btn-inverse"><i class="icon-play"></i> Generate Application</button>
 	</p>
 </form>
+
+<script type="text/javascript" src="scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="scripts/analyze.js"></script>
 
 <?php include_once '_footer.tpl.php'; ?>
