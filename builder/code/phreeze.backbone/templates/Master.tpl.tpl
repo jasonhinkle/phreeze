@@ -61,7 +61,7 @@
 							<span class="icon-bar"></span>
 						</a>
 						<a class="brand" href="./">{$appname}</a>
-						<div class="nav-collapse">
+						<div class="nav-collapse collapse">
 							<ul class="nav">
 {foreach from=$selectedTables item=table name=ddForEach}{if isset($tableInfos[$table->Name])}
 {if $smarty.foreach.ddForEach.index == $max_items_in_topnav && !$smarty.foreach.ddForEach.last}

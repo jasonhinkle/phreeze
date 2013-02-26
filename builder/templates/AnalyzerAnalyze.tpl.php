@@ -90,7 +90,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<div id="packageContainer" class="control-group">
 			<label class="control-label" for="package">Package To Generate <i class="popover-icon icon-question-sign" 
 					data-title="Package To Generate" 
-					data-content="You may choose from various packages to generate.  Most likely you will be interested in choosing the Phreeze App that uses your preferred template engine (RenderEngine) for the view layer.<br/><br/>The RenderEngine cna be changed in <code>_app_config.php</code>, however your templates will also need to be re-generated."></i></label>
+					data-content="You may choose from various packages to generate.  Most likely you will be interested in choosing the Phreeze App that uses your preferred template engine (RenderEngine) for the view layer.<br/><br/>The RenderEngine can be changed in <code>_app_config.php</code>, however changing the RenderEngine also requires re-generating the templates."></i></label>
 			<div class="controls inline-inputs">
 				<select name="package" class="input-xxlarge">
 				<?php foreach ($this->packages as $package) { ?>
@@ -135,7 +135,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 		<div id="enableLongPollingContainer" class="control-group">
 			<label class="control-label" for="includePhar">Make Self-Contained <i class="popover-icon icon-question-sign" 
 					data-title="Make Self-Contained" 
-					data-content="Selecting 'Yes' will include the Phreeze Framework as a pre-build .phar file located in /libs/.  This will allow your application to stand-alone without the need for the Phreeze libraries on the server.<br/><br/>This is recommended when distributing pre-packaged apps and will make them easier to install.  It is not recommended during development."></i></label>
+					data-content="Selecting 'Yes' will include the Phreeze Framework as a pre-built .phar file located in /libs/.  This will allow your application to stand-alone without the need for the Phreeze libraries on the server.<br/><br/>This is recommended when distributing pre-packaged apps and will make them easier to install.  It is not recommended during development."></i></label>
 			<div class="controls inline-inputs">
 				<select name="includePhar" id="includePhar"  class="input-xxlarge">
 					<option value="0">No (Require External Phreeze Libraries)</option>
