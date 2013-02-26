@@ -154,9 +154,17 @@
 			//for ($i = count($tablenames) -1; $i > 0 ; $i--) // this iterates backwards
 			for ($i = 1; $i < count($tablenames); $i++)      // this iterates forwards
 			{
-				// (LL) added backticks here
-				// if 'undefined index' occurs here, there is likely a foreign field in the fieldmap that does not have it's related keymap set to KM_LOAD_EAGER
-				$sql .= $this->Joins[$tablenames[$i]];
+				try
+				{
+					$sql .= $this->Joins[$tablenames[$i]];
+				}
+				catch (Exception $ex)
+				{
+					// if 'undefined index' occurs here, there is likely a foreign field in the fieldmap that does not have it's related keymap set to KM_LOAD_EAGER
+					throw new Exception("An invalid join was attempted from table '" . $tablenames[$i] 
+						. "'. Please verify that the KeyMap fetching strategy for table '" . $tablenames[0]
+						. "' has been properly configured.");
+				}
 			}
 		}
 		else
