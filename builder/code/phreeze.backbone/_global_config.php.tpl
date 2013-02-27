@@ -51,6 +51,9 @@ class GlobalConfig
 
 	/** @var ConnectionSetting object containign settings for the DB connection **/
 	public static $CONNECTION_SETTING;
+	
+	/** @var Setting to true will convert all NULL values to an empty string (set to false with caution!)  **/
+	public static $CONVERT_NULL_TO_EMPTYSTRING = true;
 
 	/** @var ICache (optional) object for level 2 caching (for example memcached) **/
 	public static $LEVEL_2_CACHE;
@@ -162,6 +165,12 @@ class GlobalConfig
 	{
 		if ($this->phreezer == null)
 		{
+			if (!self::$CONVERT_NULL_TO_EMPTYSTRING)
+			{
+				require_once("verysimple/DB/DatabaseConfig.php");
+				DatabaseConfig::$CONVERT_NULL_TO_EMPTYSTRING = false;
+			}
+			
 			if (self::$DEBUG_MODE)
 			{
 				require_once("verysimple/Phreeze/ObserveToSmarty.php");
