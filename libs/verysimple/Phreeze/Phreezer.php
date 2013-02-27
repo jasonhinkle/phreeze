@@ -21,7 +21,7 @@ require_once("verysimple/IO/Includer.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2008 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    3.3.1
+ * @version    3.3.2
  */
 class Phreezer extends Observable
 {
@@ -33,7 +33,7 @@ class Phreezer extends Observable
 	 */
 	public $RenderEngine;
 
-	public static $Version = '3.3.1 HEAD';
+	public static $Version = '3.3.2 HEAD';
 
 	/**
 	 * @var int expiration time for query & value cache (in seconds) default = 5
@@ -58,6 +58,12 @@ class Phreezer extends Observable
 	public $CacheQueryObjectLevel2 = false;
 
 	/**
+	 * @var string path used for saving lock files to prevent cache stampedes
+	 */
+	public $LockFilePath;
+	
+	
+	/**
 	 * @var array
 	 */
 	private $_mapCache;
@@ -70,13 +76,7 @@ class Phreezer extends Observable
 	/**
 	 * @var ICache
 	 */
-	private $_level2Cache;
-
-	/**
-	 * @var string path used for saving lock files to prevent cache stampedes
-	 */
-	public $LockFilePath;
-	
+	private $_level2Cache;	
 	
 	/**
 	 * If Phreeze is loaded from a .phar file, return the path of that file
@@ -491,7 +491,7 @@ class Phreezer extends Observable
 
 					try
 					{
-						$sql .= $delim . "`" . $fm->ColumnName . "` = '" . $this->Escape($val) . "'";
+						$sql .= $delim . "`" . $fm->ColumnName . "` = " . $this->GetQuotedSql($val);
 					}
 					catch (Exception $ex)
 					{
@@ -543,7 +543,7 @@ class Phreezer extends Observable
 
 						try
 						{
-							$sql .= $delim . "'" . $this->Escape($val) . "'";
+							$sql .= $delim . ' ' . $this->GetQuotedSql($val);
 						}
 						catch (Exception $ex)
 						{
@@ -873,13 +873,25 @@ class Phreezer extends Observable
 
 
 	/**
-	 * Escape SQL string for SQL
+	 * Utility method that calls DataAdapter::Escape($val)
+	 * @param variant $val to be escaped
+	 * @return string
 	 */
 	public function Escape($val)
 	{
 		return DataAdapter::Escape($val);
 	}
 
+	/**
+	 * Utility method that calls DataAdapter::GetQuotedSql($val)
+	 * @param variant $val to be quoted
+	 * @return string
+	 */
+	private function GetQuotedSql($val)
+	{
+		return DataAdapter::GetQuotedSql($val);
+	}
+	
 	/**
 	* If the type is not already defined, attempts to require_once the definition.
 	* If the Model file cannot be located, an exception is thrown

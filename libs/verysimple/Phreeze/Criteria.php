@@ -109,6 +109,16 @@ class Criteria
 	}
 
 	/**
+	 * Returns DataAdapter::GetQuotedSql($val)
+	 * @param variant $val to be quoted
+	 * @return string
+	 */
+	public function GetQuotedSql($val)
+	{
+		return DataAdapter::GetQuotedSql($val);
+	}
+	
+	/**
 	 * Adds a criteria to be joined w/ an "or" statement.
 	 * Criterias to foreign objects may be added as long as they
 	 * have an immediate relationship to the foreign table
@@ -179,13 +189,13 @@ class Criteria
 					elseif (substr($prop,-7) == "_Equals" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_Equals","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." = '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." = ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-10) == "_NotEquals" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_NotEquals","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." != '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." != ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-8) == "_IsEmpty" && $this->$prop)
@@ -227,25 +237,25 @@ class Criteria
 					elseif (substr($prop,-12) == "_GreaterThan" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_GreaterThan","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." > '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." > ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-19) == "_GreaterThanOrEqual" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_GreaterThanOrEqual","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." >= '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." >= ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-9) == "_LessThan" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_LessThan","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." < '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." < ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-16) == "_LessThanOrEqual" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_LessThanOrEqual","",$prop));
-						$this->_where .= $this->_where_delim . " " . $dbfield ." <= '". $this->Escape($val) . "'";
+						$this->_where .= $this->_where_delim . " " . $dbfield ." <= ". $this->GetQuotedSql($val) . "";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-10) == "_BitwiseOr" && strlen($this->$prop))

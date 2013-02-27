@@ -340,6 +340,23 @@ class DataAdapter implements IObservable
 		return DataAdapter::$DRIVER_INSTANCE->Escape($val);
 	}
 	
+	/**
+	 * Quote and escape value to prepare it for use in SQL
+	 *
+	 * @access public
+	 * @param string $val
+	 * @return string
+	 */
+	public static function GetQuotedSql($val)
+	{
+		// this is an unfortunate leftover from poor design of making this function static
+		// we cannon use the driver's escape method without a static reference
+		if (!DataAdapter::$DRIVER_INSTANCE) throw new Exception("DataAdapter must be instantiated before Escape can be called");
+	
+		// $driver->RequireConnection(true);
+		return DataAdapter::$DRIVER_INSTANCE->GetQuotedSql($val);
+	}
+	
 	
     /**
     * Registers/attaches an IObserver to this object
