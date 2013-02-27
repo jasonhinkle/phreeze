@@ -53,8 +53,6 @@
 				e.preventDefault();
 			}
 			
-			e.preventDefault();
-			
 		});
 		
 	});
