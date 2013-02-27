@@ -110,6 +110,14 @@ interface IDataDriver
 	function Escape($val);
 	
 	/**
+	 * Return a stringified version of $val ready to insert with appropriate quoting and escaping
+	 * This method must handle at a minimum: strings, numbers, NULL and ISqlFunction objects
+	 * @param variant value to insert/update/query
+	 * @return string value ready to use in a SQL statement quoted and escaped if necessary
+	 */
+	function GetQuotedSql($val);
+	
+	/**
 	 * Returns an array of tablenames for the given database
 	 * @param mixed connection reference
 	 * @param string name of the database

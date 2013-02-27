@@ -2,7 +2,9 @@
 /** @package verysimple::DB::DataDriver */
 
 require_once("IDataDriver.php");
+require_once("verysimple/DB/ISqlFunction.php");
 require_once("verysimple/DB/DatabaseException.php");
+require_once("verysimple/DB/DatabaseConfig.php");
 
 /**
  * An implementation of IDataDriver that communicates with
@@ -134,6 +136,18 @@ class DataDriverSQLite implements IDataDriver
 		return str_replace("'","''",$val);
  	}
 	
+ 	/**
+ 	 * @inheritdocs
+ 	 */
+ 	public function GetQuotedSql($val)
+ 	{
+ 		if ($val === null) return DatabaseConfig::$CONVERT_NULL_TO_EMPTYSTRING ? "''" : 'NULL';
+ 	
+ 		if ($val instanceof ISqlFunction) return $val->GetQuotedSql($this);
+ 	
+ 		return "'" . $this->Escape($val) . "'";
+ 	}
+ 	
 	/**
 	 * @inheritdocs
 	 */
