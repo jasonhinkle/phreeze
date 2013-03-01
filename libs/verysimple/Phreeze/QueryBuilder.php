@@ -251,7 +251,7 @@
 	}
 	
 	/**
-	 * Builds a SQL statement from the given criteria object
+	 * Builds a SQL statement from the given criteria object and resets the Criteria
 	 *
 	 * @param Criteria $criteria
 	 * @return string fully formed SQL statement
@@ -269,11 +269,13 @@
 		
 		$sql .= $criteria->GetOrder();
 		
+		$criteria->Reset();
+		
 		return $sql;
 	}
 	
 	/**
-	* Builds a SQL statement from the given criteria object to count the results
+	* Builds a SQL statement from the given criteria object to count the results and resets the Criteria
 	*
 	* @param Criteria $criteria
 	* @return string fully formed SQL statement
@@ -287,6 +289,8 @@
 		$sql .= $criteria->GetJoin();
 	
 		$sql .= $this->GetWhereSQL($criteria);
+		
+		$criteria->Reset();
 	
 		return $sql;
 	}

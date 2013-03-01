@@ -141,6 +141,15 @@ class Criteria
 		return $this->_or;
 	}
 	
+	/**
+	 * Reset the Criteria for re-use.  This is called by querybuilder after the criteria has been used
+	 * to generate SQL.  It can be called manually as well.
+	 */
+	public function Reset()
+	{
+		$this->_is_prepared = false;
+	}
+	
 	/** Prepare is called just prior to execution and will fire OnPrepare after it completes
 	 * If this is a base Criteria class, then we can only do a lookup by PrimaryKeyField or
 	 * else raw SQL must be provided during construction.  _Equals, _BeginsWith can only be
