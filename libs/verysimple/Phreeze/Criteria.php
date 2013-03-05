@@ -64,6 +64,7 @@ class Criteria
 	 */
 	public function AddFilter(CriteriaFilter $filter)
 	{
+		if (!$this->Filters) $this->Filters = array();
 		$this->Filters[] = $filter;
 	}
 
@@ -74,6 +75,14 @@ class Criteria
 	public function GetFilters()
 	{
 		return $this->Filters;
+	}
+	
+	/**
+	 * Remove all filters that are currently attached
+	 */
+	public function ClearFilters()
+	{
+		$this->Filters = null;
 	}
 	
 	/**
