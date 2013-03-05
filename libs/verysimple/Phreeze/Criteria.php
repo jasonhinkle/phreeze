@@ -22,12 +22,17 @@ class Criteria
 	protected $_where;
 	protected $_where_delim;
 	protected $_order;
+	protected $_order_delim;
 	protected $_is_prepared;
 
 	protected $_map_object_class;
 	
 	private $_fieldmaps;
 	private $_keymaps;
+	
+	private $_constructor_where;
+	private $_constructor_order;
+	private $_set_order;
 	
 	private $_and = array();
 	private $_or = array();
@@ -42,8 +47,12 @@ class Criteria
 	
 	public function __construct($where = "", $order = "")
 	{
+		$this->_constructor_where = $where;
+		$this->_constructor_order = $order;
+		
 		$this->_where = $where;
 		$this->_order = $order;
+		
 		$this->Init();
 	}
 	
@@ -157,6 +166,8 @@ class Criteria
 	public function Reset()
 	{
 		$this->_is_prepared = false;
+		$this->_where = $this->_constructor_where;
+		$this->_order = $this->_constructor_order;
 	}
 	
 	/** Prepare is called just prior to execution and will fire OnPrepare after it completes
@@ -170,7 +181,7 @@ class Criteria
 	{
 		if (!$this->_is_prepared)
 		{
-			
+		
 			if (get_class($this) == "Criteria")
 			{
 				if ($this->PrimaryKeyField)
@@ -184,9 +195,9 @@ class Criteria
 			{
 				// loop through all of the properties and attempt to 
 				// build a query based on any values that have been set
-				$this->_where_delim = "";
-				$this->_where = "";
-
+				$this->_where = '';
+				$this->_where_delim = '';
+				
 				$props = get_object_vars($this);
 				foreach ($props as $prop => $val)
 				{
@@ -348,6 +359,12 @@ class Criteria
 			{
 				$this->_where = " where " . $this->_where;
 			}
+			
+			// if the user has called SetOrder then use that for the order
+			if ($this->_set_order)
+			{
+				$this->_order = $this->_set_order;	
+			}
 
 			if ($this->_order)
 			{
@@ -386,7 +403,7 @@ class Criteria
 	 * handle it manually.  You can call this method repeatedly to add more than
 	 * one property for sorting.
 	 *
-	 * @param string $property the name of the object property
+	 * @param string $property the name of the object property (or '?' for random order)
 	 * @param bool $desc (optional) set to true to sort in descending order (default false)
 	 */
 	public function SetOrder($property,$desc = false)
@@ -397,16 +414,16 @@ class Criteria
 			return;
 		}
 		
-		$this->_where_delim = ($this->_order) ? "," : "";
+		$this->_order_delim = ($this->_set_order) ? "," : "";
 		
 		if($property == '?')
 		{
-			$this->_order = "RAND()" . $this->_where_delim . $this->_order;
+			$this->_set_order = "RAND()" . $this->_order_delim . $this->_set_order;
 		}
 		else
 		{
 			$colname = $this->GetFieldFromProp($property);
-			$this->_order .= $this->_where_delim . $colname . ($desc ? " desc" : "");	
+			$this->_set_order .= $this->_order_delim . $colname . ($desc ? " desc" : "");	
 		}
 
 	}
