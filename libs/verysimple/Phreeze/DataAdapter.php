@@ -32,8 +32,14 @@ class DataAdapter implements IObservable
 	private $_dbopen;
 	private $_driver;
 	
+	/** @var used internally to keep track of communication error re-tries */
+	private $_num_retries = 0;
+	
 	/** @var instance of the driver class, used for escaping */
 	static $DRIVER_INSTANCE = null;
+	
+	/** @var bool if true the data adapter attempt one retry when a communication error occurs */
+	static $RETRY_ON_COMMUNICATION_ERROR = false;
 	
     /**
     * Contructor initializes the object
@@ -210,12 +216,25 @@ class DataAdapter implements IObservable
 		
 		try
 		{
+			throw new Exception("Lost connection to MySQL server at 'reading initial communication packet'");
 			$rs = $this->_driver->Query($this->_dbconn,$sql);
+			$this->_num_retries = 0;
 		}
 		catch (Exception $ex)
 		{
-			$this->Observe("Error executing SQL: " . $ex->getMessage(),OBSERVE_FATAL);
-			throw new Exception('Error executing SQL: ' . $ex->getMessage());
+			// retry one time a communication error occurs
+			if ($this->_num_retries == 0 && DataAdapter::$RETRY_ON_COMMUNICATION_ERROR && $this->IsCommunicationError($ex))
+			{
+				$this->_num_retries++;
+				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
+				return $this->Select($sql);
+			}
+			
+			$msg = $ex->getMessage();
+			if ($this->_num_retries) $msg .= " (Retry attempts: ".$this->_num_retries.")";
+			
+			$this->Observe("Error executing SQL: " . $msg,OBSERVE_FATAL);
+			throw new Exception('Error executing SQL: ' . $msg);
 		}
 		
 		return $rs;
@@ -236,17 +255,40 @@ class DataAdapter implements IObservable
 		
 		try
 		{
+			throw new Exception("Lost connection to MySQL server at 'reading initial communication packet'");
 			$result = $this->_driver->Execute($this->_dbconn, $sql);
+			$this->_num_retries = 0;
 		}
 		catch (Exception $ex)
 		{
-			$this->Observe("Error executing SQL: " . $ex->getMessage(),OBSERVE_FATAL);
-			throw new Exception('Error executing SQL: ' . $ex->getMessage());
+			// retry one time a communication error occurs
+			if ($this->_num_retries == 0 && DataAdapter::$RETRY_ON_COMMUNICATION_ERROR && $this->IsCommunicationError($ex))
+			{
+				$this->_num_retries++;
+				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
+				return $this->Execute($sql);
+			}
+			
+			$msg = $ex->getMessage();
+			if ($this->_num_retries) $msg .= " (Retry attempts: ".$this->_num_retries.")";
+			
+			$this->Observe("Error executing SQL: " . $msg,OBSERVE_FATAL);
+			throw new Exception('Error executing SQL: ' . $msg);
 		}
 		
 		return $result;
 	}
 	
+	/**
+	 * Return true if the error with the given message is a communication/network error
+	 * @param variant string or Exception $msg
+	 * @return bool
+	 */
+	public function IsCommunicationError($error)
+	{
+		$msg = is_a($error, 'Exception') ? $error->getMessage() : $error;
+		return strpos($msg,'communication packet') !== false;
+	}
 	
 	/**
 	 * Returns an array of all table names in the current database
