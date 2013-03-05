@@ -216,7 +216,6 @@ class DataAdapter implements IObservable
 		
 		try
 		{
-			throw new Exception("Lost connection to MySQL server at 'reading initial communication packet'");
 			$rs = $this->_driver->Query($this->_dbconn,$sql);
 			$this->_num_retries = 0;
 		}
@@ -255,7 +254,6 @@ class DataAdapter implements IObservable
 		
 		try
 		{
-			throw new Exception("Lost connection to MySQL server at 'reading initial communication packet'");
 			$result = $this->_driver->Execute($this->_dbconn, $sql);
 			$this->_num_retries = 0;
 		}
