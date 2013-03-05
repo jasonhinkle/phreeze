@@ -184,14 +184,17 @@
 	 */
 	private function RemoveWherePrefix($sql)
 	{
-		while (substr($sql,0,1) == " ")
+		$sql = trim($sql);
+		
+		// remove if the query is surrounded by parenths
+		while (substr($sql,0,1) == "(" && substr($sql,0,-1) == ")")
 		{
-			$sql = substr($sql,1);
+			$sql = trim( substr($sql,1,-1) );
 		}
 		
-		if (strtolower( substr($sql, 0, 5) ) == "where")
+		while (strtolower( substr($sql, 0, 5) ) == "where")
 		{
-			$sql = substr($sql,5);
+			$sql = trim(substr($sql,5));
 		}
 		
 		return $sql;
