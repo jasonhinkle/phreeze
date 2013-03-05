@@ -226,6 +226,7 @@ class DataAdapter implements IObservable
 			{
 				$this->_num_retries++;
 				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
+				sleep(1); // slight delay to prevent throttling
 				return $this->Select($sql);
 			}
 			
@@ -264,6 +265,7 @@ class DataAdapter implements IObservable
 			{
 				$this->_num_retries++;
 				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
+				sleep(1); // slight delay to prevent throttling
 				return $this->Execute($sql);
 			}
 			
