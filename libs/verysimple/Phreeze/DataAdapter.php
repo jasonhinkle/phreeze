@@ -142,11 +142,25 @@ class DataAdapter implements IObservable
 					$this->ConnectionSetting->Password,
 					$this->ConnectionSetting->Charset,
 					$this->ConnectionSetting->BootstrapSQL);
+				
+				$this->_num_retries = 0;
 			}
 			catch (Exception $ex)
 			{
-				$this->Observe("Error connecting to database: " . $ex->getMessage(),OBSERVE_FATAL);
-				throw new Exception("Error connecting to database: " . $ex->getMessage());
+				// retry one time a communication error occurs
+				if ($this->_num_retries == 0 && DataAdapter::$RETRY_ON_COMMUNICATION_ERROR && $this->IsCommunicationError($ex))
+				{
+					$this->_num_retries++;
+					$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
+					sleep(1); // slight delay to prevent throttling
+					return $this->Open();
+				}
+
+				$msg = "Error connecting to database: " . $ex->getMessage();
+				if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
+					
+				$this->Observe($msg,OBSERVE_FATAL);
+				throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
 			}
 			
 			$this->_dbopen = true;
@@ -230,11 +244,11 @@ class DataAdapter implements IObservable
 				return $this->Select($sql);
 			}
 			
-			$msg = $ex->getMessage();
-			if ($this->_num_retries) $msg .= " (Retry attempts: ".$this->_num_retries.")";
+			$msg = 'Error executing SQL: ' . $ex->getMessage();
+			if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
 			
-			$this->Observe("Error executing SQL: " . $msg,OBSERVE_FATAL);
-			throw new Exception('Error executing SQL: ' . $msg);
+			$this->Observe($msg,OBSERVE_FATAL);
+			throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
 		}
 		
 		return $rs;
@@ -269,11 +283,11 @@ class DataAdapter implements IObservable
 				return $this->Execute($sql);
 			}
 			
-			$msg = $ex->getMessage();
-			if ($this->_num_retries) $msg .= " (Retry attempts: ".$this->_num_retries.")";
+			$msg = 'Error executing SQL: ' . $ex->getMessage();
+			if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
 			
-			$this->Observe("Error executing SQL: " . $msg,OBSERVE_FATAL);
-			throw new Exception('Error executing SQL: ' . $msg);
+			$this->Observe($msg,OBSERVE_FATAL);
+			throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
 		}
 		
 		return $result;
