@@ -31,7 +31,7 @@ class AppBaseController extends Controller
 		
 		// EXAMPLE: require authentication to access the app
 		/*
-		if (!in_array($this->GetRouter()->GetUri(),array('login','loginform','logout'))
+		if ( !in_array($this->GetRouter()->GetUri(),array('login','loginform','logout')) )
 		{
 			require_once("App/ExampleUser.php");
 			$this->RequirePermission(ExampleUser::$PERMISSION_ADMIN,'SecureExample.LoginForm');
