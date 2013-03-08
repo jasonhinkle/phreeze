@@ -68,6 +68,11 @@
 			focus on the functionality that makes your app unique.  Read below for more information about
 			the technologies used to generate this application.</p>
 			
+			<p>The default Bootstrap style of this application can be easily customized and extended with
+			a drop-in replacement theme from
+			<a href="https://wrapbootstrap.com/?ref=phreeze">{ldelim}wrap{rdelim}bootstrap</a>
+			and <a href="http://www.google.com/search?q=bootstrap+themes">many others resources</a>.</p>
+			
 			{/literal}
 			<p><em>Generated with Phreeze {$PHREEZE_VERSION}.
 			Running on Phreeze {ldelim}$PHREEZE_VERSION{rdelim}{ldelim}if ($PHREEZE_PHAR){rdelim} ({ldelim}$PHREEZE_PHAR|basename{rdelim}){ldelim}/if{rdelim}.</em></p>
