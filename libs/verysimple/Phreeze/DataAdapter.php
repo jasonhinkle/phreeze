@@ -152,12 +152,11 @@ class DataAdapter implements IObservable
 				{
 					$this->_num_retries++;
 					$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
-					sleep(1); // slight delay to prevent throttling
+					sleep(2); // slight delay to prevent throttling
 					return $this->Open();
 				}
 
-				$msg = "Error connecting to database: " . $ex->getMessage();
-				if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
+				$msg = 'Error Opening DB: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 					
 				$this->Observe($msg,OBSERVE_FATAL);
 				throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
@@ -240,12 +239,11 @@ class DataAdapter implements IObservable
 			{
 				$this->_num_retries++;
 				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
-				sleep(1); // slight delay to prevent throttling
+				sleep(2); // slight delay to prevent throttling
 				return $this->Select($sql);
 			}
 			
-			$msg = 'Error executing SQL: ' . $ex->getMessage();
-			if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
+			$msg = 'Error Selecting SQL: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 			
 			$this->Observe($msg,OBSERVE_FATAL);
 			throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
@@ -279,12 +277,11 @@ class DataAdapter implements IObservable
 			{
 				$this->_num_retries++;
 				$this->Observe("Communication error.  Retry attempt " . $this->_num_retries, OBSERVE_WARN);
-				sleep(1); // slight delay to prevent throttling
+				sleep(2); // slight delay to prevent throttling
 				return $this->Execute($sql);
 			}
 			
-			$msg = 'Error executing SQL: ' . $ex->getMessage();
-			if ($this->_num_retries) $msg .= " (retry attempts: ".$this->_num_retries.")";
+			$msg = 'Error Executing SQL: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 			
 			$this->Observe($msg,OBSERVE_FATAL);
 			throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
