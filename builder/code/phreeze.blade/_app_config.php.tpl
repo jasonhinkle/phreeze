@@ -21,6 +21,13 @@
 GlobalConfig::$APP_ROOT = realpath("./");
 
 /**
+ * check is needed to ensure asp_tags is not enabled
+ */
+if (ini_get('asp_tags')) 
+	die('<h3>Server Configuration Problem: asp_tags is enabled, but is not compatible with Blade.</h3>'
+	. '<p>You can disable asp_tags in .htaccess, php.ini or generate your app with another template engine such as Smarty.</p>');
+
+/**
  * INCLUDE PATH
  * Adjust the include path as necessary so PHP can locate required libraries
  */

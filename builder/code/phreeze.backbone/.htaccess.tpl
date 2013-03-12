@@ -1,11 +1,12 @@
 ##
 ## PHREEZE ACCESS RULES FOR APACHE
-## VERSION 1.1
+## VERSION 1.2
 ##
 
 ## PHP ERROR REPORTING
 # php_flag display_errors 1
 # php_value error_reporting 1 # (or 8191 for all errors)
+# php_flag asp_tags 0
 
 ## PHP FILE UPLOAD LIMITS
 # php_value upload_max_filesize 3M
