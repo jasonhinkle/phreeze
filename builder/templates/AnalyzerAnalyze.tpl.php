@@ -26,18 +26,39 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	</thead>
 	<tbody>
 	<?php 
-	/* these are not all of the reserved words, but some that might be used an an app */
-	function is_reserved_word($name)
+	
+	/* these are reserved words that will conflict with phreeze */
+	function is_reserved_table_name($name)
 	{
 		$reserved = array('criteria','phreezer','phreezable','reporter','controller','dataset');
 		return in_array(strtolower($name), $reserved);
 	} 
+
+	/* these are property names that cannot be used due to conflicting with the client-side libraries */
+	function is_reserved_column_name($name)
+	{
+		$reserved = array('url','urlroot','idattribute','attributes','isnew','changedattributes','previous','previousattributes','defaults');
+		return in_array(strtolower($name), $reserved);
+	} 
 	?>
 	
-	<?php foreach ($this->dbSchema->Tables as $table) { ?>
+	<?php foreach ($this->dbSchema->Tables as $table) { 
+	
+		$invalidColumns = array();
+		foreach ($table->Columns as $column) {
+			if (is_reserved_column_name($column->NameWithoutPrefix) )
+			{
+				$invalidColumns[] = $column->Name;
+			}
+		} 
+	?>
 		<tr id="">
 			<td class="checkboxColumn">
-			<?php if ($table->IsView) { ?>
+			<?php if (count($invalidColumns)>0) { ?>
+				<a href="#" class="popover-icon" rel="popover" onclick="return false;"
+					data-content="This table contains one or more column names that conflict with the client-side libraries.  To include this table, please rename the following column(s):<br/><br/><ul><li><?php $this->eprint( implode("</li><li>", $invalidColumns) ); ?></li></ul>"
+					data-original-title="Reserved Word"><i class="icon-ban-circle">&nbsp;</i></a>
+			<?php } elseif ($table->IsView) { ?>
 				<input type="checkbox" class="tableCheckbox" name="table_name[]" value="<?php $this->eprint($table->Name); ?>" />
 			<?php } elseif ($table->NumberOfPrimaryKeyColumns() < 1) { ?>
 				<a href="#" class="popover-icon" rel="popover" onclick="return false;"
@@ -53,7 +74,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			</td>
 			<td class="tableNameColumn">
 			
-			<?php if (is_reserved_word($table->Name)) { ?>
+			<?php if (is_reserved_table_name($table->Name)) { ?>
 				<a href="#" class="popover-icon error" rel="popover" onclick="return false;"
 					data-content="This table name is a reserve word in the Phreeze framework.<br/><br/>'Model' has been appended to the end of your class name.  You can change this to something else as long as you do not use the reserved Phreeze classname as-is."
 					data-original-title="Reserved Word"><i class="icon-info-sign">&nbsp;</i></a>
@@ -66,7 +87,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 			<?php } ?>
 			<?php $this->eprint($table->Name); ?></td>
 			
-			<?php if (is_reserved_word($table->Name)) { ?>
+			<?php if (is_reserved_table_name($table->Name)) { ?>
 				<td><input class="objname objname-singular" type="text" id="<?php $this->eprint($table->Name); ?>_singular" name="<?php $this->eprint($table->Name); ?>_singular" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Model" /></td>
 				<td><input class="objname objname-plural" type="text" id="<?php $this->eprint($table->Name); ?>_plural" name="<?php $this->eprint($table->Name); ?>_plural" value="<?php $this->eprint($this->studlycaps($table->Name)); ?>Models" /></td>
 			<?php } else { ?>
