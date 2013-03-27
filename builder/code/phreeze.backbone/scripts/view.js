@@ -68,12 +68,12 @@ var view = {
 		initialize: function(options) {
 
 			// if the collection changes these will fire
-			this.collection.bind('add', this.handleCollectionAdd, this);
-			this.collection.bind('remove', this.handleCollectionRemove, this);
-			this.collection.bind('reset', this.handleCollectionReset, this);
+			this.listenTo(this.collection,'add', this.handleCollectionAdd);
+			this.listenTo(this.collection,'remove', this.handleCollectionRemove);
+			this.listenTo(this.collection,'reset', this.handleCollectionReset);
 
 			// if a model inside the collection changes this will fire
-			this.collection.bind('change', this.handleModelChange, this);
+			this.listenTo(this.collection,'change', this.handleModelChange);
 
 			// allow the custom options to be initialized at construction
 			this.templateEl = options.templateEl;
@@ -207,7 +207,7 @@ var view = {
 		initialize: function(options) {
 
 			// if a model inside the collection changes this will fire
-			if (this.model) this.model.bind('change', this.handleModelChange, this);
+			if (this.model) this.listenTo(this.model, 'change', this.handleModelChange);
 
 			// allow the custom options to be initialized at construction
 			if (options.templateEl) this.templateEl = options.templateEl;
