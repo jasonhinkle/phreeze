@@ -91,14 +91,17 @@ abstract class Controller
 			$this->Context->GUID = "CTX_" . $this->GUID;
 		}
 
-		// assign some variables globally for the views
-		$this->Assign("CURRENT_USER",$this->GetCurrentUser());
-		$this->Assign("URL",$this->GetRouter());
-		$this->Assign("BROWSER_DEVICE",$this->GetDevice());
-
-		// if feedback was persisted, set it
-		$this->Assign("feedback",$this->Context->Get("feedback"));
-		$this->Context->Set("feedback",null);
+		if ($this->RenderEngine)
+		{
+			// assign some variables globally for the views
+			$this->Assign("CURRENT_USER",$this->GetCurrentUser());
+			$this->Assign("URL",$this->GetRouter());
+			$this->Assign("BROWSER_DEVICE",$this->GetDevice());
+	
+			// if feedback was persisted, set it
+			$this->Assign("feedback",$this->Context->Get("feedback"));
+			$this->Context->Set("feedback",null);
+		}
 
 		$this->Init();
 	}
