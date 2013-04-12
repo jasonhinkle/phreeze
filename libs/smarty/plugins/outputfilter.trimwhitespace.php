@@ -15,6 +15,7 @@
  * @param string                   $source input string
  * @param Smarty_Internal_Template $smarty Smarty object
  * @return string filtered output
+ * @todo substr_replace() is not overloaded by mbstring.func_overload - so this function might fail!
  */
 function smarty_outputfilter_trimwhitespace($source, Smarty_Internal_Template $smarty)
 {
@@ -39,6 +40,7 @@ function smarty_outputfilter_trimwhitespace($source, Smarty_Internal_Template $s
     }
 
     // Strip all HTML-Comments
+    // yes, even the ones in <script> - see http://stackoverflow.com/a/808850/515124
     $source = preg_replace( '#<!--.*?-->#ms', '', $source );
 
     // capture html elements not to be messed with
