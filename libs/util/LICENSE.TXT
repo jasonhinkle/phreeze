@@ -1,0 +1,5 @@
+Any libraries relied upon by Phreeze are required to be compatible with the
+LGPL licence.  Please refer to the source code for each component for it's 
+specific license.
+
+A copy of the LGPL license can be found in the root directory of Phreeze.

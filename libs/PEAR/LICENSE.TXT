@@ -1,0 +1,5 @@
+PEAR components are required to comply with one of the approved PEAR libraries, which
+are all compatible with the LGPL license.  Please refer to the source code for 
+each component for it's specific license.
+
+More information: http://pear.php.net/group/docs/20040402-la.php
