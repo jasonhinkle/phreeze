@@ -44,6 +44,7 @@ if (GlobalConfig::$CONNECTION_SETTING->Multibyte && !function_exists('mb_strlen'
 	die('<html>Multibyte extensions are not installed but Multibyte is set to true in _machine_config.php</html>');
 
 /** level 2 cache */
+// require_once('verysimple/Util/MemCacheProxy.php');
 // GlobalConfig::$LEVEL_2_CACHE = new MemCacheProxy(array('localhost'=>'11211'));
 // GlobalConfig::$LEVEL_2_CACHE_TEMP_PATH = sys_get_temp_dir();
 // GlobalConfig::$LEVEL_2_CACHE_TIMEOUT = 15;
