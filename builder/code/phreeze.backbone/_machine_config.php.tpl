@@ -47,7 +47,7 @@ if (GlobalConfig::$CONNECTION_SETTING->Multibyte && !function_exists('mb_strlen'
 // require_once('verysimple/Util/MemCacheProxy.php');
 // GlobalConfig::$LEVEL_2_CACHE = new MemCacheProxy(array('localhost'=>'11211'));
 // GlobalConfig::$LEVEL_2_CACHE_TEMP_PATH = sys_get_temp_dir();
-// GlobalConfig::$LEVEL_2_CACHE_TIMEOUT = 15;
+// GlobalConfig::$LEVEL_2_CACHE_TIMEOUT = 5; // default is 5 seconds which will not be highly noticable to the user
 
 /** additional machine-specific settings */
 
