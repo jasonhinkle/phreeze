@@ -381,6 +381,7 @@ class Phreezer extends Observable
 		require_once("DataSet.php");
 		$ds = new DataSet($this, $objectclass, $sql, $cache_timeout);
 		$ds->CountSQL = $count_sql;
+		$ds->UnableToCache = $cache_timeout === 0;
 
 		return $ds;
 
