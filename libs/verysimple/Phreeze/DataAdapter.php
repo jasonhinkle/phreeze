@@ -174,7 +174,7 @@ class DataAdapter implements IObservable
 				$msg = 'Error Opening DB: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 					
 				$this->Observe($msg,OBSERVE_FATAL);
-				throw new Exception($msg,$ex->getCode(),$ex->getPrevious());
+				throw new Exception($msg,$ex->getCode(),$ex);
 			}
 			
 			$this->_dbopen = true;
