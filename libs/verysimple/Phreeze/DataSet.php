@@ -93,7 +93,7 @@ class DataSet implements Iterator // @TODO implement Countable, ArrayAccess
     	{
     		require_once("verysimple/Util/ExceptionFormatter.php");
     		$info = ExceptionFormatter::FormatTrace(debug_backtrace());
-    		$this->_phreezer->Observe("(DataSet.Next: unable to cache query with cursor) " . $info . "  " . $this->_sql,OBSERVE_QUERY);
+    		$this->_phreezer->Observe("(DataSet.Next: unable to cache query with cursor) " . $info . "  " . $this->_sql,OBSERVE_DEBUG);
 
     		// use this line to discover where an uncachable query is coming from
     		// throw new Exception("WTF");
@@ -206,18 +206,19 @@ class DataSet implements Iterator // @TODO implement Countable, ArrayAccess
 			// if no cache, go to the db
 			if ($this->_totalcount != null)
 			{
-				$this->_phreezer->Observe("(DataSet.Count: skipping query because cache exists) " . $this->_sql,OBSERVE_QUERY);
+				$this->_phreezer->Observe("DataSet.Count: skipping count query because cache exists",OBSERVE_DEBUG);
 			}
 			else
 			{
 				$this->LockCache($cachekey);
 
-				$this->_phreezer->Observe("(DataSet.Count: query does not exist in cache) " . $this->_sql,OBSERVE_QUERY);
+				
 				$sql = "";
 
 				// if a custom counter sql query was provided, use that because it should be more efficient
 				if ($this->CountSQL)
 				{
+					$this->_phreezer->Observe("DataSet.Count: using CountSQL to obtain total number of records",OBSERVE_DEBUG);
 					$sql = $this->CountSQL;
 				}
 				else
@@ -260,7 +261,7 @@ class DataSet implements Iterator // @TODO implement Countable, ArrayAccess
 		if ($arr != null)
 		{
 			// we have a cache value, so we will repopulate from that
-			$this->_phreezer->Observe("(DataSet.ToObjectArray: skipping query because cache exists) " . $this->_sql,OBSERVE_QUERY);
+			$this->_phreezer->Observe("(DataSet.ToObjectArray: skipping query because cache exists) " . $this->_sql,OBSERVE_DEBUG);
 			if (!$asSimpleObject)
 			{
 				foreach ($arr as $obj)
@@ -485,13 +486,9 @@ class DataSet implements Iterator // @TODO implement Countable, ArrayAccess
 
         $obj = $this->_phreezer->GetValueCache($cachekey);
 
-        $lockfile = $this->_phreezer->LockFilePath
-			? $this->_phreezer->LockFilePath . md5($cachekey) . ".lock"
-			: "";
-
     	// no cache, so try three times with a delay to prevent a cache stampede
     	$counter = 1;
-		while ( $counter < 4 && $obj == null && $lockfile && file_exists($lockfile) )
+		while ( $counter < 4 && $obj == null && $this->IsLocked($cachekey) )
 		{
 			$this->_phreezer->Observe("(DataSet.GetDelayedCache: flood prevention. delayed attempt ".$counter." of 3...) " . $cachekey,OBSERVE_DEBUG);
 			usleep(50000); // 5/100th of a second
