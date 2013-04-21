@@ -33,7 +33,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * Displays a list view of campaign objects
+	 * Displays a list view of {$singular} objects
 	 */
 	public function ListView()
 	{
@@ -41,7 +41,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * API Method queries for campaign records and render as JSON
+	 * API Method queries for {$singular} records and render as JSON
 	 */
 	public function Query()
 	{
@@ -115,7 +115,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * API Method retrieves a single campaign record and render as JSON
+	 * API Method retrieves a single {$singular} record and render as JSON
 	 */
 	public function Read()
 	{
@@ -132,7 +132,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * API Method inserts a new campaign record and render response as JSON
+	 * API Method inserts a new {$singular} record and render response as JSON
 	 */
 	public function Create()
 	{
@@ -193,7 +193,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * API Method updates an existing campaign record and render response as JSON
+	 * API Method updates an existing {$singular} record and render response as JSON
 	 */
 	public function Update()
 	{
@@ -268,7 +268,7 @@ class {$singular}Controller extends AppBaseController
 	}
 
 	/**
-	 * API Method deletes an existing campaign record and render response as JSON
+	 * API Method deletes an existing {$singular} record and render response as JSON
 	 */
 	public function Delete()
 	{
