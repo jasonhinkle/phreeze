@@ -174,7 +174,7 @@ class DataAdapter implements IObservable
 				$msg = 'Error Opening DB: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 					
 				$this->Observe($msg,OBSERVE_FATAL);
-				throw new Exception($msg,$ex->getCode(),$ex);
+				throw new Exception($msg,$ex->getCode());
 			}
 			
 			$this->_dbopen = true;
@@ -261,7 +261,7 @@ class DataAdapter implements IObservable
 			$msg = 'Error Selecting SQL: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 			
 			$this->Observe($msg,OBSERVE_FATAL);
-			throw new Exception($msg,$ex->getCode(),$ex);
+			throw new Exception($msg,$ex->getCode());
 		}
 		
 		return $rs;
@@ -299,7 +299,7 @@ class DataAdapter implements IObservable
 			$msg = 'Error Executing SQL: ' . $ex->getMessage() . ' (retry attempts: '.$this->_num_retries.')';
 			
 			$this->Observe($msg,OBSERVE_FATAL);
-			throw new Exception($msg,$ex->getCode(),$ex);
+			throw new Exception($msg,$ex->getCode());
 		}
 		
 		return $result;
