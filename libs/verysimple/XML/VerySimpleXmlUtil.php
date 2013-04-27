@@ -30,11 +30,19 @@ class VerySimpleXmlUtil
 	 * this statement with try/catch and you can handle parsing exceptions instead
 	 * of allowing PHP to terminate or write errors to the browser
 	 *
-	 * @param $xml string
+	 * @param string $xml to parse
+	 * @param string $emptyVal if $xml is empty, default to this value (ex "<xml/>")
+	 * 
 	 * @return SimpleXMLElement
 	 */
-	static function SafeParse($xml)
+	static function SafeParse($xml, $emptyVal = null)
 	{
+
+		if (!$xml) {
+			$xml = $emptyVal;
+			if (!$xml) throw new Exception('Empty string could not be parsed as XML');
+		}
+		
 		// re-route error handling temporarily so we can convert PHP errors to an exception
 		set_error_handler(array("VerySimpleXmlUtil", "HandleParseException"),E_ALL);
 		
@@ -82,10 +90,17 @@ class VerySimpleXmlUtil
 	 * converts a string containing xml into an array
 	 * @param string to be unescaped
 	 * @param bool (default false) true to recurse 
+	 * @param string $emptyVal if $xml is empty, default to this value (ex "<xml/>")
 	 * @return array
 	 */
-	static function ToArray($xmlstring, $recurse = false)
+	static function ToArray($xmlstring, $recurse = false, $emptyVal = null)
 	{
+		
+		if (!$xmlstring) {
+			$xmlstring = $emptyVal;
+			if (!$xmlstring) throw new Exception('Empty string could not be parsed as XML');
+		}
+		
 		$xml = VerySimpleXmlUtil::SafeParse($xmlstring);
 		$array = array();
 		
