@@ -95,6 +95,7 @@ class VerySimpleXmlUtil
 	 */
 	static function ToArray($xmlstring, $recurse = false, $emptyVal = null)
 	{
+		$xmlstring= trim($xmlstring);
 		
 		if (!$xmlstring) {
 			$xmlstring = $emptyVal;
