@@ -113,7 +113,16 @@ class VerySimpleXmlUtil
 		{
 			foreach ($xml as $key => $val)
 			{
-				$array[strval($key)]=strval($val);
+				$children = $val->children();
+				if ($children)
+				{
+					$array[strval($key)] = $children;
+				}
+				else
+				{
+					$array[strval($key)]=strval($val);
+				}
+				
 			}
 		}
 		return $array;
