@@ -87,7 +87,8 @@ class VerySimpleXmlUtil
 	}
 
 	/**
-	 * converts a string containing xml into an array
+	 * converts a string containing xml into an array.  Note that if $recurse is false
+	 * This this will return a more simple structure but will only parse up to 3 levels
 	 * @param string to be unescaped
 	 * @param bool (default false) true to recurse 
 	 * @param string $emptyVal if $xml is empty, default to this value (ex "<xml/>")
@@ -95,6 +96,7 @@ class VerySimpleXmlUtil
 	 */
 	static function ToArray($xmlstring, $recurse = false, $emptyVal = null)
 	{
+
 		$xmlstring= trim($xmlstring);
 		
 		if (!$xmlstring) {
@@ -105,6 +107,7 @@ class VerySimpleXmlUtil
 		$xml = VerySimpleXmlUtil::SafeParse($xmlstring);
 		$array = array();
 		
+
 		if ($recurse)
 		{
 			VerySimpleXmlUtil::RecurseXmlObjToArr($xml,$array);
@@ -113,10 +116,19 @@ class VerySimpleXmlUtil
 		{
 			foreach ($xml as $key => $val)
 			{
-				$children = $val->children();
+ 				$children = $val->children();
+ 				
 				if ($children)
 				{
-					$array[strval($key)] = $children;
+					$grandchildren = $children->children();
+					if ($grandchildren) 
+					{
+						$array[$key] = $children;
+					}
+					else
+					{
+						$array[] = $val;
+					}
 				}
 				else
 				{
