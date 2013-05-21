@@ -25,6 +25,10 @@
 	## TODO: some hosts require the app root must be specified
 	# RewriteBase /
 
+	# Optionally disable trace request method for security
+	# RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+	# RewriteRule .* - [F]
+	
 	# Redirect all requests to index.php unless the directory, file or link exists
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
