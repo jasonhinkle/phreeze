@@ -48,7 +48,7 @@ class MemCacheProxy extends CacheMemCache
 	/**
 	 * @inheritdocs
 	 */
-	public function get($key,$flags=null)
+	public function Get($key,$flags=null)
 	{
 		// prevent hammering the server if it is down
 		if ($this->ServerOffline) return null;
@@ -60,7 +60,7 @@ class MemCacheProxy extends CacheMemCache
 	/**
 	 * @inheritdocs
 	 */
-	public function set($key, $val, $flags = null, $timeout = 0)
+	public function Set($key, $val, $flags = null, $timeout = 0)
 	{
 		// prevent hammering the server if it is down
 		if ($this->ServerOffline) return null;
