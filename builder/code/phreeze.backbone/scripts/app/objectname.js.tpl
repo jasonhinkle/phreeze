@@ -12,6 +12,7 @@ var page = {
 	{$singular|lcfirst}: null,
 	modelView: null,
 	isInitialized: false,
+	isInitializing: false,
 
 	fetchParams: { filter: '', orderBy: '', orderDesc: '', page: 1 },
 	fetchInProgress: false,
@@ -22,7 +23,10 @@ var page = {
 	 */
 	init: function()
 	{
-	
+		// ensure initialization only occurs once
+		if (page.isInitialized || page.isInitializing) return;
+		page.isInitializing = true;
+
 		if (!$.isReady && console) console.warn('page was initialized before dom is ready.  views may not render properly.');
 
 		// make the new button clickable
@@ -92,6 +96,7 @@ var page = {
 			});
 			
 			page.isInitialized = true;
+			page.isInitializing = false;
 		});
 
 		// backbone docs recommend bootstrapping data on initial page load, but we live by our own rules!
