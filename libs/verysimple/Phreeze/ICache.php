@@ -27,7 +27,7 @@ interface ICache
 	* @param string $key
 	* @param variant $val
 	* @param int $flags
-	* @param int $timout in miliseconds
+	* @param int $timout in seconds
 	* @return variant
 	*/
 	public function Set($key,$val,$flags=null,$timeout=0);
