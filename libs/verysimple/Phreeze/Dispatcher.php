@@ -44,6 +44,15 @@ class Dispatcher
 
 		// normalize the input
 		$controller_class = $controller_param."Controller";
+		
+		// if the controller was in a sub-directory, get rid of the directory path
+		$slashPos = strpos($controller_class,'/');
+		while ($slashPos !== false)
+		{
+			$controller_class = substr($controller_class,$slashPos+1);
+			$slashPos = strpos($controller_class,'/');
+		}
+		
 		$controller_file = "Controller/" . $controller_param . "Controller.php";
 
 		// look for the file in the expected places, hault if not found
