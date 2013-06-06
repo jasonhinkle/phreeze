@@ -167,6 +167,59 @@ abstract class Controller
 	}
 	
 	/**
+	 * Assign the current CSRFToken to the view layer
+	 * @param string $varname the view varname to use for assignment
+	 */
+	protected function AssignCSRFToken($varname = 'CSRFToken')
+	{
+		$this->Assign($varname, $this->GetCSRFToken());
+	}
+	
+	/**
+	 * Returns a stored CSRF Token from the session.  If no token exists, then generate
+	 * one and save it to the session.
+	 *
+	 * @return string
+	 */
+	protected function GetCSRFToken()
+	{
+		$token = $this->Context->Get('X-CSRFToken');
+	
+		if (!$token)
+		{
+			$token = md5(rand(1111111111,9999999999).microtime());
+			$this->Context->Set('X-CSRFToken',$token);
+		}
+	
+		return $token;
+	}
+	
+	/**
+	 * Verify that X-CSRFToken was sent in the request headers and matches the session token
+	 * If not an Exception with be thrown.  If no exception is thrown then the token
+	 * is verified.
+	 * @param string the name of the header variable that contains the token
+	 * @throws Exception if token is not provided or does not match
+	 */
+	protected function VerifyCSRFToken($headerName = 'X-CSRFToken')
+	{
+		// check that a CSRF token is present in the request
+		$headers = RequestUtil::GetHeaders();
+	
+		if (array_key_exists($headerName, $headers))
+		{
+			if ($this->GetCSRFToken() != $headers[$headerName])
+			{
+				throw new Exception('Invalid CSRFToken');
+			}
+		}
+		else
+		{
+			throw new Exception('Missing CSRFToken');
+		}
+	}
+	
+	/**
 	 * Start observing messages from Phreeze.  If no observer is provided, then
 	 * an ObserveToBrowser will be used and debug messages will be output to the browser
 	 * @param IObserver $observer
