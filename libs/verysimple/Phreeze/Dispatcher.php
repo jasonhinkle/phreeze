@@ -23,6 +23,27 @@ class Dispatcher
 	static $IGNORE_DEPRECATED = true;
 
 	/**
+	 * This is a case-insensitive version of file_exists
+	 * @param string $fileName
+	 */
+	static function ControllerFileExists($fileName) 
+	{
+	
+		if (file_exists($fileName)) return $fileName;
+
+		$directoryName = dirname($fileName);
+		$fileArray = glob($directoryName . '/*', GLOB_NOSORT);
+		$fileNameLowerCase = strtolower($fileName);
+		
+		foreach($fileArray as $file) 
+		{
+			if (strtolower($file) == $fileNameLowerCase) return $file;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Processes user input and executes the specified controller method, ensuring
 	 * that the controller dependencies are all injected properly
 	 *
@@ -54,16 +75,23 @@ class Dispatcher
 		}
 		
 		$controller_file = "Controller/" . $controller_param . "Controller.php";
+		
+		$controller_filepath = self::ControllerFileExists($controller_file);
+		
+		if (!$controller_filepath) {
+			$controller_filepath = self::ControllerFileExists("libs/".$controller_file);
+		}
 
 		// look for the file in the expected places, hault if not found
-		if ( !(file_exists($controller_file) || file_exists("libs/".$controller_file)) )
+		if (!$controller_filepath )
 		{
-			// go to plan be, search the include path for the controller
+			// go to plan B, search the include path for the controller
 			$paths = explode(PATH_SEPARATOR,get_include_path());
 			$found = false;
 			foreach ($paths as $path)
 			{
-				if (file_exists($path ."/".$controller_file))
+				$controller_filepath = self::ControllerFileExists($path ."/".$controller_file);
+				if ($controller_filepath)
 				{
 					$found = true;
 					break;
@@ -85,7 +113,7 @@ class Dispatcher
 		}
 
 		// we should be fairly certain the file exists at this point
-		include_once($controller_file);
+		include_once($controller_filepath);
 
 		// we found the file but the expected class doesn't appear to be defined
 		if (!class_exists($controller_class))
