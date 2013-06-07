@@ -59,7 +59,8 @@ class ActionRouter implements IRouter
 	*/
 	public function GetUrlParam($key, $default = '')
 	{
-		return RequestUtil::Get($key,$default);
+		// make the route params case insensitive
+		return RequestUtil::Get($key,$default,false,true);
 	}
 
 	/**
