@@ -205,6 +205,10 @@ abstract class Controller
 	{
 		// check that a CSRF token is present in the request
 		$headers = RequestUtil::GetHeaders();
+		
+		// make this case-insensitive (IE changes all headers to lower-case)
+		$headers = array_change_key_case($headers, CASE_LOWER);
+		$headerName = strtolower($headerName);
 	
 		if (array_key_exists($headerName, $headers))
 		{
