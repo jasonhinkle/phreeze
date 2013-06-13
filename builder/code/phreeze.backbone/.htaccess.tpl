@@ -41,5 +41,5 @@
 	AddType application/vnd.ms-fontobject eot
 	AddType font/opentype otf
 	AddType font/truetype ttf
-	AddType application/x-font-woff woff
+	AddType application/font-woff woff
 </IfModule>
