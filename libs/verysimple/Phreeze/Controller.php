@@ -94,7 +94,18 @@ abstract class Controller
 			$this->Assign("BROWSER_DEVICE",$this->GetDevice());
 	
 			// if feedback was persisted, set it
-			$this->Assign("feedback",$this->Context->Get("feedback"));
+			$feedback = $this->Context->Get("feedback");
+			
+			// print_r($feedback); die('feedback');
+			
+			if (is_array($feedback)) {
+				foreach ($feedback as $key => $val) {
+					$this->Assign($key,$val);
+				}
+			}
+			else {
+				$this->Assign("feedback",$feedback);
+			}
 			$this->Context->Set("feedback",null);
 		}
 
@@ -924,19 +935,18 @@ abstract class Controller
 	 * call "exit" so do not put any code that you wish to execute after Redirect
 	 *
 	 * @param string $action in the format Controller.Method
-	 * @param string $feedback
+	 * @param mixed $feedback string which will be assigne to the template as "feedback" or an array of values to assign
 	 * @param array $params
 	 * @param string $mode (client | header) default = Controller::$DefaultRedirectMode
 	 */
-	protected function Redirect($action, $feedback = "", $params = "", $mode = "")
+	protected function Redirect($action, $feedback =  null, $params = "", $mode = "")
 	{
 		if (!$mode) $mode = self::$DefaultRedirectMode;
 
 		$params = is_array($params) ? $params : array();
 
-		if ($feedback)
+		if ($feedback != null)
 		{
-			// $params["feedback"] = $feedback;
 			$this->Context->Set("feedback",$feedback);
 		}
 
