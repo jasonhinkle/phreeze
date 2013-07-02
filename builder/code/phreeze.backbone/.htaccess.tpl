@@ -36,6 +36,11 @@
 	RewriteRule (.*) index.php?_REWRITE_COMMAND=$1 [QSA,L]
 </IfModule>
 
+# if supported, enable gzip compression on text content
+<ifmodule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+</ifmodule>
+
 # Add correct mime type for web fonts to supress browser warnings
 <IfModule mod_mime.c>
 	AddType application/vnd.ms-fontobject eot
