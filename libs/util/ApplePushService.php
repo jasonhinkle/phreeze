@@ -1,6 +1,8 @@
 <?php
 /** @package    util */
 
+require_once 'verysimple/Util/ExceptionThrower.php';
+
 /**
 * Apple Push Service for sending push notifications to iOS devices
 * @package    util
@@ -63,6 +65,8 @@ class ApplePushService
 		$fp = stream_socket_client(
 				$this->gatewayUrl, $err,
 				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+				
+		stream_set_blocking ($fp, 0); //This allows fread() to return right away when there are no errors. But it can also miss errors during last seconds of sending, as there is a delay before error is returned. Workaround is to pause briefly AFTER sending last notification, and then do one more fread() to see if anything else is there.
 		
 		if (!$fp)
 		{
@@ -71,7 +75,8 @@ class ApplePushService
 		}
 		else
 		{
-		
+			$apple_expiry = time() + (10 * 24 * 60 * 60); //Keep push alive (waiting for delivery) for 10 days
+
 			// format the body based on whether an unlock message was specified
 			$alert = $unlockText 
 				? array('body'=>$message,'action-loc-key'=>$unlockText)
@@ -84,25 +89,46 @@ class ApplePushService
 					'badge' => $badgeCount
 			);
 		
+			$apple_identifier = 1;
+			
 			// Encode the payload as JSON
 			$payload = json_encode($body);
 		
 			// Build the binary notification
-			$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
-		
-			// Send it to the server
-			$result = fwrite($fp, $msg, strlen($msg));
-		
-			if (!$result)
+			ExceptionThrower::$IGNORE_DEPRECATED = true;
+			ExceptionThrower::Start();
+			
+			try {
+				
+				//$msg = pack("C", 1) . pack("N", $apple_identifier) . pack("N", $apple_expiry) . pack("n", 32) . pack('H*', str_replace(' ', '', $deviceToken)) . pack("n", strlen($payload)) . $payload; //Enhanced Notification
+				
+				
+				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+			
+				// Send it to the server
+				$result = fwrite($fp, $msg, strlen($msg));
+				
+				usleep(500000);
+				$apple_error_response = fread($fp, 6);
+			
+				if (!$result)
+				{
+					$output->success = false;
+					$output->message = 'Communication Error: Unable to deliver message';
+				}
+				else
+				{
+					$output->success = true;
+					$output->message = print_r($result,1) .' ::: '.  print_r($apple_error_response,1);
+				}
+			}
+			catch (Exception $ex)
 			{
 				$output->success = false;
-				$output->message = 'Communication Error: Unable to deliver message';
+				$output->message = $ex->getMessage();
 			}
-			else
-			{
-				$output->success = true;
-				$output->message = 'Message accepted';
-			}
+			
+			ExceptionThrower::Stop();
 		}
 		
 		// Close the connection to the server
