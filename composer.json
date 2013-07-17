@@ -1,0 +1,6 @@
+{
+    "name": "phreeze/phreeze",
+    "require": {
+        "php": ">=5.3.*"
+    }
+}
