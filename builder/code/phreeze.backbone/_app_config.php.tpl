@@ -30,8 +30,16 @@ set_include_path(
 		'phar://' . GlobalConfig::$APP_ROOT . '/libs/phreeze-3.3.phar' . PATH_SEPARATOR .
 {/if}
 		GlobalConfig::$APP_ROOT . '/{$includePath}' . PATH_SEPARATOR .
+		GlobalConfig::$APP_ROOT . '/vendor/phreeze/phreeze/libs/' . PATH_SEPARATOR .
 		get_include_path()
 );
+
+/**
+ * COMPOSER AUTOLOADER
+ * Uncomment if Composer is being used to manage dependencies
+ */
+// $loader = require 'vendor/autoload.php';
+// $loader->setUseIncludePath(true);
 
 /**
  * SESSION CLASSES
