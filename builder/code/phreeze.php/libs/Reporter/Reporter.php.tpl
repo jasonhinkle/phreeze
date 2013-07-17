@@ -67,7 +67,6 @@ class {$singular}Reporter extends Reporter
 		// the criteria can be used or you can write your own custom logic.
 		// be sure to escape any user input with $criteria->Escape()
 		$sql .= $criteria->GetWhere();
-		$sql .= $criteria->GetOrder();
 
 		return $sql;
 	{rdelim}
