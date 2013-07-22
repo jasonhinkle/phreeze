@@ -18,6 +18,7 @@
 	
 	<ul>
 	<li><a href="assets/cargo.sql.zip">Example MySQL Schema: cargo.sql.zip</a></li>
+	<li><a href="assets/authexample.zip">Authentication Example App: authexample.zip</a></li>
 	<li><a href="https://github.com/jasonhinkle/phreeze/issues">Phreeze Support Forum</a></li>
 	</ul>
 	
