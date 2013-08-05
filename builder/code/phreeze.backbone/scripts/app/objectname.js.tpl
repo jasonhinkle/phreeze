@@ -150,8 +150,8 @@ var page = {
 
 				if (page.{$plural|lcfirst}.collectionHasChanged)
 				{
-					// data returned from the server.  render the collection view
-					page.collectionView.render();
+					// TODO: add any logic necessary if the collection has changed
+					// the sync event will trigger the view to re-render
 				}
 
 				app.hideProgress('loader');

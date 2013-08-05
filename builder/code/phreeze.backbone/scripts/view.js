@@ -3,6 +3,8 @@
  * models as well as helper methods for template generation
  */
 var view = {
+	
+	version: 1.1,
 
 	/**
 	 * Given an object with properties totalPages and currentPage, return
@@ -71,6 +73,7 @@ var view = {
 			this.listenTo(this.collection,'add', this.handleCollectionAdd);
 			this.listenTo(this.collection,'remove', this.handleCollectionRemove);
 			this.listenTo(this.collection,'reset', this.handleCollectionReset);
+			this.listenTo(this.collection,'sync', this.handleCollectionSync);
 
 			// if a model inside the collection changes this will fire
 			this.listenTo(this.collection,'change', this.handleModelChange);
@@ -122,19 +125,32 @@ var view = {
 			this.trigger('rendered');
 		},
 
-		/** if collection changes re-render */
-		handleCollectionAdd: function(m) {
-			this.render();
+		/** whenever a model is added to the collection */
+		handleCollectionAdd: function(m,r,ev) {
+			// if the collection is parsing, then wait for the sync event to re-render
+			if (!ev.parse) this.render();
 		},
 
 		/** if collection changes re-render */
-		handleCollectionRemove: function(m) {
-			this.render();
+		handleCollectionRemove: function(m,r,ev) {
+			// if the collection is parsing, then wait for the sync event to re-render
+			if (!ev.parse) this.render();
 		},
 
 		/** if collection changes re-render */
 		handleCollectionReset: function(ev) {
 			this.render();
+		},
+		
+		/** whenever the collection has been synced with data from the server */
+		handleCollectionSync: function(obj,resp,req) {
+			
+			// this gets fired when the collection is synced with the server, as well as
+			// when any model within the collection is synced.  However we only want
+			// to re-render if this is a collection sync.
+			if (obj instanceof Backbone.Collection)
+				this.render();
+			
 		},
 
 		/** if collection changes re-render */
@@ -278,8 +294,5 @@ var view = {
 				model.set(options);
 			}
 		}
-	}),
-
-	version: 1.0
-
+	})
 }
