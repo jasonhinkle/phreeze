@@ -48,5 +48,11 @@
 		<input type="submit" class="btn btn-inverse" value="Analyze Database &raquo;" />
 	</p>
 </form>
-
+<div class="hero-unit">
+<form action="generate" method="post">
+<textarea cols="150" rows="30" name="jsonfile"></textarea>
+<br />
+<input type="submit" class="btn btn-inverse" value="Generate Project" >
+</form>
+</div >
 <?php include_once '_footer.tpl.php'; ?>
