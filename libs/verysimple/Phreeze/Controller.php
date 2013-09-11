@@ -50,6 +50,9 @@ abstract class Controller
 
 	/** Prefix this to the name of the view templates */
 	static $SmartyViewPrefix = "View";
+	
+	/** search string to look for to determine if this is an API request or not */
+	static $ApiIdentifier = "api/";
 
 	/** the default mode used when calling 'Redirect' */
 	static $DefaultRedirectMode = "client";
@@ -749,11 +752,24 @@ abstract class Controller
 
 		return $this->_cu;
 	}
+	
+	/**
+	 * Returns true if this request is an API request.  This examines the URL to 
+	 * see if the string Controller::$ApiIdentifier is in the URL
+	 * @return bool
+	 */
+	public function IsApiRequest()
+	{
+		$url = RequestUtil::GetCurrentURL();
+		return (strpos($url, self::$ApiIdentifier ) !== false);
+	}
 
 	/**
 	 * Check the current user to see if they have the requested permission.
 	 * If so then the function does nothing.  If not, then the user is redirected
-	 * to $on_fail_action (if provided) or an AuthenticationException is thrown
+	 * to $on_fail_action (if provided) or an AuthenticationException is thrown.
+	 * if Controller->IsApiRequest() returns true then an AuthenticationException will
+	 * be thrown regardless of the fail_action.
 	 *
 	 * @param int $permission Permission ID requested
 	 * @param string $on_fail_action (optional) The action to redirect if require fails
@@ -772,9 +788,8 @@ abstract class Controller
 				? $not_authenticated_feedback
 				: $permission_denied_feedback;
 			
-			if ($on_fail_action)
+			if ($on_fail_action && $this->IsApiRequest() == false)
 			{
-
 				$this->Redirect($on_fail_action,array('feedback'=>$message,'warning'=>$message));
 			}
 			else
