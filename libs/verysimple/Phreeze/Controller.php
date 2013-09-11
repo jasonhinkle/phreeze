@@ -775,7 +775,7 @@ abstract class Controller
 			if ($on_fail_action)
 			{
 
-				$this->Redirect($on_fail_action,$message);
+				$this->Redirect($on_fail_action,array('feedback'=>$message,'warning'=>$message));
 			}
 			else
 			{
