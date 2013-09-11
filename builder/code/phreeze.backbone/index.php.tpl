@@ -29,26 +29,45 @@ try
 }
 catch (exception $ex)
 {
-	$gc->GetRenderEngine()->assign("message",$ex->getMessage());
-	$gc->GetRenderEngine()->assign("stacktrace",$ex->getTraceAsString());
-	$gc->GetRenderEngine()->assign("code",$ex->getCode());
-
-	try
+	// This is the global error handler which will be called in the event of
+	// uncaught errors.  If the endpoint appears to be an API request then
+	// render it as JSON, otherwise attempt to render a friendly HTML page
+	
+	$url = RequestUtil::GetCurrentURL();
+	$isApiRequest = (strpos($url,'api/') !== false);
+	
+	if ($isApiRequest)
 	{
-		$gc->GetRenderEngine()->display("DefaultErrorFatal.tpl");
+		$result = new stdClass();
+		$result->success= false;
+		$result->message = $ex->getMessage();
+		$result->data = $ex->getTraceAsString();
+		
+		@header('HTTP/1.1 401 Unauthorized');
+		echo json_encode($result);
 	}
-	catch (Exception $ex2)
+	else
 	{
-		// this means there is an error with the template, in which case we can't display it nicely
-		echo "<style>* { font-family: verdana, arial, helvetica, sans-serif; }</style>\n";
-		echo "<h1>Fatal Error:</h1>\n";
-		echo '<h3>' . htmlentities($ex->getMessage()) . "</h3>\n";
-		echo "<h4>Original Stack Trace:</h4>\n";
-		echo '<textarea wrap="off" style="height: 200px; width: 100%;">' . htmlentities($ex->getTraceAsString()) . '</textarea>';
-		echo "<h4>In addition to the above error, the default error template could not be displayed:</h4>\n";
-		echo '<textarea wrap="off" style="height: 200px; width: 100%;">' . htmlentities($ex2->getMessage()) . "\n\n" . htmlentities($ex2->getTraceAsString()) . '</textarea>';
+		$gc->GetRenderEngine()->assign("message",$ex->getMessage());
+		$gc->GetRenderEngine()->assign("stacktrace",$ex->getTraceAsString());
+		$gc->GetRenderEngine()->assign("code",$ex->getCode());
+		
+		try
+		{
+			$gc->GetRenderEngine()->display("DefaultErrorFatal.tpl");
+		}
+		catch (Exception $ex2)
+		{
+			// this means there is an error with the template, in which case we can't display it nicely
+			echo "<style>* { font-family: verdana, arial, helvetica, sans-serif; }</style>\n";
+			echo "<h1>Fatal Error:</h1>\n";
+			echo '<h3>' . htmlentities($ex->getMessage()) . "</h3>\n";
+			echo "<h4>Original Stack Trace:</h4>\n";
+			echo '<textarea wrap="off" style="height: 200px; width: 100%;">' . htmlentities($ex->getTraceAsString()) . '</textarea>';
+			echo "<h4>In addition to the above error, the default error template could not be displayed:</h4>\n";
+			echo '<textarea wrap="off" style="height: 200px; width: 100%;">' . htmlentities($ex2->getMessage()) . "\n\n" . htmlentities($ex2->getTraceAsString()) . '</textarea>';
+		}
 	}
-
 }
 
 ?>
