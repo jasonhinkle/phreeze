@@ -68,7 +68,7 @@ class ActionRouter implements IRouter
 	*/
 	public function GetUrl($controller,$method,$params='',$requestMethod='')
 	{
-		$format = str_replace("{delim}",$this->delim,$this->_format);
+		$format = str_replace("{delim}",$this->delim,self::$_format);
 
 		$qs = "";
 		$d = "";
