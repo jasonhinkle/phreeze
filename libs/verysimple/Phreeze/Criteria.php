@@ -372,6 +372,15 @@ class Criteria
 				$this->_order = $this->_set_order;	
 			}
 
+			// if any of the filters have an order by then add those
+			if (is_array($this->Filters)) {
+				foreach ($this->Filters as $filter)
+				{
+					$orderDelim = $this->_order ? ',' : '';
+					$this->_order .= $orderDelim . $filter->GetOrder($this);
+				}
+			}
+			
 			if ($this->_order)
 			{
 				$this->_order = " order by " . $this->_order;
