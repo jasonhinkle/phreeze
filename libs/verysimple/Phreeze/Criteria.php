@@ -374,10 +374,14 @@ class Criteria
 
 			// if any of the filters have an order by then add those
 			if (is_array($this->Filters)) {
+				$orderDelim = $this->_order ? ',' : '';
 				foreach ($this->Filters as $filter)
 				{
-					$orderDelim = $this->_order ? ',' : '';
-					$this->_order .= $orderDelim . $filter->GetOrder($this);
+					$filterOrder = $filter->GetOrder($this);
+					if ($filterOrder) {
+						$this->_order .= $orderDelim . $filterOrder;
+						$orderDelim = ', ';
+					}
 				}
 			}
 			
