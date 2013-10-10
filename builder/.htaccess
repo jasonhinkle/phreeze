@@ -1,6 +1,6 @@
 ##
 ## PHREEZE ACCESS RULES FOR APACHE
-## VERSION 1.3.1
+## VERSION 1.3.2
 ##
 
 ## PHP ERROR REPORTING
@@ -20,6 +20,7 @@
 
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
+	Options -MultiViews
 	RewriteEngine On
 	
 	## TODO: some hosts require the app root must be specified
