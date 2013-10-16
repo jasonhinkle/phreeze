@@ -26,7 +26,7 @@ class {$singular}CriteriaDAO extends Criteria
 	public ${$column->NameWithoutPrefix|studlycaps}_IsLike;
 	public ${$column->NameWithoutPrefix|studlycaps}_IsNotLike;
 	public ${$column->NameWithoutPrefix|studlycaps}_BeginsWith;
-	public ${$column->NameWithoutPrefix|studlycaps}_EndWith;
+	public ${$column->NameWithoutPrefix|studlycaps}_EndsWith;
 	public ${$column->NameWithoutPrefix|studlycaps}_GreaterThan;
 	public ${$column->NameWithoutPrefix|studlycaps}_GreaterThanOrEqual;
 	public ${$column->NameWithoutPrefix|studlycaps}_LessThan;
