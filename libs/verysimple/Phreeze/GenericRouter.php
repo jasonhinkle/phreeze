@@ -119,6 +119,13 @@ class GenericRouter implements IRouter
 			}
 		}
 
+		// this is a page-not-found route
+		$this->cachedRoute = array(
+				"key" => ''
+				,"route" => ''
+				,"params" => array()
+		);
+		
 		// if we haven't returned by now, we've found no match:
 		return explode('.', self::$ROUTE_NOT_FOUND,2);
 	}
