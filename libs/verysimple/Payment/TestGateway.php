@@ -61,6 +61,10 @@ class TestGateway extends PaymentProcessor
 	 */
 	function Process(PaymentRequest $req)
 	{
+		
+		// simulate a typical CC purchase lag
+		sleep(3);
+		
 		$resp = new PaymentResponse();
 		$resp->OrderNumber = $req->OrderNumber;
 
