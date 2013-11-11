@@ -40,6 +40,7 @@ class BaseController extends Controller
 		$cstring->Username = RequestUtil::Get('username');
 		$cstring->Password = RequestUtil::Get('password');
 		$cstring->DBName = RequestUtil::Get('schema');
+		$cstring->Type = RequestUtil::Get('type','MySQL');
 		return $cstring;
 	}
 
@@ -49,7 +50,14 @@ class BaseController extends Controller
 	 */
 	protected function GetAppName($connection)
 	{
-		return ucwords(preg_replace("/(\_(.))/e","strtoupper('\\2')",strtolower($connection->DBName)));
+		return ucwords(
+				preg_replace_callback(
+						"/(\_(.))/",
+						create_function('$matches', 'return strtoupper($matches[2]);'),
+						strtolower($connection->DBName)
+				)
+		);
+
 	}
 
 }
