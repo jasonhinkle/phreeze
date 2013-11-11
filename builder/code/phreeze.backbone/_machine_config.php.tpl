@@ -20,7 +20,7 @@ GlobalConfig::$CONNECTION_SETTING->ConnectionString = "{$connection->Host}{if $c
 GlobalConfig::$CONNECTION_SETTING->DBName = "{$connection->DBName}";
 GlobalConfig::$CONNECTION_SETTING->Username = "{$connection->Username}";
 GlobalConfig::$CONNECTION_SETTING->Password = "{$connection->Password}";
-GlobalConfig::$CONNECTION_SETTING->Type = "MySQLi";
+GlobalConfig::$CONNECTION_SETTING->Type = "{$connection->Type}";
 GlobalConfig::$CONNECTION_SETTING->Charset = "utf8";
 GlobalConfig::$CONNECTION_SETTING->Multibyte = true;
 // GlobalConfig::$CONNECTION_SETTING->BootstrapSQL = "SET SQL_BIG_SELECTS=1";
