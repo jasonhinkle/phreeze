@@ -49,7 +49,16 @@ class DataDriverMySQL_PDO implements IDataDriver
 		
 		try 
 		{
-			$dsn = 'mysql:dbname='. $this->Escape($database)  .';host=' . $this->Escape($connectionstring);
+			// if the port is provided in the connection string then strip it out and provide it as a separate param
+			$hostAndPort = explode(":",$connectionstring);
+			$host = $hostAndPort[0];
+			$port = count($hostAndPort) > 1 ? $hostAndPort[1] : null;
+			
+			$dsn = 'mysql:dbname='. $this->Escape($database)  .';host=' . $this->Escape($host);
+			
+			if ($port) {
+				$dsn .= ";port=" . $this->Escape($port);
+			}
 			
 			if ($charset) {
 				$dsn .= ";charset=" . $this->Escape($charset);
