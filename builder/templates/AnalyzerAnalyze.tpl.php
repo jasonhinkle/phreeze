@@ -186,6 +186,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	<p>
 		<input type="hidden" name="host" id="host" value="<?php $this->eprint($this->host) ?>" />
 		<input type="hidden" name="port" id="port" value="<?php $this->eprint($this->port) ?>" />
+		<input type="hidden" name="type" id="type" value="<?php $this->eprint($this->type) ?>" />
 		<input type="hidden" name="schema" id="schema" value="<?php $this->eprint($this->schema) ?>" />
 		<input type="hidden" name="username" id="username" value="<?php $this->eprint($this->username) ?>" />
 		<input type="hidden" name="password" id="password" value="<?php $this->eprint($this->password) ?>" />

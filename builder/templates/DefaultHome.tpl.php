@@ -20,6 +20,18 @@
 		</div>
 
 		<div id="schemaContainer" class="control-group">
+			<label class="control-label" for="schema">MySQL Driver</label>
+			<div class="controls inline-inputs">
+				<select name="type" id="type">
+					<option value="MySQL">mysql_connect</option>
+					<option value="MySQLi">mysqli_connect</option>
+					<option value="MySQL_PDO">PDO</option>
+				</select>
+				<span class="help-inline"></span>
+			</div>
+		</div>
+		
+		<div id="schemaContainer" class="control-group">
 			<label class="control-label" for="schema">Schema Name</label>
 			<div class="controls inline-inputs">
 				<input type="text" class="span3" id="schema" name="schema" placeholder="example: mydatabase" />

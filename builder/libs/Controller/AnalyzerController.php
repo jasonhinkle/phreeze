@@ -77,6 +77,7 @@ class AnalyzerController extends BaseController
 
 		$this->Assign('host', $cstring->Host);
 		$this->Assign('port', $cstring->Port);
+		$this->Assign('type', $cstring->Type);
 		$this->Assign('schema', $cstring->DBName);
 		$this->Assign('username', $cstring->Username);
 		$this->Assign('password', $cstring->Password);
