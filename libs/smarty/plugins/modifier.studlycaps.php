@@ -17,7 +17,13 @@
  */
 function smarty_modifier_studlycaps($string)
 {
-    return ucwords(preg_replace("/(\_(.))/e","strtoupper('\\2')",strtolower($string)));
+	return ucwords(
+			preg_replace_callback(
+					"/(\_(.))/",
+					create_function('$matches', 'return strtoupper($matches[2]);'),
+					strtolower($string)
+			)
+	);
 }
 
 ?>
