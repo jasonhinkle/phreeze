@@ -83,3 +83,16 @@ span.loader .bar {
 	width: 100%;
 	height: 30px;
 }
+
+/* form controls */
+span.help-inline {
+	font-size: .9em;
+	font-style: italic;
+	padding-top: 5px;
+	color: #999;
+}
+
+/* fixes spacing glitch with combo-box followed by an empty inline help */
+span.help-inline:empty {
+	display: none;
+}
