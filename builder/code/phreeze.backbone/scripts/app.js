@@ -88,7 +88,10 @@ var app = {
 	 */
 	browserSucks: function()
 	{
-		return $.browser.msie && $.browser.version < 9;
+		isIE6 = navigator.userAgent.match(/msie [6]/i) && !window.XMLHttpRequest;
+		isIE7 = navigator.userAgent.match(/msie [7]/i);
+		isIE8 = navigator.userAgent.match(/msie [8]/i);
+		return isIE6 || isIE7 || isIE8;
 	},
 
 	/**
