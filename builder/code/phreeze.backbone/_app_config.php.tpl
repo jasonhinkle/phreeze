@@ -18,7 +18,7 @@
  * APPLICATION ROOT DIRECTORY
  * If the application doesn't detect this correctly then it can be set explicitly
  */
-GlobalConfig::$APP_ROOT = realpath("./");
+if (!GlobalConfig::$APP_ROOT) GlobalConfig::$APP_ROOT = realpath("./");
 
 /**
  * INCLUDE PATH
