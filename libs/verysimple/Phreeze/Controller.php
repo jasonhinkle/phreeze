@@ -66,7 +66,7 @@ abstract class Controller
 	 * @param Context (optional) a context object for persisting the state of the current page
 	 * @param Router (optional) a custom writer for URL formatting
 	 */
-	final function __construct(Phreezer &$phreezer, &$renderEngine, &$context = null, IRouter &$router = null)
+	final function __construct(Phreezer $phreezer, $renderEngine, $context = null, IRouter $router = null)
 	{
 		$this->Phreezer =& $phreezer;
 		$this->RenderEngine =& $renderEngine;
