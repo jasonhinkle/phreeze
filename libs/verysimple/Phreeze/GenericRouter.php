@@ -17,7 +17,7 @@ require_once('verysimple/HTTP/RequestUtil.php');
  */
 class GenericRouter implements IRouter
 {
-	private static $routes = array();
+	private $routes = array();
 
 	private $defaultAction = 'Default.Home';
 	private $uri = '';
@@ -65,10 +65,10 @@ class GenericRouter implements IRouter
 	 *
 	 * @param array $src
 	 */
-	private static function mapRoutes( $src )
+	private function mapRoutes( $src )
 	{
 		foreach ( $src as $key => $val )
-			self::$routes[ $key ] = $val;
+			$this->routes[ $key ] = $val;
 	}
 
 	/**
@@ -80,22 +80,22 @@ class GenericRouter implements IRouter
 			$uri = RequestUtil::GetMethod() . ":" . $this->GetUri();
 
 		// literal match check
-		if ( isset(self::$routes[ $uri ]) )
+		if ( isset($this->routes[ $uri ]) )
 		{
 			// expects mapped values to be in the form: Controller.Model
-			list($controller,$method) = explode(".",self::$routes[ $uri ]["route"]);
+			list($controller,$method) = explode(".",$this->routes[ $uri ]["route"]);
 
 			$this->cachedRoute = array(
-				"key" => self::$routes[ $uri ]
-				,"route" => self::$routes[ $uri ]["route"]
-				,"params" => isset(self::$routes[ $uri ]["params"]) ? self::$routes[ $uri ]["params"] : array()
+				"key" => $this->routes[ $uri ]
+				,"route" => $this->routes[ $uri ]["route"]
+				,"params" => isset($this->routes[ $uri ]["params"]) ? $this->routes[ $uri ]["params"] : array()
 			);
 
 			return array($controller,$method);
 		}
 
 		// loop through the route map for wild cards:
-		foreach( self::$routes as $key => $value)
+		foreach( $this->routes as $key => $value)
 		{
 			$unalteredKey = $key;
 
@@ -188,7 +188,7 @@ class GenericRouter implements IRouter
 			$url = substr($url,0,-1);
 		}
 
-		foreach( self::$routes as $key => $value)
+		foreach( $this->routes as $key => $value)
 		{
 			list($routeController,$routeMethod) = explode(".",$value["route"]);
 
