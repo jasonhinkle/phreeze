@@ -1,9 +1,10 @@
 <?php
 /**
- * @package verysimple::Phreeze::TestUtils
+ * @package test::lib
  */
 
 require_once 'OverrideController.php';
+require_once 'TestObserver.php';
 
 /**
  * BaseTestClass is an abstract class that can be inherited by all test classes
@@ -18,38 +19,73 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	/** @property Controller */
 	private $controller;
 
-	/** @property Phreezer */
-	protected $phreezer;
-
-	/** @property Router */
-	protected $router;
-
-	/** @property Smarty */
-	protected $smarty;
-
 	private $_preserved_session = Array();
-
 	private $_printLineCount = 0;
-
+	
 	/**
-	 * Initialize the override controller so we have access to base controller methods like set/clear current user.
+	 * Anything fired in the constructor will not appear in the code coverage report
 	 */
 	final function __construct()
 	{
-// 		$gc = GlobalConfig::GetInstance();
-// 		$this->phreezer =& $gc->GetPhreezer();
-// 		$this->renderEngine =& $gc->GetRenderEngine();
 
-// 		// swapping out generic router for a unit-testable mock router:
-// 		$this->router = new MockRouter();
-
-// 		// override controller to let us access protected controller methods
-// 		$this->overrideController = new OverrideController(
-// 			$this->phreezer
-// 			, $this->renderEngine
-// 			, $gc->GetContext()
-// 			, $this->router
-// 		);
+	}
+	
+	/**
+	 * Returns a dummy controller object that can be used to fire private methods
+	 * such as setting the current user
+	 */
+	protected function GetOverrideController()
+	{
+		if (!$this->overrideController) {
+			
+			$gc = GlobalConfig::GetInstance();
+			
+			// override controller to let us access protected controller methods
+			$this->overrideController = new OverrideController(
+					$gc->GetPhreezer(),
+					$gc->GetRenderEngine(),
+					$gc->GetContext(),
+					new MockRouter()  // swap out generic router for a mock
+			);
+		}
+		
+		return $this->overrideController;
+	}
+	
+	/**
+	 * Assign a value to the render engine
+	 */
+	protected function Assign($key,$value)
+	{
+		$re = GlobalConfig::GetInstance()->GetRenderEngine();
+		$re->assign($key,$value);
+	}
+	
+	/**
+	 * Reset the controller so that all data in the input and output
+	 * buffers are cleared, any compiled template files are removed
+	 * and (optionally) the user session is destroyed
+	 * 
+	 * @param bool $clearSession (default = true)
+	 */
+	protected function Reset($clearSession = true)
+	{
+		$this->SetUrl('');
+		$this->SetRequestBody('');
+		$this->ClearOutput();
+		$this->ClearVars();
+		$this->RemoveCompiledTemplateFiles();
+		
+		$re = GlobalConfig::GetInstance()->GetRenderEngine();
+		
+		if ($re) {
+			$re->clearAll();
+			$re->assign("ROOT_URL",GlobalConfig::$ROOT_URL);
+			$re->assign("PHREEZE_VERSION",Phreezer::$Version);
+			$re->assign("PHREEZE_PHAR",Phreezer::PharPath());
+		}
+		
+		if ($clearSession) $this->ClearCurrentUser();
 	}
 
 	/**
@@ -62,26 +98,25 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	function InitController($classname, $clearAuth = true)
 	{
 		$gc = GlobalConfig::GetInstance();
-
-		eval('$this->controller = new '.$classname.'($gc->GetPhreezer(), $gc->GetRenderEngine, $gc->GetContext(), $gc->GetRouter() );');
+		eval('$this->controller = new '.$classname.'($gc->GetPhreezer(), $gc->GetRenderEngine(), $gc->GetContext(), $gc->GetRouter() );');
 
 		$this->controller->UnitTestMode = true;
 		$this->controller->CaptureOutputMode = true;
 
 		// clear all previous input
-		$this->InputClearAll();
+		$this->ClearVars();
 
 		// remove any authentication that was hanging around
 		if ($clearAuth) $this->ClearCurrentUser();
 
 		// get rid of any feedback or warnings
-		$this->renderEngine->clear("warning");
-		$this->renderEngine->clear("feedback");
-		$this->overrideController->OverrideSetContext("feedback","");
-
-		$this->Println("-- Controller '$classname' initialized");
+		$re = $gc->GetRenderEngine();
+		$re->clear("warning");
+		$re->clear("feedback");
+		$this->GetOverrideController()->OverrideSetContext("feedback","");
 
 	}
+	
 
 	/**
 	 * Removes all of the compiled template files that have been
@@ -92,9 +127,10 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	 */
 	protected function RemoveCompiledTemplateFiles()
 	{
-		$this->Println("-- Removing compiled template files...");
-
-		$path = COMPILE_PATH;
+		$path = GlobalConfig::$TEMPLATE_CACHE_PATH;
+		
+		if (!$path) return; // if not configured then this setup probably has no template cache
+		
 		$dir = opendir($path);
 
 		while ( false !== ($file = readdir($dir)) )
@@ -107,16 +143,33 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 		}
 
 		closedir($dir);
+		
+		// $this->Println("Compiled template files removed.",'BaseTestClass.RemoveCompiledTemplateFiles');
 	}
 
 	/**
+	 * Returns the name of the method that called
+	 */
+	function GetCallingMethodName()
+	{
+		$e = new Exception();
+		$trace = $e->getTrace();
+		return $trace[2]['function'];
+	}
+	
+	/**
 	 * Output a line to the terminal with a trailing line break
 	 * @param string $msg
+	 * @param string $prefix.  If not provided then the calling class name will be used
 	 */
-	function Println($msg)
+	function Println($msg,$prefix=null)
 	{
+		if ($prefix == null) 
+			$prefix = str_replace('tests_', '', get_called_class()) 
+			. '.' . str_replace('test_', '', $this->GetCallingMethodName());
+
 		if ($this->_printLineCount == 0) echo "\r\n";
-		echo "# " . $msg . "\n";
+		echo ($prefix ? $prefix . ": " : '') . $msg . "\r\n";
 		$this->_printLineCount++;
 	}
 
@@ -191,7 +244,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	/**
 	 * Clear all previous form and querystring input
 	 */
-	function InputClearAll()
+	function ClearVars()
 	{
 		RequestUtil::ClearAll();
 	}
@@ -201,9 +254,39 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	 * @param string $var
 	 * @param string $val
 	 */
-	function InputSet($var,$val)
+	function SetVar($var,$val)
 	{
 		RequestUtil::Set($var,$val);
+	}
+	
+	/**
+	 * Set the url so that URL params can be read by the Router
+	 * @param string $url
+	 */
+	function SetUrl($url)
+	{
+		$_REQUEST['_REWRITE_COMMAND'] = $url;
+		
+		// calling get route is required in order to access params
+		GlobalConfig::GetInstance()->GetRouter()->GetRoute();
+	}
+	
+	/**
+	 * Set the Request body (used in insert/update tests)
+	 * @param string $contents
+	 */
+	function SetRequestBody($contents)
+	{
+		RequestUtil::SetBody($contents);
+	}
+	
+	/**
+	 * Set the HTTP request method 
+	 * @param string $method (GET | POST | PUT | DELETE)
+	 */
+	function SetRequestMethod($method)
+	{
+		$_SERVER['REQUEST_METHOD'] = $method;
 	}
 
 	/**
@@ -247,7 +330,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 		if ($preserve_session) $this->PreserveSession();
 
 		$this->ClearCurrentUser();
-		$this->overrideController->OverrideSetCurrentUser($user);
+		$this->GetOverrideController()->OverrideSetCurrentUser($user);
 
 		if ($preserve_session) $this->RestoreSession();
 	}
@@ -261,7 +344,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	{
 		foreach ($_SESSION as $key => $val)
 		{
-			if ($key != $this->overrideController->GUID)
+			if ($key != $this->GetOverrideController()->GUID)
 			{
 				$this->_preserved_session[$key] = $val;
 			}
@@ -287,7 +370,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	 */
 	function GetCurrentUser()
 	{
-		return $this->overrideController->OverrideGetCurrentUser();
+		return $this->GetOverrideController()->OverrideGetCurrentUser();
 	}
 
 	/**
@@ -300,7 +383,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	{
 		if ($preserve_session) $this->PreserveSession();
 
-		$this->overrideController->ClearCurrentUser();
+		$this->GetOverrideController()->ClearCurrentUser();
 		if ($this->controller) $this->controller->ClearCurrentUser();
 
 		if ($preserve_session) $this->RestoreSession();
@@ -313,7 +396,7 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	 */
 	function GetContext($key)
 	{
-		return $this->overrideController->OverrideGetContext($key);
+		return $this->GetOverrideController()->OverrideGetContext($key);
 	}
 
 	/**
@@ -331,23 +414,42 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 	{
 		$this->controller->DebugOutput = "";
 	}
+	
+	/**
+	 * Validate that correct JSON code was returned from an API call
+	 * with either a true or false success status
+	 * @param bool $trueOrFalse
+	 */
+	function AssertApiOutputSuccessIs($trueOrFalse = true)
+	{
+		$json = $this->GetOutput();
+		$obj = json_decode($json);
+		
+		$this->assertNotEmpty($obj,'Invalid JSON');
+		
+		$success = property_exists($obj,'success') ? $obj->success : true;
+		$message = property_exists($obj,'message') ? $obj->message : '(no message)';
+		$this->assertEquals($trueOrFalse,$success,'Unexpected JSON Response: ' . $message);
+	}
 
 	/**
 	 * Verify that the controller output to the browser contains the given text
 	 * @param string $text
+	 * @param string message to display if assertion fails
+	 * @param bool true to ignore character case (default = false)
 	 */
-	function AssertOutputContains($text)
+	function AssertOutputContains($text, $message = '', $ignoreCase = false)
 	{
-		$this->assertContains($text, $this->GetOutput());
+		$this->assertContains($text, $this->GetOutput(), $message, $ignoreCase);
 	}
 
 	/**
 	 * Verify that the controller output to the browser does not contain the given text
 	 * @param string $text
 	 */
-	function AssertOutputNotContains($text)
+	function AssertOutputNotContains($text, $message = '', $ignoreCase = false)
 	{
-		$this->assertNotContains($text, $this->GetOutput());
+		$this->assertNotContains($text, $this->GetOutput(), $message, $ignoreCase);
 	}
 
 }

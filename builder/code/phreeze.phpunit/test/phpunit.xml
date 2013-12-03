@@ -1,0 +1,31 @@
+<phpunit 
+	bootstrap="bootstrap.php"
+	colors="true"
+	printerClass="VerboseTestResultPrinter"
+	printerFile="lib/VerboseTestResultPrinter.php"
+	stopOnError="false"
+	stopOnFailure="false"
+	stopOnIncomplete="false"
+	stopOnSkipped="false">
+	
+	<testsuite name="Phreeze App Test Suite">
+		<directory>./Tests/</directory>
+	</testsuite>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../</directory>
+			<exclude>
+				<file>../index.php</file>
+				<file>../_app_config.php</file>
+				<file>../_machine_config.php</file>
+				<file>../_machine_config.DEFAULT.php</file>
+				<directory suffix=".php">../templates_c/</directory>
+				<directory suffix=".tpl">../templates_c/</directory>
+				<directory suffix=".php">../test/</directory>
+				<directory suffix=".php">../../phreeze/</directory>
+			</exclude>
+		</whitelist>
+	</filter>   
+
+</phpunit>
