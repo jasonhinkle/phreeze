@@ -76,6 +76,9 @@ class GenericRouter implements IRouter
 	 */
 	public function GetRoute( $uri = "" )
 	{
+		// reset the uri cache
+		$this->uri = '';
+		
 		if( $uri == "" )
 			$uri = RequestUtil::GetMethod() . ":" . $this->GetUri();
 
