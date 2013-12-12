@@ -22,6 +22,17 @@ require_once("verysimple/IO/Includer.php");
  */
 class Phreezer extends Observable
 {
+	/**
+	 * An associative array of DataAdapter objects, which can be 
+	 * specified using SelectAdapter
+	 * @var Array
+	 */
+	public $DataAdapters;
+	
+	/**
+	 * The currently selected DataAdapter
+	 * @var DataAdapter
+	 */
 	public $DataAdapter;
 
 	/**
@@ -86,12 +97,22 @@ class Phreezer extends Observable
 	}
 
     /**
-    * Contructor initializes the object.  The database connection is opened upon instantiation
-    * and an exception will be thrown if db connectivity fails, so it is advisable to
-    * surround the instantiation with a try/catch
+    * Contructor initializes the object.  The database connection is opened only when
+    * a DB call is made.
+    * 
+    * The ConnectionSetting parameter can be either a single connection setting, or
+    * an associative array.  This allows switching among different database connections 
+    * which can be referred to by their array key using Phreezer->SelectAdapter.
+    * Multiple connections can be used for example to read from a slave database
+    * and write to a master.
+    * 
+    * One instantiate the DataAdapter will be set to whichever is the first
+    * connection in the list.
+    * 
+    * If a single ConnectionSetting is supplied, it will be assigned the key "default"
     *
     * @access public
-    * @param ConnectionSetting $csetting
+    * @param ConnectionSetting || Associative Array of ConnectionSetting objects
     * @param Observable $observer
     */
     public function __construct($csetting, $observer = null)
@@ -102,8 +123,42 @@ class Phreezer extends Observable
 
 		if ($observer) parent::AttachObserver($observer);
 		$this->Observe("Phreeze Instantiated", OBSERVE_DEBUG);
+		
+		$csettings = is_array($csetting) ? $csetting : array('default'=>$csetting);
 
-		$this->DataAdapter = new DataAdapter($csetting, $observer);
+		$this->DataAdapters = array();
+		foreach ($csettings as $key=>$connection) {
+			$this->DataAdapters[$key] = new DataAdapter($connection, $observer);
+		}
+		
+		$this->SelectAdapter();
+	}
+	
+	/**
+	 * SelectAdapter will change the DataAdapter, allowing the application
+	 * to query from multiple data sources.  The connection strings for
+	 * each database should be passed in an array during construction of
+	 * the Phreezer object.
+	 * 
+	 * Once this method is called, all DB calls will be made to this connection
+	 * until another adapter is selected.
+	 * 
+	 * @param string $key
+	 * @return DataAdapter the selected DataAdapter
+	 */
+	public function SelectAdapter($key = null)
+	{
+		if ($key) {
+			if (!array_key_exists($key, $this->DataAdapters))
+				throw new Exception("No DataAdapter with key '$key' is available");
+			$this->DataAdapter = $this->DataAdapters[$key];
+		}
+		else {
+			$adapters = array_values($this->DataAdapters);
+			$this->DataAdapter = $adapters[0];
+		}
+		
+		return $this->DataAdapter;
 	}
 
 	/**
