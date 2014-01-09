@@ -12,7 +12,7 @@ require_once("verysimple/Util/ExceptionThrower.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2007 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    2.4
+ * @version    2.5
  */
 class Dispatcher
 {
@@ -34,6 +34,10 @@ class Dispatcher
 		$directoryName = dirname($fileName);
 		$fileArray = glob($directoryName . '/*', GLOB_NOSORT);
 		$fileNameLowerCase = strtolower($fileName);
+		
+		// TODO: if not an array then this path isn't readable, should we ignore or crash...?
+		// if (!is_array($fileArray)) throw new Exception('Unreadable include path "'.$directoryName.'" for controller "' . $fileName . '"');
+		if (!is_array($fileArray)) return false;
 		
 		foreach($fileArray as $file) 
 		{
@@ -74,32 +78,28 @@ class Dispatcher
 			$slashPos = strpos($controller_class,'/');
 		}
 		
+		// attempt to locate the controller file
 		$controller_file = "Controller/" . $controller_param . "Controller.php";
+		$controller_filepath = null;
 		
-		$controller_filepath = self::ControllerFileExists($controller_file);
+		// search for the controller file in the default locations, then the include path
+		$paths = array_merge(
+			array('./libs/','./'),
+			explode(PATH_SEPARATOR,get_include_path())
+		);
 		
-		if (!$controller_filepath) {
-			$controller_filepath = self::ControllerFileExists("libs/".$controller_file);
-		}
-
-		// look for the file in the expected places, hault if not found
-		if (!$controller_filepath )
+		$found = false;
+		foreach ($paths as $path)
 		{
-			// go to plan B, search the include path for the controller
-			$paths = explode(PATH_SEPARATOR,get_include_path());
-			$found = false;
-			foreach ($paths as $path)
+			$controller_filepath = self::ControllerFileExists($path ."/".$controller_file);
+			if ($controller_filepath)
 			{
-				$controller_filepath = self::ControllerFileExists($path ."/".$controller_file);
-				if ($controller_filepath)
-				{
-					$found = true;
-					break;
-				}
+				$found = true;
+				break;
 			}
-
-			if (!$found) throw new Exception("File ~/libs/".$controller_file." was not found in include path");
 		}
+
+		if (!$found) throw new Exception("File ~/libs/".$controller_file." was not found in include path");
 
 		// convert any php errors into an exception
 		if (self::$IGNORE_DEPRECATED)
