@@ -47,7 +47,7 @@ class AndroidPushService
 		if ($method == "HTTP")
 		{
 			$fields = array(
-				'registration_ids' => $deviceToken,
+				'registration_ids' => array($deviceToken),
 				'data' => array("message" => $message)
 			);
 
@@ -80,7 +80,7 @@ class AndroidPushService
 			else
 			{
 				$output->success = true;
-				$output->message = 'Message sent successfully';
+				$output->message = print_r($result,1);
 			}
 
 			curl_close($ch);
