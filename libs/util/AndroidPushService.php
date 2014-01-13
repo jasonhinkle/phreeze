@@ -40,7 +40,8 @@ class AndroidPushService
 	 */
 	public function Send($deviceToken, $message, $method = "HTTP")
 	{
-		$result = "";
+		$output = new stdClass();
+		$output->date = date('Y-m-d H:i:s');
 
 		// TODO: add in CCS with XMPP services alongside of the vanilla HTTP
 		if ($method == "HTTP")
@@ -72,12 +73,20 @@ class AndroidPushService
 			$result = curl_exec($ch);
 
 			if ($result === FALSE)
-				die('Curl failed: ' . curl_error($ch));
+			{
+				$output->success = false;
+				$output->message = 'Communication Error: Unable to deliver message';
+			}
+			else
+			{
+				$output->success = true;
+				$output->message = 'Message sent successfully';
+			}
 
 			curl_close($ch);
 		}
 
-		return $result;
+		return $output;
 	}
 
 }
