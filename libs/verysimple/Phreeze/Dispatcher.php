@@ -12,7 +12,7 @@ require_once("verysimple/Util/ExceptionThrower.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2007 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    2.5
+ * @version    2.6
  */
 class Dispatcher
 {
@@ -78,47 +78,50 @@ class Dispatcher
 			$slashPos = strpos($controller_class,'/');
 		}
 		
-		// attempt to locate the controller file
-		$controller_file = "Controller/" . $controller_param . "Controller.php";
-		$controller_filepath = null;
-		
-		// search for the controller file in the default locations, then the include path
-		$paths = array_merge(
-			array('./libs/','./'),
-			explode(PATH_SEPARATOR,get_include_path())
-		);
-		
-		$found = false;
-		foreach ($paths as $path)
-		{
-			$controller_filepath = self::ControllerFileExists($path ."/".$controller_file);
-			if ($controller_filepath)
-			{
-				$found = true;
-				break;
-			}
-		}
-
-		if (!$found) throw new Exception("File ~/libs/".$controller_file." was not found in include path");
-
-		// convert any php errors into an exception
-		if (self::$IGNORE_DEPRECATED)
-		{
-			ExceptionThrower::Start();
-		}
-		else
-		{
-			ExceptionThrower::Start(E_ALL);
-			ExceptionThrower::$IGNORE_DEPRECATED = false;
-		}
-
-		// we should be fairly certain the file exists at this point
-		include_once($controller_filepath);
-
-		// we found the file but the expected class doesn't appear to be defined
 		if (!class_exists($controller_class))
 		{
-			throw new Exception("Controller file was found, but class '".$controller_class."' is not defined");
+			// attempt to locate the controller file
+			$controller_file = "Controller/" . $controller_param . "Controller.php";
+			$controller_filepath = null;
+			
+			// search for the controller file in the default locations, then the include path
+			$paths = array_merge(
+				array('./libs/','./'),
+				explode(PATH_SEPARATOR,get_include_path())
+			);
+			
+			$found = false;
+			foreach ($paths as $path)
+			{
+				$controller_filepath = self::ControllerFileExists($path ."/".$controller_file);
+				if ($controller_filepath)
+				{
+					$found = true;
+					break;
+				}
+			}
+	
+			if (!$found) throw new Exception("File ~/libs/".$controller_file." was not found in include path");
+	
+			// convert any php errors into an exception
+			if (self::$IGNORE_DEPRECATED)
+			{
+				ExceptionThrower::Start();
+			}
+			else
+			{
+				ExceptionThrower::Start(E_ALL);
+				ExceptionThrower::$IGNORE_DEPRECATED = false;
+			}
+	
+			// we should be fairly certain the file exists at this point
+			include_once($controller_filepath);
+	
+			// we found the file but the expected class doesn't appear to be defined
+			if (!class_exists($controller_class))
+			{
+				throw new Exception("Controller file was found, but class '".$controller_class."' is not defined");
+			}
 		}
 
 
