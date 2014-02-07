@@ -149,11 +149,13 @@ class Phreezer extends Observable
 	public function SelectAdapter($key = null)
 	{
 		if ($key) {
+			$this->Observe("Selecting DataAdapter with key '$key'",OBSERVE_DEBUG);
 			if (!array_key_exists($key, $this->DataAdapters))
 				throw new Exception("No DataAdapter with key '$key' is available");
 			$this->DataAdapter = $this->DataAdapters[$key];
 		}
 		else {
+			$this->Observe("Selecting Default DataAdapter",OBSERVE_DEBUG);
 			$adapters = array_values($this->DataAdapters);
 			$this->DataAdapter = $adapters[0];
 		}
