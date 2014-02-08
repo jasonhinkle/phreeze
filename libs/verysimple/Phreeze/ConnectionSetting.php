@@ -38,6 +38,12 @@ class ConnectionSetting
     
     /** @var boolean set to true and multi-byte functions will be used when evaluating strings */
     var $Multibyte = false;
+    
+    /** @var boolean set to true and write operations will not be allowed */
+    var $IsReadOnlySlave = false;
+    
+    /** @var ConnectionSetting if this is a slave connection, this is key of the master server */
+    var $MasterConnectionDelegate = '';
 
      /**
      * Constructor

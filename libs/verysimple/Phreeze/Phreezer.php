@@ -128,7 +128,7 @@ class Phreezer extends Observable
 
 		$this->DataAdapters = array();
 		foreach ($csettings as $key=>$connection) {
-			$this->DataAdapters[$key] = new DataAdapter($connection, $observer);
+			$this->DataAdapters[$key] = new DataAdapter($connection, $observer, null, $key);
 		}
 		
 		$this->SelectAdapter();
@@ -315,7 +315,9 @@ class Phreezer extends Observable
 	public function AttachObserver($observer)
 	{
 		parent::AttachObserver($observer);
-		$this->DataAdapter->AttachObserver($observer);
+		foreach ($this->DataAdapters as $adapter) {
+			$adapter->AttachObserver($observer);
+		}
 	}
 
 	/**
