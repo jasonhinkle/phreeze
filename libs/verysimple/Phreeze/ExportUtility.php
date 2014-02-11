@@ -20,44 +20,40 @@ class ExportUtility
 	 * with headers.  if the objects have an associated Map class, then footers will be
 	 * added to sum any numeric fields.  otherwise no footers are added
 	 * 
-	 * Note that PEAR Spreadsheet_Excel_Writer must be installed
-	 * @link http://pear.php.net/package/Spreadsheet_Excel_Writer
+	 * Note that PEAR PHPExcel must be installed
+	 * @link https://phpexcel.codeplex.com/
 	 * 
 	 * @param Array an array of Phreezable objects, obtained for example, using DataSet->ToObjectArray
 	 * @param Phreezer $phreezer is needed to get field maps
 	 * @param string (optional) The title of the report
 	 */
-	static function OutputAsExcel(Array $objects, Phreezer $phreezer, $reportTitle = "Data Export", $fileName = "export.xls")
+	static function OutputAsExcel(Array $objects, Phreezer $phreezer, $reportTitle = "Data Export", $fileName = "export.xls", $creator = "Phreeze Library")
 	{
-		require_once 'Spreadsheet/Excel/Writer.php';
+		require_once("PHPExcel/Classes/PHPExcel.php");
 		
 		// create the workbook and worksheet
-		$workbook = new Spreadsheet_Excel_Writer();
-		$worksheet = $workbook->addWorksheet("Export");
+		$workbook = new PHPExcel();
 		
-		$BOLD_MED =& $workbook->addFormat();
-		$BOLD_MED->setSize(16);
-		$BOLD_MED->SetBold();
+		// set workbook properties
+		$workbook->getProperties()->setCreator($creator)->setTitle($fileName);
 		
-		$BOLD_REG =& $workbook->addFormat();
-		$BOLD_REG->setSize(11);
-		$BOLD_REG->SetBold();
-		
-		$NORMAL =& $workbook->addFormat();
-		$NORMAL->setSize(11);
-		
-		$CURRENCY =& $workbook->addFormat();
-		$CURRENCY->setNumFormat('0.00');
-		$CURRENCY->setSize(11);
-		$CURRENCY->setAlign('right');
+		$workbook->setActiveSheetIndex(0);
+		$worksheet = $workbook->getActiveSheet();
 
-		$worksheet->writeString(0, 0, $reportTitle, $BOLD_MED);
+		$current_column = "A";
+		$current_row = 1;
+		
+		$worksheet->setCellValue($current_column . $current_row, $reportTitle);
+		$worksheet->getStyle($current_column . $current_row)->getFont()->setBold(true)->setSize(16);
+		$worksheet->getStyle($current_column . $current_row)->getFont()->setName('Arial');
 
 		// default to no columns
 		$fields = Array();
 		$columns = Array();
 		$is_numeric = Array();
 		$fieldmap_exists = false;
+		
+		$current_row = 3;
 		
 		// print the headers
 		// while we're looping, also parse the fields so we don't have to do 
@@ -89,33 +85,35 @@ class ExportUtility
 				}
 			}
 			
-			$current_column = 0;
 			foreach ($columns as $column) 
 			{
 				// save this so we don't check it every time when looping through data
 				$is_numeric[$column] = $fieldmap_exists ? $fields[$column]->IsNumeric() : false;
 
-    			$worksheet->writeString(2, $current_column, $column, $BOLD_REG);
+    			$worksheet->setCellValue($current_column . $current_row, $column);
+    			$worksheet->getStyle($current_column . $current_row)->getFont()->setBold(true)->setSize(11);
+    			$worksheet->getStyle($current_column . $current_row)->getFont()->setName('Arial');
+    					
     			$current_column++;
 			}
 
 		}
 		
-		$current_row = 3;
+		$current_row = 4;
 		
 		// loop through all of the data
 		foreach ($objects as $object)
 		{
-			$current_column = 0;
+			$current_column = "A";
 			foreach ($columns as $column) 
 			{
 				if ($fieldmap_exists == false || $is_numeric[$column] == true)
 				{
-					$worksheet->write($current_row, $current_column, $object->$column, $NORMAL);
+					$worksheet->setCellValue($current_column . $current_row, $object->$column);
 				}
 				else
 				{
-					$worksheet->writeString($current_row, $current_column, $object->$column, $NORMAL);
+					$worksheet->setCellValue($current_column . $current_row, $object->$column);
 				}
 				
     			$current_column++;
@@ -124,7 +122,7 @@ class ExportUtility
 		}
 		
 		// lastly write to the footer to sum the numeric columns
-		$current_column = 0;
+		$col = 0;
 		foreach ($columns as $column) 
 		{
 			if ($is_numeric[$column])
@@ -133,16 +131,24 @@ class ExportUtility
 				$formula = "=SUM(".$columnLetter."3:".$columnLetter.($current_row-1).")";
 				
 				// notice the @ sign in front because this will fire a deprecated warning due to use of "split"
-				@$worksheet->write($current_row, $current_column, $formula, $BOLD_REG);
+				@$worksheet->setCellValue($current_row, $current_column, $formula);
+				$worksheet->getStyle($current_column . $current_row)->getFont()->setBold(true);
+				$worksheet->getStyle($current_column . $current_row)->getFont()->setName('Arial');
 			}
 			
     		$current_column++;
 		}
 		
-		$workbook->send($fileName);
+		$workbook->getDefaultStyle()->getFont()->setName('Arial')->setSize(11);
 		
-		// this has errors suppressed due to strict mode
-		@$workbook->close();
+		$workbook->setActiveSheetIndex(0);
+		$writer = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+
+		// set headers to excel:
+		header('Content-type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment; filename="' . $fileName .'"');
+		header('Cache-Control: max-age=0');
+		$writer->save('php://output');
 	}
 	
 	/**
