@@ -29,7 +29,7 @@ class ExportUtility
 	 */
 	static function OutputAsExcel(Array $objects, Phreezer $phreezer, $reportTitle = "Data Export", $fileName = "export.xls", $creator = "Phreeze Library")
 	{
-		require_once("PHPExcel/Classes/PHPExcel.php");
+		require_once("PEAR/PHPExcel.php");
 		
 		// create the workbook and worksheet
 		$workbook = new PHPExcel();
