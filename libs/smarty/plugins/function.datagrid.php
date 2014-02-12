@@ -107,6 +107,7 @@ function smarty_function_datagrid($params, &$smarty)
     $record_name = isset($params["record_name"]) ? $params["record_name"] : "record";
     $no_records = isset($params["no_records"]) ? $params["no_records"] : "No matching " . $record_name . "s";
     $editButtonText = isset($params["EditButtonText"]) ? "Details" : "Edit";
+    $tableClass = isset($params["table_class"]) ? $params["table_class"] : "basic";
     
     $return_val = "";
     
@@ -173,9 +174,9 @@ function smarty_function_datagrid($params, &$smarty)
     if (count($page->Rows) > 0)
     {
     
-        $return_val .= "<table class='basic'>\n";
+        $return_val .= "<table class='".htmlentities($tableClass)."'>\n";
         
-        $return_val .= "<tr>\n";
+        $return_val .= "<thead>\n<tr>\n";
         if ($edit_url) {$return_val .= "<th>&nbsp;</th>\n";}
         foreach ($columns as $column)
         {
@@ -209,7 +210,9 @@ function smarty_function_datagrid($params, &$smarty)
             $return_val .= "</th>\n";
         }
         if ($delete_url) {$return_val .= "<th>&nbsp;</th>\n";}
-        $return_val .= "</tr>\n";
+        $return_val .= "</tr>\n</thead>\n";
+        
+        $return_val .= "<tbody>\n";
 
 		$rowcounter = 0;
         foreach ($page->Rows as $obj)
@@ -290,10 +293,12 @@ function smarty_function_datagrid($params, &$smarty)
             $return_val .= "</tr>\n";
         }
         
+        $return_val .= "</tbody>\n";
+        
         // add the footer totals
 		if ($total_string)
 		{
-             if ($edit_url) 
+            if ($edit_url) 
             {
                 $return_val .= "<td class='footer'>&nbsp;</td>\n";
             }
@@ -320,6 +325,8 @@ function smarty_function_datagrid($params, &$smarty)
         if ($delete_url) {$return_val .= "<td class='footer'>&nbsp;</td>\n";}
 
 		}
+		
+		
         
         $return_val .= "</table>\n";
         
