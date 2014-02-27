@@ -86,8 +86,7 @@ var app = {
 	 * return true if user interface should be limited based on browser support
 	 * @returns bool
 	 */
-	browserSucks: function()
-	{
+	browserSucks: function() {
 		isIE6 = navigator.userAgent.match(/msie [6]/i) && !window.XMLHttpRequest;
 		isIE7 = navigator.userAgent.match(/msie [7]/i);
 		isIE8 = navigator.userAgent.match(/msie [8]/i);
@@ -110,19 +109,16 @@ var app = {
 		if (typeof(defaultDate) == 'undefined') defaultDate = new Date();
 		
 		// if the value passed in was blank, default to today
-		if (str == '' || typeof(str) == 'undefined')
-		{
+		if (str == '' || typeof(str) == 'undefined') {
 			if (console) console.log('app.parseDate: empty or undefined date value');
 			return defaultDate;
 		}
 
 		var d;
-		try
-		{
+		try	{
 			var dateTime = str.split(' ');
 			
-			if (dateTime.length == 1)
-			{
+			if (dateTime.length == 1) {
 				// if this was a time-only value then add an arbitrary date
 				if (dateTime[0].split(':').length > 1)
 				{
@@ -137,15 +133,13 @@ var app = {
 			while (timeParts.length < 3) timeParts[timeParts.length] = '00';
 			d = new Date(dateParts[0], dateParts[1]-1, dateParts[2], timeParts[0], timeParts[1], timeParts[2]);
 		}
-		catch (error)
-		{
+		catch (error) {
 			if (console) console.log('app.parseDate: ' + error.message);
 			d = defaultDate;
 		}
 
 		// if either of these occur then the date wasn't parsed correctly
-		if ( typeof(d) == 'undefined' || isNaN(d.getTime()) )
-		{
+		if ( typeof(d) == 'undefined' || isNaN(d.getTime()) ) {
 			if (console) console.log('app.parseDate: unable to parse date value');
 			d = defaultDate;
 		}
@@ -156,11 +150,10 @@ var app = {
 	/**
 	 * Convenience method for creating an option
 	 */
-	getOptionHtml: function(val,label,selected)
-	{
+	getOptionHtml: function(val,label,selected)	{
 		return '<option value="' + _.escape(val) + '" ' + (selected ? 'selected="selected"' : '') +'>'
 			+ _.escape(label)
-			+ '</option>'
+			+ '</option>';
 	},
 
 	/**
@@ -172,20 +165,16 @@ var app = {
 	getErrorMessage: function(resp) {
 
 		var msg = 'An unknown error occured';
-		try
-		{
+		try	{
 			var json = $.parseJSON(resp.responseText);
 			msg = json.message;
-		}
-		catch (error)
-		{
+		} catch (error)	{
 			// TODO: possibly use regex or some other more robust way to get details...?
 			var parts = resp.responseText.split(app.errorLandmarkStart);
 
-			if (parts.length > 1)
-			{
+			if (parts.length > 1) {
 				var parts2 = parts[1].split(app.errorLandmarkEnd);
-				msg = parts2[0]
+				msg = parts2[0];
 			}
 		}
 
