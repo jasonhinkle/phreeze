@@ -3,6 +3,7 @@
 	<head>
 	{ldelim}block name=header{rdelim}
 		<meta charset="utf-8">
+		<meta http-equiv="X-Frame-Options" content="deny">
 		<base href="{ldelim}$ROOT_URL{rdelim}" />
 		<title>{ldelim}block name=title{rdelim}{$appname}{ldelim}/block{rdelim}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
