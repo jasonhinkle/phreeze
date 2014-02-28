@@ -19,16 +19,14 @@ var view = {
 			var first = 1;
 			var last = (1 * page.totalPages);
 
-			if (last > 10)
-			{
+			if (last > 10) {
 				first = (1 * page.currentPage) - 5;
 				first = first > 1 ? first : 1;
 
 				last = last > (first + 9) ? (first + 9) : last;
 			}
 
-			if (first > 1)
-			{
+			if (first > 1) {
 				html += '<li><a class="pageButton" id="page-' + (first - 1) + '" href="#">&laquo;</a></li>';
 			}
 
@@ -38,8 +36,7 @@ var view = {
 					+ i + '</a></li>';
 			}
 
-			if (last < (1 * page.totalPages) )
-			{
+			if (last < (1 * page.totalPages) ) {
 				html += '<li><a class="pageButton" id="page-' + (last+1) + '" href="#">&raquo;</a></li>';
 			}
 			html += '</ul></div>';
