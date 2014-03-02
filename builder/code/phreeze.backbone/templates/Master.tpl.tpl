@@ -38,7 +38,7 @@
 			$LAB
 				.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
 				.script("bootstrap/js/bootstrap.min.js")
-				.script("bootstrap/js/bootstrap-datepicker.js)
+				.script("bootstrap/js/bootstrap-datepicker.js")
 				.script("bootstrap/js/bootstrap-timepicker.js")
 				.script("bootstrap/js/bootstrap-combobox.js")
 				.script("scripts/libs/underscore-min.js").wait()
