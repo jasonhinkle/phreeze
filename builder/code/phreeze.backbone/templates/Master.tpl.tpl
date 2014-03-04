@@ -37,7 +37,16 @@
 		<script type="text/javascript">
 			$LAB
 				.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
-				.script("bootstrap/js/bootstrap.min.js");
+				.script("bootstrap/js/bootstrap.min.js")
+				.script("bootstrap/js/bootstrap-datepicker.js")
+				.script("bootstrap/js/bootstrap-timepicker.js")
+				.script("bootstrap/js/bootstrap-combobox.js")
+				.script("scripts/libs/underscore-min.js").wait()
+				.script("scripts/libs/underscore.date.min.js")
+				.script("scripts/libs/backbone-min.js")
+				.script("scripts/app.js")
+				.script("scripts/model.js").wait()
+				.script("scripts/view.js").wait()
 		</script>
 
 	{ldelim}/block{rdelim}

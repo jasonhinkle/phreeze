@@ -6,16 +6,7 @@
 
 @section('customHeader')
 <script type="text/javascript">
-	$LAB.script("bootstrap/js/bootstrap-datepicker.js")
-	.script("bootstrap/js/bootstrap-timepicker.js")
-	.script("bootstrap/js/bootstrap-combobox.js")
-	.script("scripts/libs/underscore-min.js").wait()
-	.script("scripts/libs/underscore.date.min.js")
-	.script("scripts/libs/backbone-min.js")
-	.script("scripts/app.js")
-	.script("scripts/model.js").wait()
-	.script("scripts/view.js").wait()
-	.script("scripts/app/{$plural|lower}.js").wait(function(){
+	$LAB.script("scripts/app/{$plural|lower}.js").wait(function(){
 		$(document).ready(function(){
 			page.init();
 		});
