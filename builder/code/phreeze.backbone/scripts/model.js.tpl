@@ -6,7 +6,7 @@
  * Use emulated HTTP if the server doesn't support PUT/DELETE or application/json requests
  */
 Backbone.emulateHTTP = false;
-Backbone.emulateJSON = false
+Backbone.emulateJSON = false;
 
 var model = {};
 
@@ -47,7 +47,7 @@ model.AbstractCollection = Backbone.Collection.extend({
 	},
 	
 	/* uncomment to debug fetch event triggers
-	fetch: function(options) {         
+	fetch: function(options) {
             this.constructor.__super__.fetch.apply(this, arguments);
 	},
 	// */
@@ -73,8 +73,7 @@ model.AbstractCollection = Backbone.Collection.extend({
 				// treat comparison as case-insensitive strings
 				aVal = aVal ? aVal.toLowerCase() : '';
 				bVal = bVal ? bVal.toLowerCase() : '';
-			}
-			else {
+			} else {
 				// treat comparision as a number
 				aVal = Number(aVal);
 				bVal = Number(bVal);
@@ -82,11 +81,9 @@ model.AbstractCollection = Backbone.Collection.extend({
 			
 			if (aVal < bVal) {
 				result = options.orderDesc ? 1 : -1;
-			}
-			else if (aVal > bVal) {
+			} else if (aVal > bVal) {
 				result = options.orderDesc ? -1 : 1;
 			}
-
 		}
 		
 		return result;
@@ -113,8 +110,7 @@ model.AbstractCollection = Backbone.Collection.extend({
 		
 		var rows;
 
-		if (response.currentPage)
-		{
+		if (response.currentPage) {
 			rows = response.rows;
 			this.totalResults = response.totalResults;
 			this.totalPages = response.totalPages;
@@ -122,9 +118,7 @@ model.AbstractCollection = Backbone.Collection.extend({
 			this.pageSize = response.pageSize;
 			this.orderBy = response.orderBy;
 			this.orderDesc = response.orderDesc;
-		}
-		else
-		{
+		} else {
 			rows = response;
 			this.totalResults = rows.length;
 			this.totalPages = 1;

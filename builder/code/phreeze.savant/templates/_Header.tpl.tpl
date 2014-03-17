@@ -2,6 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-Frame-Options" content="deny">
 		<base href="<?php $this->eprint($this->ROOT_URL); ?>" />
 		<title><?php $this->eprint($this->title); ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,9 +34,17 @@
 
 		<script type="text/javascript" src="scripts/libs/LAB.min.js"></script>
 		<script type="text/javascript">
-			$LAB
-				.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
-				.script("bootstrap/js/bootstrap.min.js");
+			$LAB.script("//code.jquery.com/jquery-1.8.2.min.js").wait()
+				.script("bootstrap/js/bootstrap.min.js")
+				.script("bootstrap/js/bootstrap-datepicker.js")
+				.script("bootstrap/js/bootstrap-timepicker.js")
+				.script("bootstrap/js/bootstrap-combobox.js")
+				.script("scripts/libs/underscore-min.js").wait()
+				.script("scripts/libs/underscore.date.min.js")
+				.script("scripts/libs/backbone-min.js")
+				.script("scripts/app.js")
+				.script("scripts/model.js").wait()
+				.script("scripts/view.js").wait()
 		</script>
 
 	</head>
