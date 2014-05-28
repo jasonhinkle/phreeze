@@ -76,6 +76,7 @@ class GenericRouter implements IRouter
 	 */
 	public function GetRoute( $uri = "" )
 	{
+		
 		// reset the uri cache
 		$this->uri = '';
 		
@@ -167,80 +168,66 @@ class GenericRouter implements IRouter
 	public function GetUrl( $controller, $method, $params = '', $requestMethod = "" )
 	{
 		$found = false;
-		// $requestMethod = RequestUtil::GetMethod();
 
-		if ($params == '') $params = array();
-		
-		if (!is_array($params))
-		{
-			$pairs = explode('&',$params);
-			$params = array();
-			foreach ($pairs as $pair)
-			{
-				$keyval = explode('=',$pair);
-				$params[$keyval[0]] = count($keyval) > 1 ? $keyval[1] : '';
-			}
-		}
+		// params may be either an array of key/value pairs, or a string in the format key=val&key=val&key=val
+		if (!is_array($params)) $params = parse_str($params);
 
-		// if an appRootUrl was provided then use that, otherwise figure it out based on the root url
+		// The app root url is needed so we can return the fully qualified URL
 		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetBaseURL();
 
-		// normalize url by stripping trailing slash
-		while (substr($url,-1) == '/')
-		{
-			$url = substr($url,0,-1);
-		}
+		// normalize the url so that there are no trailing slashes
+		$url = rtrim($url, '/');
 
+		// enumerate all of the routes in the map and look for the first one that matches
 		foreach( $this->routes as $key => $value)
 		{
 			list($routeController,$routeMethod) = explode(".",$value["route"]);
 
-			$keyRequestMethodArr = explode(":",$key,2);
-			$keyRequestMethod = $keyRequestMethodArr[0];
+			$routeRequestMethodArr = explode(":",$key,2);
+			$routeRequestMethod = $routeRequestMethodArr[0];
 
-			// echo "$routeController:$controller $routeMethod:$method $keyRequestMethod:$requestMethod)<br/>";
-			if( ($routeController == $controller) && ($routeMethod == $method) && ($requestMethod == "" || ($keyRequestMethod == $requestMethod)) &&
-			    (! array_key_exists("params",$value) || count($params) == count($value["params"]) )
-			  )
-			{
+			// In order to match a route it needs to meet 3 conditions:
+			// 1. controller and method match
+			// 2. the requestMethod is either a match or one or the other is a wildcard
+			// 3. the number of parameters is equal
+			if ($routeController == $controller && $routeMethod == $method
+				&& ($requestMethod == "" || $routeRequestMethod == "*" || $routeRequestMethod == $requestMethod) 
+				&& (!array_key_exists("params",$value) || count($params) == count($value["params"])) ) {
+				
 				$keyArr = explode('/',$key);
 
 				// strip the request method off the key:
-				// we can safely access 0 here, as there has to be params to get here:
 				$reqMethodAndController = explode(":",$keyArr[0]);
 				$keyArr[0] = (count($reqMethodAndController) == 2 ? $reqMethodAndController[1] : $reqMethodAndController[0]);
 
 				// merge the parameters passed in with the routemap's path
 				// example: path is user/(:num)/events and parameters are [userCode]=>111
 				// this would yield an array of [0]=>user, [1]=>111, [2]=>events
-				if( array_key_exists("params",$value) )
-				{
-					foreach( $value["params"] as $rKey => $rVal )
-					{
-						if (!array_key_exists($rKey, $params))
-							throw new Exception('Missing parameter "' . $rKey . "' for route " . $controller.'.'.$method);
+				if( array_key_exists("params",$value) ) {
+					foreach( $value["params"] as $rKey => $rVal ) {
+						if (!array_key_exists($rKey, $params)) {
+							throw new Exception("Missing parameter '$rKey' for route $controller.$method");
+						}
 						$keyArr[$value["params"][$rKey]] = $params[$rKey];
 					}
 				}
 
 				// put the url together:
-				foreach( $keyArr as $urlPiece )
-				{
+				foreach( $keyArr as $urlPiece ) {
 					$url = $url . ($urlPiece != '' ? "/$urlPiece" : '');
 				}
 				
 				// no route, just a request method? RESTful to add a trailing slash:
-				if( $keyRequestMethodArr[1] == "")
-					$url = $url . "/";
+				if( $routeRequestMethodArr[1] == "") $url . "/";
 
 				$found = true;
 				break;
 			}
 		}
 
-		// we stripped this at the beginning, need to add it back
-		if( ! $found ) // $url = $url . "/";
-			throw new Exception("No route found for " . $controller.'.'.$method. ($params ? '?' . implode('&',$params) : '' ));
+		if (!$found) {
+			throw new Exception('No route found for ' . ($requestMethod ? $requestMethod : '*') . ":$controller.$method" . ($params ? '?' . implode('&',$params) : '' ));
+		}
 
 		return $url;
 	}
@@ -258,8 +245,8 @@ class GenericRouter implements IRouter
 	 */
 	public function GetUrlParam($paramKey, $default = '')
 	{
-		if( $this->cachedRoute == null )
-			throw new Exception("Call GetRoute before accessing GetUrlParam");
+		// if the route hasn't been requested, then we need to initialize before we can get url params
+		if ($this->cachedRoute == null) $this->GetRoute();
 
 		$params = $this->GetUrlParams();
 		$uri = $this->GetUri();
