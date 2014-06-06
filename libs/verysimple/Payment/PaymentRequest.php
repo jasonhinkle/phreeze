@@ -72,7 +72,7 @@ class PaymentRequest
 	 */
 	function Init()
 	{
-		$this->CustomerIP = $_SERVER['REMOTE_ADDR'];
+		$this->CustomerIP = array_key_exists('REMOTE_ADDR', $_SERVER) ? $_SERVER['REMOTE_ADDR'] : '0.0.0.0';
 	}
 	
 	/**
