@@ -13,27 +13,11 @@ require_once('verysimple/HTTP/RequestUtil.php');
  * @author     VerySimple Inc.
  * @copyright  1997-2013 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    1.1
+ * @version    1.2
  */
 class GenericRouter implements IRouter
 {
-	private $routes = array();
-
-	private $defaultAction = 'Default.Home';
-	private $uri = '';
-	private $appRootUrl = '';
-
-	// cached route from last run:
-	private $cachedRoute;
-	
-	public static $ROUTE_NOT_FOUND = "Default.Error404";
-
-	/**
-	 * Instantiate the GenericRouter
-	 *
-	 * @param string $appRootUrl the root url of the application including trailing slash (ex http://localhost/)
-	 * @param string $defaultAction action to call if no route is provided (ex Default.DefaultAction)
-	 * @param array $mapping the associative array of maps Example: <pre>
+	/** @var array associative array of map data. Example: <pre>
 	 * 		$routes = array(
 	 * 			"GET:" => array("route" => "Default.Home"),
 	 * 			"GET:user/(:num)/packages" => array("route" => "Package.Query", "params" => array("userId" => 1)),
@@ -42,14 +26,36 @@ class GenericRouter implements IRouter
 	 * 		);
 	 * </pre>
 	 */
-	public function __construct($appRootUrl = '', $defaultAction = '', $mapping = array())
+	public $routeMap;
+	
+	/** @var string the default action if requested route is empty (typically the application home page) */
+	public $defaultAction = 'Default.Home';
+	
+	/** @var string the fully qualified root url for the app. Ex: "https://site.local/" */
+	public $appRootUrl = '';
+	
+	/** @var string cached URI  */
+	private $uri = '';
+
+	/** @var array specific route record that was matched based on the URL  */
+	private $matchedRoute;
+	
+	/** @var string the default action if requested route is not found  */
+	public static $ROUTE_NOT_FOUND = "Default.Error404";
+
+	/**
+	 * Instantiate the GenericRouter
+	 *
+	 * @param string $appRootUrl the root url of the application including trailing slash (ex http://localhost/)
+	 * @param string $defaultAction action to call if no route is provided (ex Default.DefaultAction)
+	 * @param array $mapping the 
+	 */
+	public function __construct($appRootUrl, $defaultAction, Array $routeMap)
 	{
-		if ($defaultAction) $this->defaultAction = $defaultAction;
-		if ($appRootUrl) $this->appRootUrl = $appRootUrl;
-
-		$this->mapRoutes($mapping);
-
-		$this->cachedRoute = null;
+		$this->defaultAction = $defaultAction;
+		$this->appRootUrl = $appRootUrl;
+		$this->routeMap = $routeMap;
+		$this->matchedRoute = null;
 	}
 
 	/**
@@ -60,16 +66,6 @@ class GenericRouter implements IRouter
 		return $this->appRootUrl;
 	}
 
-	/**
-	 * Adds router mappings to our routes array.
-	 *
-	 * @param array $src
-	 */
-	private function mapRoutes( $src )
-	{
-		foreach ( $src as $key => $val )
-			$this->routes[ $key ] = $val;
-	}
 
 	/**
 	 * @inheritdocs
@@ -84,22 +80,22 @@ class GenericRouter implements IRouter
 			$uri = RequestUtil::GetMethod() . ":" . $this->GetUri();
 
 		// literal match check
-		if ( isset($this->routes[ $uri ]) )
+		if ( isset($this->routeMap[ $uri ]) )
 		{
 			// expects mapped values to be in the form: Controller.Model
-			list($controller,$method) = explode(".",$this->routes[ $uri ]["route"]);
+			list($controller,$method) = explode(".",$this->routeMap[ $uri ]["route"]);
 
-			$this->cachedRoute = array(
-				"key" => $this->routes[ $uri ]
-				,"route" => $this->routes[ $uri ]["route"]
-				,"params" => isset($this->routes[ $uri ]["params"]) ? $this->routes[ $uri ]["params"] : array()
+			$this->matchedRoute = array(
+				"key" => $this->routeMap[ $uri ]
+				,"route" => $this->routeMap[ $uri ]["route"]
+				,"params" => isset($this->routeMap[ $uri ]["params"]) ? $this->routeMap[ $uri ]["params"] : array()
 			);
 
 			return array($controller,$method);
 		}
 
 		// loop through the route map for wild cards:
-		foreach( $this->routes as $key => $value)
+		foreach( $this->routeMap as $key => $value)
 		{
 			$unalteredKey = $key;
 
@@ -111,7 +107,7 @@ class GenericRouter implements IRouter
 			// check for RegEx match
 			if ( preg_match( '#^' . $key . '$#', $uri ) )
 			{
-				$this->cachedRoute = array(
+				$this->matchedRoute = array(
 					"key" => $unalteredKey
 					,"route" => $value["route"]
 					,"params" => isset($value["params"]) ? $value["params"] : array()
@@ -124,7 +120,7 @@ class GenericRouter implements IRouter
 		}
 
 		// this is a page-not-found route
-		$this->cachedRoute = array(
+		$this->matchedRoute = array(
 				"key" => ''
 				,"route" => ''
 				,"params" => array()
@@ -179,7 +175,7 @@ class GenericRouter implements IRouter
 		$url = rtrim($url, '/');
 
 		// enumerate all of the routes in the map and look for the first one that matches
-		foreach( $this->routes as $key => $value)
+		foreach( $this->routeMap as $key => $value)
 		{
 			list($routeController,$routeMethod) = explode(".",$value["route"]);
 
@@ -246,16 +242,16 @@ class GenericRouter implements IRouter
 	public function GetUrlParam($paramKey, $default = '')
 	{
 		// if the route hasn't been requested, then we need to initialize before we can get url params
-		if ($this->cachedRoute == null) $this->GetRoute();
+		if ($this->matchedRoute == null) $this->GetRoute();
 
 		$params = $this->GetUrlParams();
 		$uri = $this->GetUri();
 		$count = 0;
-		$routeMap = $this->cachedRoute["key"];
+		$routeMap = $this->matchedRoute["key"];
 
-		if( isset($this->cachedRoute["params"][$paramKey]) )
+		if( isset($this->matchedRoute["params"][$paramKey]) )
 		{
-			$indexLocation = $this->cachedRoute["params"][$paramKey];
+			$indexLocation = $this->matchedRoute["params"][$paramKey];
 			return $params[$indexLocation];
 		}
 		else
