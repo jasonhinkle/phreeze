@@ -32,10 +32,11 @@ class VerySimpleXmlUtil
 	 *
 	 * @param string $xml to parse
 	 * @param string $emptyVal if $xml is empty, default to this value (ex "<xml/>")
+	 * @param bool $reAttempt if true then xml that cannot be parsed will be re-tried once with all non-ascii chars stripped
 	 * 
 	 * @return SimpleXMLElement
 	 */
-	static function SafeParse($xml, $emptyVal = null)
+	static function SafeParse($xml, $emptyVal = null, $reAttempt = true)
 	{
 
 		if (!$xml) {
@@ -45,8 +46,32 @@ class VerySimpleXmlUtil
 		
 		// re-route error handling temporarily so we can convert PHP errors to an exception
 		set_error_handler(array("VerySimpleXmlUtil", "HandleParseException"),E_ALL);
-		
-		$element = new SimpleXMLElement($xml);
+
+		try {
+			
+			$element = new SimpleXMLElement($xml);
+			
+		} catch (Exception $ex1) {
+			
+			// the xml could not be parsed, SimpleXMLElement is very picky about non-ascii characters
+			// so if specified then re-try it with all non-ascii characters stripped
+			if ($reAttempt) {
+				
+				try {
+					// $xml = @iconv('UTF-8', "ISO-8859-1//IGNORE", $xml); // this doesn't seem to work
+					$xml = preg_replace('/[[:^print:]]/', '', $xml); // this is heavy-handed but works
+					$element = new SimpleXMLElement($xml);
+				}
+				catch (Exception $ex2) {
+					// re-throw the first exception so we don't confuse the error due to the second attempt
+					throw $ex1;
+				}
+				
+			}
+			else {
+				throw $ex1;
+			}
+		}
 		
 		// reset error handling back to whatever it was
 		restore_error_handler();
