@@ -59,7 +59,7 @@ class VerySimpleXmlUtil
 				
 				try {
 					// $xml = @iconv('UTF-8', "ISO-8859-1//IGNORE", $xml); // this doesn't seem to work
-					$xml = preg_replace('/[[:^print:]]/', '', $xml); // this is heavy-handed but works
+					$xml = preg_replace('/[[:^print:]]/', '?', $xml); // this is heavy-handed but works
 					$element = new SimpleXMLElement($xml);
 				}
 				catch (Exception $ex2) {
