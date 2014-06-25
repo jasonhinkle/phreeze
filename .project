@@ -3,6 +3,11 @@
 	<name>phreeze</name>
 	<comment></comment>
 	<projects>
+		<project>liveaccess</project>
+		<project>mtdautomation</project>
+		<project>mtdportal</project>
+		<project>mtdserv</project>
+		<project>mtdshared</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
