@@ -164,9 +164,10 @@ class GenericRouter implements IRouter
 	public function GetUrl( $controller, $method, $params = '', $requestMethod = "" )
 	{
 		$found = false;
+		$parameterArray = array();
 
 		// params may be either an array of key/value pairs, or a string in the format key=val&key=val&key=val
-		if (!is_array($params)) $params = parse_str($params);
+		if (!is_array($params)) $params = parse_str($params, $parameterArray);
 
 		// The app root url is needed so we can return the fully qualified URL
 		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetBaseURL();
@@ -188,7 +189,7 @@ class GenericRouter implements IRouter
 			// 3. the number of parameters is equal
 			if ($routeController == $controller && $routeMethod == $method
 				&& ($requestMethod == "" || $routeRequestMethod == "*" || $routeRequestMethod == $requestMethod) 
-				&& (!array_key_exists("params",$value) || count($params) == count($value["params"])) ) {
+				&& (!array_key_exists("params",$value) || count($parameterArray) == count($value["params"])) ) {
 				
 				$keyArr = explode('/',$key);
 
@@ -201,10 +202,10 @@ class GenericRouter implements IRouter
 				// this would yield an array of [0]=>user, [1]=>111, [2]=>events
 				if( array_key_exists("params",$value) ) {
 					foreach( $value["params"] as $rKey => $rVal ) {
-						if (!array_key_exists($rKey, $params)) {
+						if (!array_key_exists($rKey, $parameterArray)) {
 							throw new Exception("Missing parameter '$rKey' for route $controller.$method");
 						}
-						$keyArr[$value["params"][$rKey]] = $params[$rKey];
+						$keyArr[$value["params"][$rKey]] = $parameterArray[$rKey];
 					}
 				}
 
@@ -222,7 +223,7 @@ class GenericRouter implements IRouter
 		}
 
 		if (!$found) {
-			throw new Exception('No route found for ' . ($requestMethod ? $requestMethod : '*') . ":$controller.$method" . ($params ? '?' . implode('&',$params) : '' ));
+			throw new Exception('No route found for ' . ($requestMethod ? $requestMethod : '*') . ":$controller.$method" . ($parameterArray ? '?' . implode('&',$parameterArray) : '' ));
 		}
 
 		return $url;
