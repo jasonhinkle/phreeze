@@ -166,7 +166,7 @@ class GenericRouter implements IRouter
 		$found = false;
 
 		// params may be either an array of key/value pairs, or a string in the format key=val&key=val&key=val
-		if (!is_array($params)) $params = parse_str($params);
+		if (!is_array($params)) parse_str($params, $params);
 
 		// The app root url is needed so we can return the fully qualified URL
 		$url = $this->appRootUrl ? $this->appRootUrl : RequestUtil::GetBaseURL();
