@@ -30,6 +30,9 @@ class DBTable
 	public $Constraints;
 	public $Sets;
 	public $IsView = false;
+	
+	static $NUMERIC_TABLE_PREFIX = 'TBL_';
+	static $NUMERIC_COLUMN_PREFIX = 'COL_';
 
 	/**
 	 * Instantiate new DBTable
@@ -169,6 +172,30 @@ class DBTable
 				$column->NameWithoutPrefix = substr($column->Name,strlen($curr_prefix));
 			}
 		}
+		
+		// if a column begins with a numeric character then prepend a string to prevent generated code errors
+		if (self::$NUMERIC_COLUMN_PREFIX) 
+		{
+			foreach ($this->Columns as $column)
+			{
+				if ( is_numeric(substr($column->NameWithoutPrefix,0,1)) ) 
+				{
+					$column->NameWithoutPrefix = self::$NUMERIC_COLUMN_PREFIX . $column->NameWithoutPrefix;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Returns a name that is acceptable to be used as the "object" name in generated code
+	 */
+	public function GetObjectName() 
+	{
+		if (is_numeric(substr($this->Name, 0, 1))) {
+			return self::$NUMERIC_TABLE_PREFIX . $this->Name;
+		}
+		
+		return $this->Name;
 	}
 
 	/**Given a column name, removes the prefix
