@@ -20,6 +20,23 @@ class MockRouter implements IRouter
 	private $_url;
 
 	/**
+	 * Backwards compatibility for Phreeze 2.0
+	 * @deprecated use GetUrl instead
+	 * @param string $controller
+	 * @param string $method
+	 * @param string $params in the format param1=val1&param2=val2
+	 * @param bool $strip_api set to true to strip virtual part of the url in a rest call
+	 * @param string $delim the querystring variable delimiter (& or &amp; for generating valid html)
+	 * @return string URL
+	 */
+	public function Get($controller, $method, $params = "", $strip_api = true, $delim="&")
+	{
+		$this->stripApi = $strip_api;
+		$this->delim = $delim;
+		return $this->GetUrl($controller, $method, $params);
+	}
+	
+	/**
 	 *
 	 * @param string $paramName
 	 * @param string $paramName
