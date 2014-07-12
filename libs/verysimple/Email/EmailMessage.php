@@ -28,6 +28,7 @@ class EmailMessage
 	public $Format;
 	public $Attachments;
 	public $Sender;
+	public $Headers = array();
 
 	/** @var bool set to true to decode html entities from the sender, recipients and subject.  you must still decode the body manually if necessary, though */
 	public $DecodeEntities;
@@ -118,6 +119,16 @@ class EmailMessage
 	public function GetBody()
 	{
 		return $this->Body;
+	}
+	
+	/**
+	 * Adds a custom MIME header that will be included in the outgoing email
+	 * @param string $key
+	 * @param string $value
+	 */
+	function AddHeader($key,$value)
+	{
+		$this->Headers[$key] = $value;
 	}
 
 	/**

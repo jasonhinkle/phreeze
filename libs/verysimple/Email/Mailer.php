@@ -127,6 +127,12 @@ class Mailer
         	  $mailer->Username = $this->AuthUsername;
         	  $mailer->Password = $this->AuthPassword;
         }
+        
+        // if custom headers are to be provided, include them in the message
+        foreach ($message->Headers as $header_key => $header_val) 
+        {
+        	$mailer->AddCustomHeader($header_key.': '.$header_val);
+        }
 
 		if ($message->Sender)
 		{
