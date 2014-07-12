@@ -14,7 +14,7 @@ define("MESSAGE_FORMAT_HTML",1);
  * @author VerySimple Inc.
  * @copyright  1997-2007 VerySimple, Inc.
  * @licensehttp://www.gnu.org/licenses/lgpl.html  LGPL
- * @version2.1
+ * @version2.2
  */
 class EmailMessage
 {
@@ -22,6 +22,7 @@ class EmailMessage
 	public $CCRecipients;
 	public $BCCRecipients;
 	public $From;
+	public $ReplyTo;
 	public $Subject;
 	public $Body;
 	public $Format;
@@ -71,6 +72,21 @@ class EmailMessage
 		}
 
 		$this->From = new Recipient($email,$name);
+	}
+	
+	/**
+	 * Set the from address of the message
+	 * @param string
+	 */
+	function SetReplyTo($email,$name="")
+	{
+		if ($this->DecodeEntities)
+		{
+			$email = $this->DecodeEntities($email);
+			$name = $this->DecodeEntities($name);
+		}
+	
+		$this->ReplyTo = new Recipient($email,$name);
 	}
 
 	/**
