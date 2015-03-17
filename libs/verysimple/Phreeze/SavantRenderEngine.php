@@ -60,7 +60,7 @@ class SavantRenderEngine implements IRenderEngine
 		}
 		elseif ($template == "_error")
 		{
-			$this->savant->display('_error' . $TEMPLATE_EXTENSION);
+			$this->savant->display('_error' . self::$TEMPLATE_EXTENSION);
 		}
 		else
 		{
