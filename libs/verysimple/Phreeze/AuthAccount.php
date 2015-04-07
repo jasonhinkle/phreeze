@@ -96,9 +96,9 @@ class AuthAccount extends AccountDAO implements IAuthenticatable
 
 		$criteria = new AccountCriteria();
 		// set both the name and the _Equals properties for backwards compatibility
-		$criteria->Username = $username;
+		if (property_exists($criteria,'Username')) $criteria->Username = $username;
 		$criteria->Username_Equals = $username;
-		$criteria->Password = base64_encode(crypt($password,$username));
+		if (property_exists($criteria,'Password')) $criteria->Password = base64_encode(crypt($password,$username));
 		$criteria->Password_Equals = base64_encode(crypt($password,$username));
 		
 		$ds = $this->_phreezer->Query("Account", $criteria);
