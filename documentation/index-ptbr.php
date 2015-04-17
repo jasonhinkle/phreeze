@@ -9,7 +9,7 @@
 	<h3>Iniciando</h3>
 	
 	<ul>
-		<li><a href="introduction-ptbr.php">Introdução ap Phreeze</a></li>
+		<li><a href="introduction-ptbr.php">Introdução ao Phreeze</a></li>
 		<li><a href="videos-ptbr.php">Videos de Treinamento</a>
 		<li><a href="installation-ptbr.php">Instalando o Phreeze</a></li>
 		<li><a href="builder-ptbr.php">Phreeze Builder</a></li>
