@@ -4,79 +4,54 @@
 
 <img src="images/builder-01.png" class="pull-right" />
 
-<p>Phreeze Builder is a utility that analyzes a database and auto-generates 
-a basic application that is ready to use and/or customize.
-Phreeze builder uses templates to generate different types of applications.</p>
+<p>Phreeze Builder é um utilitário que analisa o banco de dados e automaticamente gera uma aplicação básica pronta para uso e/ou customização.
+O Phreeze Builder utiliza templates para gerar diferentes tipos de aplicações.</p>
 
-<h4 id="schema">Database Schema Recommendations</h4>
+<h4 id="schema">Recomendações para o Schema de Banco de Dados</h4>
 
-<p>Phreeze can work with just about any existing schema.  However if you are starting from scratch then 
-you can optimize your schema for Phreeze by following a few simple naming conventions:</p>
+<p>Phreeze pode utilizar praticamente qualquer schema existente. No entanto, se você estiver partindo do zero, pode otimizar seu schema para o Phreeze seguindo as convenções abaixo:</p>
 
 <ul>
-<li><span class="label label-important">Required</span> All tables must have a primary key that is comprised of one column.  Tables without
-a primary key or a composite primary key are not supported.</li>
-<li><span class="label label-warning">Recommended</span> All table relationships should be explicitly defined with a foreign key constraint.  Phreeze builder
-analyzes foreign keys in order to determine how tables are related.</li>
-<li><span class="label label-warning">Recommended</span> All tables and columns are lower-case with underscore characters as a delimiter.  
-For example `purchase_order` not `Purchase Order`, `purchaseOrder`, etc.  This will affect the builder's 
-ability to create cleanly named classes for your model.</li>
-<li><span class="label label-warning">Recommended</span> Use singular names for your tables.  For example use a table name `customer`, not `customers`.  
-Using singular names will help the builder to guess appropriate singular/plural class names for your model.</li>
-<li><span class="label label-success">Optional</span> Give each table a unique column prefix.  For example the customer table columns might 
-be c_id, c_name, c_age, etc.  This makes writing reporter classes easier, but is not required.</li>
+<li><span class="label label-important">Obrigatório</span> Todas as tabelas devem ter uma chave primária composta de uma coluna. Tabelas sem chave primária, ou cuja chave é composta por mais de uma coluna, não são suportadas.</li>
+<li><span class="label label-warning">Recomendado</span> Todos os relacionamentos entre as tableas devem ser explicitamente definidos com uma constraint de chave estrangeira.  O Phreeze Builder analisa as chaves estrangeiras para determinar como as tabelas estão relacionadas.</li>
+<li><span class="label label-warning">Recomendado</span> Todas as tabelas e colunas devem estar em caixa-baixa e usar underscore como delimitador. Por exemplo, `ordem_de_compra` e não `Ordem de Compra`, `ordemDeCompra`, etc.  Isto afetará a capacidade do Builder de criar nomes de classes limpos para o seu modelo.</li>
+<li><span class="label label-warning">Recomendado</span> Use nomes no singular para as suas tabelas.  Por exemplo, nomeie a tabela como `cliente`, e não `clientes`.  
+Usando nomes nos singular você ajuda o Builder a estimar de maneira apropriada os nomes classes do seu modelo no singular e no plural.</li>
+<li><span class="label label-success">Opcional</span> Dê a cada coluna da tabela um prefixo único.  Por exemplo, as colunas da tabela cliente podem ser c_id, c_nome, c_idade, etc.  Isso facilita a construção de reporter classes, mas não é obrigatório.</li>
 </ul>
 
-<h4 id="builder">Running Phreeze Builder</h4>
+<h4 id="builder">Usando o Phreeze Builder</h4>
 
 <img src="images/builder-02.png" class="pull-right" />
 
-<p>Phreeze builder is included withe the Phreeze library and is located in the /builder/ sub-directory.  Assuming you have
-saved the /phreeze/ folder in your localhost web root, you can open Phreeze builder at the following URL:</p>
+<p>Phreeze Builder está incluído na biblioteca Phreeze e está localizado no subdiretório  /builder/ . Assumindo que você salvou a pasta /phreeze/ na raiz do seu localhost, você pode abrir o Phreeze Builder na seguinte URL:</p>
 
 <p><code>http://localhost/phreeze/builder/</code></p>
 
-<p style="clear: left;">The first screen of the builder application will ask for your MySQL connection settings.  Providing these settings
-will do two things: first the builder app will connect and analyze your schema and second, it will re-use this 
-information to create a _machine_config.php file in the generated application.  This way your generated application
-will be ready to run without editing any config files</p>
+<p style="clear: left;">A primeira tela do builder te pedir os dados de conexão do seu banco de dados  MySQL. Fornecidas essas configurações, fará duas coisas: primeiro o builder app conectará e analisará o seu schema e segundo, usará estas informações para criar o arquivo _machine_config.php na aplicação gerada.  Desta maneira, sua aplicação estará pronta rodar, sem a necessidade de configurar nenhum arquivo.</p>
 
-<p>Once you have entered your database information, you will see the results of the schema analysis.  You should
-review all of the singular and plural names that were calculated by the builder app and make any adjustments.  The
-builder attempts to guess appropriate names for your model classes, however it doesn't alwasy guess 
-nuances of spoken language and may need your corrections.</p>
+<p>Uma vez que você forneceu as informações do seu banco de dados, você verá o resultado da análise do schema.  Você deve revisar todos os nomes no singular e plural gerados pelo builder e fazer qualquer ajuste necessário.  O builder tenta estimas os nomes apropriados para as suas classes modelo, no entanto, podem ocorrer algumas incorreções devido às nuances da língua.</p>
 
-<p>Below the table names is a drop-down to select the application that you wish to geneate.  You can choose from 
-various template engines based on your personal preferences, generate a unit test harness or generate only the 
-model files for your schema.</p>
+<p>Abaixo dos nomes das tabelas há um drop-down para selecionar a aplicação que você deseja gerar.  Você pode escolher um de vários template engines de acordo com as suas preferências pessoais, gerar um unit test harness ou gerar somente os raquivos model do seu schema.</p>
 
-<p>There are additional options below this where you can specify the name of your application, the root URL
-where this application will exist and the relative path to the /phreeze/libs/ directory.</p>
+<p>Existem opções adicionais abaixo, onde você pode especificar o nome de sua aplicação, a raiz da URL onde sua aplicação será instalada e o caminho relativo para o diretório /phreeze/libs/ .</p>
 
-<p>Once you are satisfied with your settings, click the "Generate Application" button and you will be prompted
-to download a .zip file.  This .zip file contains all of the files needed for your application.</p>
+<p>Quando tiver concluído suas configurações, clique no botão "Generate Application" e você será avisado para fazer o download de um arquivo .zip.  Este arquivo zipado contém todos os arquivos necessários para a sua aplicação.</p>
 
-<h4 id="app">Running Your Generated Application</h4>
+<h4 id="app">Rodando a Aplicação Gerada</h4>
 
-<p>Depending on the path and root URL you specified, you should expand your application .zip file in the appropriate
-location on your server.  If you selected Smarty as your template engine then you may need to configure the permissions
-of the /templates_c/ directory to allow write permissions.  If you selected the Laravel/Blade template engine then
-you may need to alter the permissions on /storage/views/ to allow writing.</p>
+<p>Dependendo do caminho e da raiz da URL especificadam você precisará extrair o seu arquivo .zip no local apropriado em seu servidor.  Se você selecionou Smarty como seu template engine então precisará configurar as permissões do diretório /templates_c/ para permitir a escrita.  Se você selecionou o Laravel/Blade template engine então você pode precisar alterar as permissões em /storage/views/ para permitir escrita.</p>
 
-<p>Once the application is installed on your server and optionally the permissions have been updated you are ready 
-to run your application.  Open your browser to the appropriate location such as:</p>
+<p>Quando a aplicação estiver instalada em seu servidor e as permissões opcionais estiverem atualizadas você poderá rodar sua aplicação.  Abra seu navegador no endereço apropriado como:</p>
 
 <p><code>http://localhost/yourappname/</code></p>
 
-<p>If all has gone according to plan then you should see your application welcome screen!</p>
+<p>Se tudo seguiu de acordo com o planejado você verá a tela de boas vindas de sua aplicação!</p>
 
-<h4 id="templates">Customizing Phreeze Builder Templates</h4>
+<h4 id="templates">Customizando os Templates do Phreeze Builder</h4>
 
-<p>The applications that are generated by Phreeze Builder are based off of Smarty templates located in the phreeze/builder/code/ directory.
-Each application consists of two parts: a 'config' and one or more templates.
-The builder app looks for *.config files in the /code/ directory.  If you open an existing config file you will see a [parameters] section
-for application name and description following by a [files] section for template files.  The files section lists the source template
-that will be used and their destination in the generated application.  For example:</p>
+<p>As aplicações geradas pelo Phreeze Builder são baseadas nos templates Smarty localizadas no diretório phreeze/builder/code/ . Cada aplicação consiste de duas partes: um 'config' e um ou mais templates.
+O builder app busca por arquivos *.config no diretório /code/ .  Se você abrir um arquivo config existente verár uma seção [parameters] para o nome da aplicação e descrição, seguida de uma seção [files] para os arquivos de template. A seção files lista os códigos de template que serão usados e sua destinação na aplicação gerada.  Por exemplo:</p>
 
 <pre>
 [files]
@@ -85,21 +60,18 @@ phreeze.backbone/index.php.tpl	index.php	1
 phreeze.backbone/bootstrap/css/bootstrap-combobox.css	bootstrap/css/bootstrap-combobox.css	2
 </pre>
 
-<p>The first column in the list is the name of the source template file.  The second column is the 
-"destination" for the resulting file(s) in the generated application.  The file name of the destination may contain placeholders such as 
-{$singular} or {$plural} which means this will be replaced with the table singular or plural name.
-The name can be forced as all lower-case using a Smarty modifier such as {$singular|lower}.</p>
+<p>A primeira coluna é o nome do código de arquivo de template.  A segunda colna é a "destinação" para o(s) arquivo(s) resultante(s) na aplicação gerada. O nome do arquivo de destino pode conter alguns placeholders como 
+{$singular} ou {$plural} que significa que serão substituídos pelos nomes das tabelas no singular ou plural.
+Os nomes podem ser forçados em caixa-baixa usando o modificador Smarty {$singular|lower}.</p>
 
-<p>The third column is either 0, 1 or 2 and refers to the method to use when parsing the template:</p>
+<p>A terceira coluna será 0, 1 ou 2 se refere ao método para executar o parsing do template:</p>
 
 <ol start="0">
-<li>A template will be parsed and generated for each table in the database</li>
-<li>A template will be parsed and generated only once for the application (for example index.php)</li>
-<li>A template will be copied as-is without parsing (images, script libraries, etc)</li>
+<li>Um template será parsed e gerado para cada tabela do banco de dados</li>
+<li>Um template será parsed e gerado apneas uma vez por aplicação (por exemplo index.php)</li>
+<li>Um template será copiado, como está, sem parsing (images, script libraries, etc)</li>
 </ol>
 
-<p>The best way to get started with your own applications is by looking into the source of some of the existing
-applications.  Within each tempalate you can loop through tables and columns as well as access meta information
-about the database schema.</p>
+<p>A melhor maneira para começar csua prórpia aplicação é olhar o código de aplicações já existentes.  Dentro de cada template você pode fazer loop nas tabelas e colunas, bem como acessar meta-informações a respeito do schema do banco de dados.</p>
 
 <?php include_once '_footer-ptbr.php' ?>
