@@ -1,11 +1,11 @@
-<?php include_once '_header.php' ?>
+<?php include_once '_header-ptbr.php' ?>
 
 <h3 id="top">Controllers</h3>
 
-<h4>Related Files and Videos</h4>
+<h4>Arquivos e Vídeos Relacionados</h4>
 
 <ul class="nobullets">
-	<li><i class="icon-play"></i> <a href="#video1Modal" data-toggle="modal">Basic Training Video #2: Routes and Controllers</a></li>
+	<li><i class="icon-play"></i> <a href="#video1Modal" data-toggle="modal">Vídeo de Treinamento Básico #2: Routes e Controllers</a></li>
 </ul>
 
 <div id="video1Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="video1Label" aria-hidden="true">
@@ -23,8 +23,8 @@
 
 <h4 id="overview">Overview</h4>
 
-<p>This page is coming soon.  Documentation is a lot of work!  Interested in contributing?  Pull requests are gladly accepted!</p>
+<p>Esta página estará pronta em breve.  Documentação é um trabalho duro!  Quer contribuir?  Pull requests serão aceitos com prazer!</p>
 
 <h4 id=""></h4>
 
-<?php include_once '_footer.php' ?>
+<?php include_once '_footer-ptbr.php' ?>
