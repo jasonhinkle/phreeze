@@ -3,6 +3,7 @@
 	<div class="hero-unit">
 		<h1><i class="icon-book"></i> Phreeze Documentation</h1>
 		<p>Documentation and code samples for the <a href="http://phreeze.com/">Phreeze Framework</a> for PHP.</p>
+		<p>Documentation available in <a href="index-ptbr.php">Brazilian Portuguese</a>.</p>
 	</div>
 
 	<h3>Getting Started</h3>
