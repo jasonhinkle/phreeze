@@ -1,6 +1,7 @@
 {
-	"name": "jasonhinkle/phreeze",
+	"name": "phreeze/phreeze4",
 	"description": "A lightweight PHP MVC+ORM framework",
+	"version": "0.1.0",
 	"require": {
 		"php": ">=5.4.0",
 		"smarty/smarty": "3.1.*",
