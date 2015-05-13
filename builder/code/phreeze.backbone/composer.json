@@ -1,6 +1,0 @@
-{
-	"name": "my/app",
-    "require": {
-        "phreeze/phreeze": "dev-master"
-    }
-}
