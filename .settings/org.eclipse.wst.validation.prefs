@@ -1,9 +1,0 @@
-DELEGATES_PREFERENCE=delegateValidatorList
-USER_BUILD_PREFERENCE=enabledBuildValidatorList
-USER_MANUAL_PREFERENCE=enabledManualValidatorList
-USER_PREFERENCE=overrideGlobalPreferencesfalse
-eclipse.preferences.version=1
-override=false
-suspend=false
-vals/org.eclipse.php.core.org.eclipse.php.core.PHPTaskValidator/groups=0107include01111contentType130org.eclipse.php.core.phpsourceT0107exclude0307fileext03tplF04file120/phreeze/libs/PEAR/*F0104file04PEARF01
-vf.version=3
