@@ -1,5 +1,5 @@
 {
-	"name": "verysimple/phreeze",
+	"name": "jasonhinkle/phreeze",
 	"description": "A lightweight PHP MVC+ORM framework",
 	"require": {
 		"php": ">=5.4.0",
