@@ -16,7 +16,7 @@ class Response {
 	/**
 	 * @var string
 	 */
-	public $contentType = 'text/html';
+	public $contentType = null;
 	
 	/**
 	 * @var string
@@ -33,7 +33,7 @@ class Response {
 	}
 	
 	public function sendHeaders() {
-		header('Content-Type: ' . $this->contentType);
+		if ($this->contentType) header('Content-Type: ' . $this->contentType);
 		if ($this->contentDisposition) header('Content-Disposition: ' . $this->contentDisposition);
 	}
 	
