@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"require": {
 		"php": ">=5.4.0",
-		"smarty/smarty": "3.1.*",
+		"smarty/smarty": "3.1.*@dev"
 		"nikic/fast-route": "dev-master"
 	},
 	"autoload": {
