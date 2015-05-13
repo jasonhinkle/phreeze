@@ -8,8 +8,8 @@
 	},
 	"autoload": {
 		"classmap": [
-			"libs/phreeze-mvc/src/",
-			"libs/phreeze-orm/src/"
+			"verysimple/phreeze-mvc/",
+			"verysimple/phreeze-orm/"
 		]
 	}
 }

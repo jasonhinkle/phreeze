@@ -1,7 +1,7 @@
 <?php
 namespace PhreezeMVC;
 
-require __DIR__.'/../../../vendor/nikic/fast-route/src/bootstrap.php';
+require __DIR__.'/../../vendor/nikic/fast-route/src/bootstrap.php';
 use FastRoute;
 
 class Router {
