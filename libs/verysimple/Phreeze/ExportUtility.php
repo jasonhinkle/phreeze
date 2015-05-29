@@ -122,7 +122,7 @@ class ExportUtility
 		}
 		
 		// lastly write to the footer to sum the numeric columns
-		$col = 0;
+		$current_column = "A";
 		foreach ($columns as $column) 
 		{
 			if ($is_numeric[$column])
@@ -131,7 +131,7 @@ class ExportUtility
 				$formula = "=SUM(".$columnLetter."3:".$columnLetter.($current_row-1).")";
 				
 				// notice the @ sign in front because this will fire a deprecated warning due to use of "split"
-				@$worksheet->setCellValue($current_row, $current_column, $formula);
+				@$worksheet->setCellValue($current_column . $current_row, $formula);
 				$worksheet->getStyle($current_column . $current_row)->getFont()->setBold(true);
 				$worksheet->getStyle($current_column . $current_row)->getFont()->setName('Arial');
 			}
