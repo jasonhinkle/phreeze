@@ -12,10 +12,33 @@ require_once("lib/BaseTestClass.php");
  * @package test::Tests
  * @author Phreeze Builder
  * @version 1.0
+ *
+ * Prevent PHPUnit from serializing DB connections created in setUpBeforeClass
+ * @backupGlobals disabled
+ * @backupStaticAttributes disabled
  */
 class tests_{$singular}Tests extends BaseTestClass
 {
-	
+	/**
+	 * TODO: set up DB fixture
+	 */
+	public static function setUpBeforeClass()
+	{
+		// $phreezer = GlobalConfig::GetInstance()->GetPhreezer();
+		// $sql = "insert into ...";
+		// $phreezer->DataAdapter->Execute($sql);
+	}
+
+	/**
+	 * TODO: tear down DB fixture
+	 */
+	public static function tearDownAfterClass()
+	{
+		// $phreezer = GlobalConfig::GetInstance()->GetPhreezer();
+		// $sql = "delete from ...";
+		// $phreezer->DataAdapter->Execute($sql);
+	}
+
 	/**
 	 * Tests that basic controller instantiation and session
 	 * initiaization is working
