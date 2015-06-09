@@ -124,7 +124,7 @@ class DataDriverMySQL_PDO implements IDataDriver
 		
 		if (!$numRows = $stmt->execute())
 		{
-			throw new DatabaseException($this->GetErrorDescription($sth),DatabaseException::$ERROR_IN_QUERY);
+			throw new DatabaseException($this->GetErrorDescription($stmt),DatabaseException::$ERROR_IN_QUERY);
 		}
 		
 		return $numRows;
