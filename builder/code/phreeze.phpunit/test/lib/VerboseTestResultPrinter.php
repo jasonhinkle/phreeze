@@ -17,7 +17,11 @@ class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
  
 	public function endTest(PHPUnit_Framework_Test $test, $time)
 	{
-		if ($test->hasFailed()) {
+		if (get_class($test) == 'PHPUnit_Framework_TestSuite') {
+			// this occurs when the test suite setup has thrown an error
+			printf(" SETUP FAIL\n");
+		}
+		elseif ($test->hasFailed()) {
 			printf(" FAIL\n");
 		}
 		else {
