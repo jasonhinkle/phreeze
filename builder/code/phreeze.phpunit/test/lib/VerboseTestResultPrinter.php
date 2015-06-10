@@ -9,7 +9,10 @@
  */
 class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
- 
+	static $COLOR_RED = "\033[31m";
+	static $COLOR_GREEN = "\033[32m";
+	static $COLOR_NORMAL = "\033[0m";
+	
 	public function startTest(PHPUnit_Framework_Test $test)
 	{
 		printf(">> RUN '%s'...", $test->getName());
@@ -17,15 +20,16 @@ class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
  
 	public function endTest(PHPUnit_Framework_Test $test, $time)
 	{
+		
 		if (get_class($test) == 'PHPUnit_Framework_TestSuite') {
 			// this occurs when the test suite setup has thrown an error
-			printf(" SETUP FAIL\n");
+			printf(self::$COLOR_RED." SETUP FAIL".self::$COLOR_NORMAL."\n");
 		}
 		elseif ($test->hasFailed()) {
-			printf(" FAIL\n");
+			printf(self::$COLOR_RED." FAIL".self::$COLOR_NORMAL."\n");
 		}
 		else {
-			printf(" OK\n");
+			printf(self::$COLOR_GREEN." OK".self::$COLOR_NORMAL."\n");
 		}
 		
 		if ($test instanceof PHPUnit_Framework_TestCase) {
