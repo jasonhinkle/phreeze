@@ -9,13 +9,27 @@
  */
 class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
 {
-	static $COLOR_RED = "\033[31m";
-	static $COLOR_GREEN = "\033[32m";
-	static $COLOR_NORMAL = "\033[0m";
+
+	private $headerPrinted = false;
+	
+	protected function printHeader()
+	{
+		parent::printHeader();
+	}
+	
+	/**
+	 * Output to the console
+	 * @param string $message to print
+	 * @param string $color optional color (if supported by console)
+	 */
+	private function out($message,$color='',$linebreak=false)
+	{
+		echo ($color ? $this->formatWithColor($color, $message) : $message) . ($linebreak ? "\n" : '');
+	}
 	
 	public function startTest(PHPUnit_Framework_Test $test)
 	{
-		printf(">> RUN '%s'...", $test->getName());
+		$this->out(">> RUN '".$test->getName()."'...");
 	}
  
 	public function endTest(PHPUnit_Framework_Test $test, $time)
@@ -23,15 +37,17 @@ class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
 		
 		if (get_class($test) == 'PHPUnit_Framework_TestSuite') {
 			// this occurs when the test suite setup has thrown an error
-			printf(self::$COLOR_RED." SETUP FAIL".self::$COLOR_NORMAL."\n");
+			$this->out(" SETUP FAIL",'fg-red',true);
 		}
 		elseif ($test->hasFailed()) {
-			printf(self::$COLOR_RED." FAIL".self::$COLOR_NORMAL."\n");
+			$this->out(" FAIL",'fg-red',true);
 		}
 		else {
-			printf(self::$COLOR_GREEN." OK".self::$COLOR_NORMAL."\n");
+			$msg = ($test instanceof PHPUnit_Framework_TestCase) ? ' OK (' . $test->getNumAssertions() . ' assertions)' : ' OK';
+			$this->out($msg,'fg-green',true);
 		}
 		
+		// copied from parent:endTest()
 		if ($test instanceof PHPUnit_Framework_TestCase) {
 			$this->numAssertions += $test->getNumAssertions();
 		}
@@ -42,12 +58,26 @@ class VerboseTestResultPrinter extends PHPUnit_TextUI_ResultPrinter
  
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
 	{
-		if ($suite->getName() != 'PHPUnit') printf("BEGIN SUITE '%s'\n", $suite->getName());
+		parent::startTestSuite($suite);
+		
+		if (!$this->headerPrinted) {
+			$header = " ______   __  __     ______     ______     ______     ______     ______    \n"
+				. "/\  == \ /\ \_\ \   /\  == \   /\  ___\   /\  ___\   /\___  \   /\  ___\   \n"
+				. "\ \  _-/ \ \  __ \  \ \  __<   \ \  __\   \ \  __\   \/_/  /__  \ \  __\   \n"
+				. " \ \_\    \ \_\ \_\  \ \_\ \_\  \ \_____\  \ \_____\   /\_____\  \ \_____\ \n"
+				. "  \/_/     \/_/\/_/   \/_/ /_/   \/_____/   \/_____/   \/_____/   \/_____/ \n";
+                                                                           
+			$this->out($header,'fg-blue',true);
+			$this->out(" - - - - - - - - - - U N I T   T E S T   R U N N E R - - - - - - - - - -\n",'fg-magenta',true);
+			$this->headerPrinted = true;
+		}
+		
+		if ($suite->getName() != 'PHPUnit') $this->out("BEGIN SUITE '".$suite->getName()."'\n");
 	}
  
 	public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
 	{
-		if ($suite->getName() != 'PHPUnit') printf("END SUITE '%s'\n\n", $suite->getName());
+		if ($suite->getName() != 'PHPUnit') $this->out("END SUITE '".$suite->getName()."'\n\n");
 	}
 	
 	/**
