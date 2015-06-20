@@ -26,11 +26,14 @@ This folder contains basic tests for the Phreeze application. By default no data
 ## (OPTIONAL) SELENIUM SETUP USING FIREFOX
 
 1. Download and install FireFox
+2. Install Selenium IDE for test-writing purposes
+3. Install Selenium PHP Formatter for either version 1 or 2
+  * https://github.com/suzuki/PHP-Formatter-PHPUnit_Selenium2
 2. Download selenium standalone .jar file
 3. Launch selenium server:
 <pre><code>java -jar selenium-server-standalone-2.46.0.jar</code></pre>
 
-NOTE: All test suites using the driver must implement PHPUnit_Extensions_SeleniumTestCase (not PHPUnit_Extensions_Selenium2TestCase)
+NOTE: Either PHPUnit_Extensions_SeleniumTestCase or PHPUnit_Extensions_Selenium2TestCase can be used.
 
 ## (OPTIONAL) SELENIUM SETUP USING PHANTOMJS
 
@@ -53,6 +56,7 @@ NOTE: All test suites using the driver must implement PHPUnit_Extensions_Seleniu
 <pre><code>brew install upx
 upx -d /usr/local/bin/phantomjs</code></pre>
    
-* if phantom dies with "main.fail" see: [http://sqa.stackexchange.com/questions/12360/phantomjs-2-0-phpunit-selenium-anyone-got-it-working]()
-* a hotpatched version for OSX is available at: [http://phreeze.com/assets/phantomjs-2.0.0-macosx-hotpatch.zip]()
+* if phantom dies with "main.fail" see: [https://gist.github.com/neuro-sys/41e368839a9b20dafb34](). Pre-built hotpatched versions of phantomjs for OSX and Ubuntu are available at: 
+  * [http://phreeze.com/assets/phantomjs-2.0.0-macosx-hotpatch.zip]()
+  * [http://phreeze.com/assets/phantomjs-2.0.0-ubuntu-hotpatch.zip]()
 
