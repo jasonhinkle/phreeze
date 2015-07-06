@@ -8,6 +8,9 @@
 # php_value error_reporting 1 # (or 8191 for all errors)
 # php_flag asp_tags 0
 
+## PHP MAGIC QUOTES
+# php_flag magic_quotes_gpc Off
+
 ## PHP SESSION SECURITY
 # php_value session.cookie_httponly 1
 # php_value session.use_only_cookies 1

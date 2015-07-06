@@ -224,6 +224,9 @@ class GenericRouter implements IRouter
 		if (!$found) {
 			throw new Exception('No route found for ' . ($requestMethod ? $requestMethod : '*') . ":$controller.$method" . ($params ? '?' . implode('&',$params) : '' ));
 		}
+		
+		// if this is the root url then we want to include the trailing slash
+		if (($url . '/') == $this->appRootUrl) $url = $this->appRootUrl;
 
 		return $url;
 	}

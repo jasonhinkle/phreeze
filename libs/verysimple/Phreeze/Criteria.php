@@ -514,6 +514,31 @@ class Criteria
 		return $fm->FieldType == FM_CALCULATION ? "(" . $fm->ColumnName . ")" : "`" . $fm->TableName . "`.`" . $fm->ColumnName . "`";
 
 	}
+	
+	/**
+	 * Throw an exception if an undeclared property is accessed
+	 *
+	 * @access     public
+	 * @param      string $key
+	 * @throws     Exception
+	 */
+	public function __get($key)
+	{
+		if (!Phreezer::$COMPAT_VERSION_2) throw new Exception("Unknown property: $key");
+	}
+	
+	/**
+	 * Throw an exception if an undeclared property is accessed
+	 *
+	 * @access     public
+	 * @param      string $key
+	 * @param      string $val
+	 * @throws     Exception
+	 */
+	public function __set($key,$val)
+	{
+		if (!Phreezer::$COMPAT_VERSION_2) throw new Exception("Unknown property: $key");
+	}
 }
 
 ?>

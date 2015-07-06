@@ -41,7 +41,7 @@ class {$singular}Criteria extends {$singular}CriteriaDAO
 	*/
 	
 	/**
-	 * For custom query logic, you may override OnProcess and set the $this->_where to whatever
+	 * For custom query logic, you may override OnPrepare and set the $this->_where to whatever
 	 * sql code is necessary.  If you choose to manually set _where then Phreeze will not touch
 	 * your where clause at all and so any of the standard property names will be ignored
 	 *

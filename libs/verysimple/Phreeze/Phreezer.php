@@ -18,7 +18,7 @@ require_once("verysimple/IO/Includer.php");
  * @author     VerySimple Inc.
  * @copyright  1997-2008 VerySimple, Inc.
  * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    3.3.7
+ * @version    3.3.8
  */
 class Phreezer extends Observable
 {
@@ -41,7 +41,10 @@ class Phreezer extends Observable
 	 */
 	public $RenderEngine;
 
-	public static $Version = '3.3.7 HEAD';
+	public static $Version = '3.3.8 HEAD';
+	
+	/** @var bool set to true to enable compatibility with phreeze 2.0 apps */
+	public static $COMPAT_VERSION_2 = FALSE;
 
 	/**
 	 * @var int expiration time for query & value cache (in seconds) default = 5
@@ -93,7 +96,7 @@ class Phreezer extends Observable
 	 */
 	static function PharPath()
 	{
-		return class_exists("Phar") && Phar::running();
+		return class_exists("Phar") ? Phar::running() : '';
 	}
 
     /**
@@ -872,8 +875,8 @@ class Phreezer extends Observable
 			// ensure that the criteria passed in will filter correctly by foreign key
 			$foreign_prop = $km->ForeignKeyProperty;
 
-			// this is only for backwards compatibility, but it should be ignored by current criteria objects
-			$criteria->$foreign_prop = $key_value;
+			// this is only for backwards compatibility with phreeze 2.0 apps
+			if (self::$COMPAT_VERSION_2) $criteria->$foreign_prop = $key_value;
 
 			// the current criteria "Equals" format "FieldName_Equals"
 			$foreign_prop .= "_Equals";

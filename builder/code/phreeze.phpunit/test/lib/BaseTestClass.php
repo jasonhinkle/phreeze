@@ -117,6 +117,14 @@ abstract class BaseTestClass extends PHPUnit_Framework_TestCase
 
 	}
 	
+	/**
+	 * Convenience method to return the global Phreezer object
+	 * @return Phreezer
+	 */
+	function GetPhreezer()
+	{
+		return GlobalConfig::GetInstance()->GetPhreezer();
+	}
 
 	/**
 	 * Removes all of the compiled template files that have been

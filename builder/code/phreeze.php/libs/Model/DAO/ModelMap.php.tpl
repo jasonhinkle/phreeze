@@ -3,6 +3,7 @@
 
 /** import supporting libraries */
 require_once("verysimple/Phreeze/IDaoMap.php");
+require_once("verysimple/Phreeze/IDaoMap2.php");
 
 /**
  * {$singular}Map is a static class with functions used to get FieldMap and KeyMap information that
@@ -18,44 +19,58 @@ require_once("verysimple/Phreeze/IDaoMap.php");
  * @author ClassBuilder
  * @version 1.0
  */
-class {$singular}Map implements IDaoMap
+class {$singular}Map implements IDaoMap, IDaoMap2
 {ldelim}
+
+	private static $KM;
+	private static $FM;
+	
 	/**
-	 * Returns a singleton array of FieldMaps for the {$singular} object
-	 *
-	 * @access public
-	 * @return array of FieldMaps
+	 * {ldelim}@inheritdoc{rdelim}
+	 */
+	public static function AddMap($property,FieldMap $map)
+	{
+		self::GetFieldMaps();
+		self::$FM[$property] = $map;
+	}
+	
+	/**
+	 * {ldelim}@inheritdoc{rdelim}
+	 */
+	public static function SetFetchingStrategy($property,$loadType)
+	{
+		self::GetKeyMaps();
+		self::$KM[$property]->LoadType = $loadType;
+	}
+
+	/**
+	 * {ldelim}@inheritdoc{rdelim}
 	 */
 	public static function GetFieldMaps()
 	{ldelim}
-		static $fm = null;
-		if ($fm == null)
+		if (self::$FM == null)
 		{ldelim}
-			$fm = Array();
-{foreach from=$table->Columns item=column}			$fm["{$column->NameWithoutPrefix|studlycaps}"] = new FieldMap("{$column->NameWithoutPrefix|studlycaps}","{$table->Name}","{$column->Name}",{if $column->Key == "PRI"}true{else}false{/if},{$column->GetPhreezeType()},{if $column->IsEnum()}array({foreach name=enumvals from=$column->GetEnumValues() item=enumval}{if !$smarty.foreach.enumvals.first},{/if}"{$enumval|replace:'"':'\"'}"{/foreach}){elseif $column->Size}{$column->Size|replace:',':'.'}{else}null{/if},{if $column->Default}"{$column->Default}"{else}null{/if},{if $column->Extra == 'auto_increment'}true{else}false{/if});
+			self::$FM = Array();
+{foreach from=$table->Columns item=column}			self::$FM["{$column->NameWithoutPrefix|studlycaps}"] = new FieldMap("{$column->NameWithoutPrefix|studlycaps}","{$table->Name}","{$column->Name}",{if $column->Key == "PRI"}true{else}false{/if},{$column->GetPhreezeType()},{if $column->IsEnum()}array({foreach name=enumvals from=$column->GetEnumValues() item=enumval}{if !$smarty.foreach.enumvals.first},{/if}"{$enumval|replace:'"':'\"'}"{/foreach}){elseif $column->Size}{$column->Size|replace:',':'.'}{else}null{/if},{if $column->Default}"{$column->Default}"{else}null{/if},{if $column->Extra == 'auto_increment'}true{else}false{/if});
 {/foreach}
 		{rdelim}
-		return $fm;
+		return self::$FM;
 	{rdelim}
 
 	/**
-	 * Returns a singleton array of KeyMaps for the {$singular} object
-	 *
-	 * @access public
-	 * @return array of KeyMaps
+	 * {ldelim}@inheritdoc{rdelim}
 	 */
 	public static function GetKeyMaps()
 	{ldelim}
-		static $km = null;
-		if ($km == null)
+		if (self::$KM == null)
 		{ldelim}
-			$km = Array();
-{foreach from=$table->Sets item=set}			$km["{$set->Name}"] = new KeyMap("{$set->Name}", "{$set->KeyColumnNoPrefix|studlycaps}", "{$set->SetTableName|studlycaps}", "{$set->SetKeyColumnNoPrefix|studlycaps}", KM_TYPE_ONETOMANY, KM_LOAD_LAZY);  // use KM_LOAD_EAGER with caution here (one-to-one relationships only)
+			self::$KM = Array();
+{foreach from=$table->Sets item=set}			self::$KM["{$set->Name}"] = new KeyMap("{$set->Name}", "{$set->KeyColumnNoPrefix|studlycaps}", "{$set->SetTableName|studlycaps}", "{$set->SetKeyColumnNoPrefix|studlycaps}", KM_TYPE_ONETOMANY, KM_LOAD_LAZY);  // use KM_LOAD_EAGER with caution here (one-to-one relationships only)
 {/foreach}
-{foreach from=$table->Constraints item=constraint}			$km["{$constraint->Name}"] = new KeyMap("{$constraint->Name}", "{$constraint->KeyColumnNoPrefix|studlycaps}", "{$constraint->ReferenceTableName|studlycaps}", "{$constraint->ReferenceKeyColumnNoPrefix|studlycaps}", KM_TYPE_MANYTOONE, KM_LOAD_LAZY); // you change to KM_LOAD_EAGER here or (preferrably) make the change in _config.php
+{foreach from=$table->Constraints item=constraint}			self::$KM["{$constraint->Name}"] = new KeyMap("{$constraint->Name}", "{$constraint->KeyColumnNoPrefix|studlycaps}", "{$constraint->ReferenceTableName|studlycaps}", "{$constraint->ReferenceKeyColumnNoPrefix|studlycaps}", KM_TYPE_MANYTOONE, KM_LOAD_LAZY); // you change to KM_LOAD_EAGER here or (preferrably) make the change in _config.php
 {/foreach}
 		{rdelim}
-		return $km;
+		return self::$KM;
 	{rdelim}
 
 {rdelim}

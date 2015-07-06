@@ -63,7 +63,7 @@ location on your server.  If you selected Smarty as your template engine then yo
 of the /templates_c/ directory to allow write permissions.  If you selected the Laravel/Blade template engine then
 you may need to alter the permissions on /storage/views/ to allow writing.</p>
 
-<p>Once the appliation is installed on your server and optionally the permissions have been updated you are ready 
+<p>Once the application is installed on your server and optionally the permissions have been updated you are ready 
 to run your application.  Open your browser to the appropriate location such as:</p>
 
 <p><code>http://localhost/yourappname/</code></p>
