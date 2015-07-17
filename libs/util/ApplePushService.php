@@ -61,11 +61,18 @@ class ApplePushService
 		$output = new stdClass();
 		$output->date = date('Y-m-d H:i:s');
 		
-		// Open a connection to the APNS server
-		$fp = stream_socket_client(
+		try {
+			// Open a connection to the APNS server
+			$fp = stream_socket_client(
 				$this->gatewayUrl, $err,
 				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
-				
+		}
+		catch (Exception $ex) {
+			$output->success = false;
+			$output->message = $ex->getMessage();
+			return $output;
+		}
+		
 		stream_set_blocking ($fp, 0); //This allows fread() to return right away when there are no errors. But it can also miss errors during last seconds of sending, as there is a delay before error is returned. Workaround is to pause briefly AFTER sending last notification, and then do one more fread() to see if anything else is there.
 		
 		if (!$fp)
