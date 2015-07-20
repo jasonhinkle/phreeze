@@ -26,6 +26,20 @@ class ApplePushService
 	private $certPassphrase;
 	private $sandboxMode;
 	
+	public static $ERRORS = array(
+		0   => '', // No errors encountered
+		1   => 'Processing error',
+		2   => 'Missing device token',
+		3   => 'Missing topic',
+		4   => 'Missing payload',
+		5   => 'Invalid token size',
+		6   => 'Invalid topic size',
+		7   => 'Invalid payload size',
+		8   => 'Invalid token',
+		10   => 'Shutdown',
+		255   => 'Unknown'
+	);
+	
 	/**
 	 * 
 	 * @param string $certFilePath path to the PEM certificate file provided by Apple
@@ -50,6 +64,134 @@ class ApplePushService
 	public function Send($deviceToken, $messageText, $alertSound='default', $unlockText = '', $badgeCount=0)
 	{
 		return $this->SendWithSocket($deviceToken, $messageText, $alertSound, $unlockText, $badgeCount);
+	}
+	
+	/**
+	 * Send a push notification directly using a socket
+	 * @param string $deviceToken the push token for the mobile device
+	 * @param string $message the message to display
+	 * @param string $alertSound the audio file to play, otherwise use the default sound
+	 * @param string $unlockText if the device is locked, show "Slide to XXX" where XXX is the unlockText
+	 * @param int $badgeCount the number that should be shown on the springboard badge
+	 */
+	public function SendWithSocket($deviceToken, $message, $alertSound='default', $unlockText = '', $badgeCount=0)
+	{
+		
+		$gatewayUrl = $this->sandboxMode
+			? "ssl://gateway.sandbox.push.apple.com:2195"
+			: "ssl://gateway.push.apple.com:2195";
+		
+		$ctx = stream_context_create();
+		stream_context_set_option($ctx, 'ssl', 'local_cert', $this->certFilePath);
+		stream_context_set_option($ctx, 'ssl', 'passphrase', $this->certPassphrase);
+		
+		$output = new stdClass();
+		$output->date = date('Y-m-d H:i:s');
+		
+		$fp = null;
+		$errorMesssage = NULL;
+		
+		try {
+			// Open a connection to the APNS server
+			$fp = stream_socket_client(
+				$gatewayUrl, $err,
+				$errorMesssage, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+		}
+		catch (Exception $ex) {
+			$errorMesssage = $ex->getMessage();
+		}
+		
+		if ($errorMesssage || !$fp)
+		{
+			$output->success = false;
+			$output->message = "Connection Failed: $errorMesssage";
+		}
+		else
+		{
+			$appleExpiry = time() + (10 * 24 * 60 * 60); //Keep push alive (waiting for delivery) for 10 days
+
+			// format the body based on whether an unlock message was specified
+			$alert = $unlockText 
+				? array('body'=>$message,'action-loc-key'=>$unlockText)
+				: $message;
+
+			// Create the payload body
+			$body['aps'] = array(
+					'alert' => $alert,
+					'sound' => $alertSound,
+					'badge' => (int)$badgeCount
+			);
+		
+			// Encode the payload as JSON
+			$payload = json_encode($body);
+		
+			// Build the binary notification
+			ExceptionThrower::$IGNORE_DEPRECATED = true;
+			ExceptionThrower::Start();
+
+			try {
+				
+				// @see https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html
+				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+				fwrite($fp, $msg, strlen($msg));
+
+				$response = $this->getResponse($fp);
+
+				if (!$response) {
+					// everything is cool
+					$output->success = true;
+					$output->message = 'Message sent';
+				}
+				else {
+					$output->success = false;
+					$output->message = 'Push notification failed with response: ' . $response;
+				}
+			}
+			catch (Exception $ex)
+			{
+				$output->success = false;
+				$output->message = $ex->getMessage();
+			}
+			
+			ExceptionThrower::Stop();
+		}
+		
+		// Close the connection to the server
+		if ($fp) @fclose($fp);
+		
+		return $output;
+		
+	}
+	
+	/**
+	 * Recursive function to check if there is anything in the stream to read.
+	 * checking every 10th of a second for up to 1 second.
+	 * 
+	 * @param file handle/pointer $fp
+	 * @param number $index
+	 * @return string empty string for success, or a text message for failure
+	 */
+	private function getResponse($fp,$index = 0)
+	{
+		$read = array($fp);
+		$write  = NULL;
+		$except = NULL;
+		$num_changed_streams = stream_select($read, $write, $except, 0);
+		$errorResponse = ($num_changed_streams > 0) ? fread($fp, 6) : null;
+		
+		if ($errorResponse) {
+			// response is binary, we have to unpack it into an array
+			$response = unpack('Ccommand/Cstatus_code/Nidentifier',$errorResponse);
+			$code = array_key_exists('status_code', $response) ? $response['status_code'] : 255;
+			$reason = array_key_exists($code, self::$ERRORS) ? self::$ERRORS[$code] : "Code $code";
+			return $reason;
+		}
+		
+		// 10th time through, we give up
+		if ($index > 9) return '';
+		
+		usleep(100000);
+		return $this->getResponse($fp,$index+1);
 	}
 	
 	/**
@@ -97,120 +239,5 @@ class ApplePushService
 	
 		return $output;
 	}
-	
-	/**
-	 * Send a push notification directly using a socket
-	 * @param string $deviceToken the push token for the mobile device
-	 * @param string $message the message to display
-	 * @param string $alertSound the audio file to play, otherwise use the default sound
-	 * @param string $unlockText if the device is locked, show "Slide to XXX" where XXX is the unlockText
-	 * @param int $badgeCount the number that should be shown on the springboard badge
-	 */
-	public function SendWithSocket($deviceToken, $message, $alertSound='default', $unlockText = '', $badgeCount=0)
-	{
-		
-		$gatewayUrl = $this->sandboxMode
-			? "ssl://gateway.sandbox.push.apple.com:2195"
-			: "ssl://gateway.push.apple.com:2195";
-		
-		$ctx = stream_context_create();
-		stream_context_set_option($ctx, 'ssl', 'local_cert', $this->certFilePath);
-		stream_context_set_option($ctx, 'ssl', 'passphrase', $this->certPassphrase);
-		
-		$output = new stdClass();
-		$output->date = date('Y-m-d H:i:s');
-		
-		$fp = null;
-		
-		try {
-			// Open a connection to the APNS server
-			$fp = stream_socket_client(
-				$gatewayUrl, $err,
-				$errstr, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
-		}
-		catch (Exception $ex) {
-			$output->success = false;
-			$output->message = $ex->getMessage();
-			return $output;
-		}
-		
-		stream_set_blocking ($fp, 0); //This allows fread() to return right away when there are no errors. But it can also miss errors during last seconds of sending, as there is a delay before error is returned. Workaround is to pause briefly AFTER sending last notification, and then do one more fread() to see if anything else is there.
-		
-		if (!$fp)
-		{
-			$output->success = false;
-			$output->message = "Connection Failed: $err $errstr";
-		}
-		else
-		{
-			$apple_expiry = time() + (10 * 24 * 60 * 60); //Keep push alive (waiting for delivery) for 10 days
-
-			// format the body based on whether an unlock message was specified
-			$alert = $unlockText 
-				? array('body'=>$message,'action-loc-key'=>$unlockText)
-				: $message;
-
-			// Create the payload body
-			$body['aps'] = array(
-					'alert' => $alert,
-					'sound' => $alertSound,
-					'badge' => (int)$badgeCount
-			);
-		
-			$apple_identifier = 1;
-			
-			// Encode the payload as JSON
-			$payload = json_encode($body);
-		
-			// Build the binary notification
-			ExceptionThrower::$IGNORE_DEPRECATED = true;
-			ExceptionThrower::Start();
-			
-			try {
-				
-				//$msg = pack("C", 1) . pack("N", $apple_identifier) . pack("N", $apple_expiry) . pack("n", 32) . pack('H*', str_replace(' ', '', $deviceToken)) . pack("n", strlen($payload)) . $payload; //Enhanced Notification
-				
-				
-				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
-			
-				// Send it to the server
-				$result = fwrite($fp, $msg, strlen($msg));
-				
-				//echo("\nBEFORE FREED\n");
-				
-				stream_set_blocking($fp, 0);
-				usleep(500000);
-				$apple_error_response = fread($fp, 6);
-				
-				//echo("\nAFTER FREED\n"); die();
-			
-				if (!$result)
-				{
-					$output->success = false;
-					$output->message = 'Communication Error: Unable to deliver message';
-				}
-				else
-				{
-					$output->success = true;
-					$output->message = print_r($result,1) .' ::: '.  print_r($apple_error_response,1);
-				}
-			}
-			catch (Exception $ex)
-			{
-				$output->success = false;
-				$output->message = $ex->getMessage();
-			}
-			
-			ExceptionThrower::Stop();
-		}
-		
-		// Close the connection to the server
-		fclose($fp);
-		
-		return $output;
-		
-	}
-	
 }
-
 ?>
