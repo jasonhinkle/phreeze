@@ -49,7 +49,7 @@ class ApplePushService
 	 */
 	public function Send($deviceToken, $messageText, $alertSound='default', $unlockText = '', $badgeCount=0)
 	{
-		return $this->SendWithApns($deviceToken, $messageText, $alertSound, $unlockText, $badgeCount);
+		return $this->SendWithSocket($deviceToken, $messageText, $alertSound, $unlockText, $badgeCount);
 	}
 	
 	/**
@@ -105,7 +105,6 @@ class ApplePushService
 	 * @param string $alertSound the audio file to play, otherwise use the default sound
 	 * @param string $unlockText if the device is locked, show "Slide to XXX" where XXX is the unlockText
 	 * @param int $badgeCount the number that should be shown on the springboard badge
-	 * @deprecated use Send instead
 	 */
 	public function SendWithSocket($deviceToken, $message, $alertSound='default', $unlockText = '', $badgeCount=0)
 	{
