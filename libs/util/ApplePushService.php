@@ -2,7 +2,7 @@
 /** @package    util */
 
 require_once 'verysimple/Util/ExceptionThrower.php';
-require_once 'ApnsPHP/AutoLoad.php';
+require_once 'ApnsPHP/Autoload.php';
 
 /**
 * Apple Push Service for sending push notifications to iOS devices.  This has been refactored
@@ -68,7 +68,7 @@ class ApplePushService
 		$output->message = '';
 	
 		$push = new ApnsPHP_Push(
-				$sandboxMode ? ApnsPHP_Abstract::ENVIRONMENT_SANDBOX : ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION,
+				$this->sandboxMode ? ApnsPHP_Abstract::ENVIRONMENT_SANDBOX : ApnsPHP_Abstract::ENVIRONMENT_PRODUCTION,
 				$this->certFilePath
 		);
 		$push->setProviderCertificatePassphrase($this->certPassphrase);
