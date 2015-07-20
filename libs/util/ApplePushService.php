@@ -88,12 +88,12 @@ class ApplePushService
 		$output = new stdClass();
 		$output->date = date('Y-m-d H:i:s');
 		
-		$fp = null;
+		$fh = null;
 		$errorMesssage = NULL;
 		
 		try {
 			// Open a connection to the APNS server
-			$fp = stream_socket_client(
+			$fh = stream_socket_client(
 				$gatewayUrl, $err,
 				$errorMesssage, 60, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
 		}
@@ -101,7 +101,7 @@ class ApplePushService
 			$errorMesssage = $ex->getMessage();
 		}
 		
-		if ($errorMesssage || !$fp)
+		if ($errorMesssage || !$fh)
 		{
 			$output->success = false;
 			$output->message = "Connection Failed: $errorMesssage";
@@ -133,9 +133,9 @@ class ApplePushService
 				
 				// @see https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html
 				$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
-				fwrite($fp, $msg, strlen($msg));
+				fwrite($fh, $msg, strlen($msg));
 
-				$response = $this->getResponse($fp);
+				$response = $this->getResponse($fh);
 
 				if (!$response) {
 					// everything is cool
@@ -157,7 +157,7 @@ class ApplePushService
 		}
 		
 		// Close the connection to the server
-		if ($fp) @fclose($fp);
+		if ($fh) @fclose($fh);
 		
 		return $output;
 		
@@ -167,24 +167,27 @@ class ApplePushService
 	 * Recursive function to check if there is anything in the stream to read.
 	 * Will wait for up to 
 	 * 
-	 * @param file handle/pointer $fp
-	 * @param number $timeout (in seconds)
+	 * @param int $fh file handle
+	 * @param number $timeout (in seconds) default = 5
 	 * @param number $index (used internally as recursion counter - do not provide a value)
 	 * @return string empty string for success, or a text message for failure
 	 */
-	private function getResponse($fp,$timeout = 3,$index = 0)
+	private function getResponse($fh,$timeout = 5,$index = 0)
 	{
-		$read = array($fp);
+		$read = array($fh);
 		$write  = NULL;
 		$except = NULL;
 		$num_changed_streams = stream_select($read, $write, $except, 0);
-		$errorResponse = ($num_changed_streams > 0) ? fread($fp, 6) : null;
-		
-		if ($errorResponse) {
-			// response is binary, we have to unpack it into an array
-			$response = unpack('Ccommand/Cstatus_code/Nidentifier',$errorResponse);
-			$code = array_key_exists('status_code', $response) ? $response['status_code'] : 255;
-			$reason = array_key_exists($code, self::$ERRORS) ? self::$ERRORS[$code] : "Code $code";
+
+		if ($num_changed_streams > 0) {
+			$errorResponse = fread($fh, 6);
+			$reason = '';
+			if ($errorResponse) {
+				// response is binary, we have to unpack it into an array
+				$response = unpack('Ccommand/Cstatus_code/Nidentifier',$errorResponse);
+				$code = array_key_exists('status_code', $response) ? $response['status_code'] : 255;
+				$reason = array_key_exists($code, self::$ERRORS) ? self::$ERRORS[$code] : "Code $code";
+			}
 			return $reason;
 		}
 		
@@ -192,7 +195,7 @@ class ApplePushService
 		if ($index >= ($timeout * 10)) return '';
 		
 		usleep(100000);
-		return $this->getResponse($fp,$timeout,$index+1);
+		return $this->getResponse($fh,$timeout,$index+1);
 	}
 	
 	/**
