@@ -165,13 +165,14 @@ class ApplePushService
 	
 	/**
 	 * Recursive function to check if there is anything in the stream to read.
-	 * checking every 10th of a second for up to 1 second.
+	 * Will wait for up to 
 	 * 
 	 * @param file handle/pointer $fp
-	 * @param number $index
+	 * @param number $timeout (in seconds)
+	 * @param number $index (used internally as recursion counter - do not provide a value)
 	 * @return string empty string for success, or a text message for failure
 	 */
-	private function getResponse($fp,$index = 0)
+	private function getResponse($fp,$timeout = 3,$index = 0)
 	{
 		$read = array($fp);
 		$write  = NULL;
@@ -188,10 +189,10 @@ class ApplePushService
 		}
 		
 		// 10th time through, we give up
-		if ($index > 9) return '';
+		if ($index >= ($timeout * 10)) return '';
 		
 		usleep(100000);
-		return $this->getResponse($fp,$index+1);
+		return $this->getResponse($fp,$timeout,$index+1);
 	}
 	
 	/**
