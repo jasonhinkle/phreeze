@@ -154,7 +154,7 @@ class ApplePushService
 			$body['aps'] = array(
 					'alert' => $alert,
 					'sound' => $alertSound,
-					'badge' => $badgeCount
+					'badge' => (int)$badgeCount
 			);
 		
 			$apple_identifier = 1;
