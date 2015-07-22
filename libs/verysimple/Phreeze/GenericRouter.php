@@ -251,14 +251,17 @@ class GenericRouter implements IRouter
 		$uri = $this->GetUri();
 		$count = 0;
 		$routeMap = $this->matchedRoute["key"];
-
+		$returnVal = '';
+		
 		if( isset($this->matchedRoute["params"][$paramKey]) )
 		{
 			$indexLocation = $this->matchedRoute["params"][$paramKey];
-			return $params[$indexLocation];
+			$returnVal = $params[$indexLocation];
 		}
 		else
-			return RequestUtil::Get($paramKey,"");
+			$returnVal = RequestUtil::Get($paramKey);
+		
+		return $returnVal != '' ? $returnVal : $default;
 	}
 }
 ?>
