@@ -369,20 +369,20 @@ class Phreezer extends Observable
 		}
 
 		$obj = null;
-		$ds = $this->Query($objectclass, $criteria, $cache_timeout);
+		$objs = $this->Query($objectclass, $criteria, $cache_timeout)->ToObjectArray();
 
-		$ds->UnableToCache = false;
-
-		if (!$obj = $ds->Next())
+		if (count($objs) == 0)
 		{
 			require_once("NotFoundException.php");
 			throw new NotFoundException("$objectclass with specified criteria not found");
 		}
 
-		if ($crash_if_multiple_found && $ds->Next())
+		if ($crash_if_multiple_found && count($objs) > 1)
 		{
 			throw new Exception("More than one $objectclass with specified criteria was found");
 		}
+		
+		$obj = $objs[0];
 
 		return $obj;
 	}
