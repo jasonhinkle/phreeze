@@ -41,7 +41,7 @@ class {$singular} extends {$singular}DAO
 		// level based on validation rules.  comment this line out if this is not desired
 		if (!$this->Validate()) throw new Exception('Unable to Save {$singular}: ' .  implode(', ', $this->GetValidationErrors()));
 
-		// OnSave must return true or eles Phreeze will cancel the save operation
+		// OnSave must return true or Phreeze will cancel the save operation
 		return true;
 	}
 
