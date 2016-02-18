@@ -11,7 +11,7 @@
  * @author Christoph Erdmann (CE) http://www.cerdmann.com
  * @author Benjamin Fleckenstein (BF) http://www.benjaminfleckenstein.de
  * @author Marcus Gueldenmeister (MG) http://www.gueldenmeister.de/marcus/
- * @author Andreas Bösch (AB)
+ * @author Andreas Bï¿½sch (AB)
  * @author Jason Hinkle (JH) http://www.verysimple.com/
  * 
  * @param hint true/false to show magnifying glass overlay
@@ -90,10 +90,10 @@
 		$time['start'] = getmicrotime();
 		}
 		
-	// Funktion zum Schärfen
+	// Funktion zum Schï¿½rfen
 	if (!function_exists('UnsharpMask'))
 		{
-		// Unsharp mask algorithm by Torstein Hønsi 2003 (thoensi_at_netcom_dot_no)
+		// Unsharp mask algorithm by Torstein Hï¿½nsi 2003 (thoensi_at_netcom_dot_no)
 		// Christoph Erdmann: changed it a little, cause i could not reproduce the darker blurred image, now it is up to 15% faster with same results
 		function UnsharpMask($img, $amount, $radius, $threshold)
 			{
@@ -105,7 +105,7 @@
 			if ($threshold > 255) $threshold = 255;
 	
 			$radius = abs(round($radius)); 	// Only integers make sense.
-			if ($radius == 0) {	return $img; imagedestroy($img); break;	}
+			if ($radius == 0) {	imagedestroy($img); return $img; }
 			$w = imagesx($img); $h = imagesy($img);
 			$imgCanvas = $img;
 			$imgCanvas2 = $img;
@@ -167,7 +167,7 @@
 	$_CONFIG['types'] = array('','.gif','.jpg','.png');
 
 
-	### Übergebene Parameter auswerten und verifizieren
+	### ï¿½bergebene Parameter auswerten und verifizieren
 	if (empty($params['cache'])) $_CONFIG['cache'] = 'images/cache/';
 	else $_CONFIG['cache'] = $params['cache'];
 	
@@ -180,7 +180,7 @@
 		return "<div class='warning'>thumb: file '".$params['file']."' could not be found</div>";	
 	}
 	
-	### Info über Source (SRC) holen
+	### Info ï¿½ber Source (SRC) holen
 	$temp = getimagesize($params['file']);
 
 	$_SRC['file']		= $params['file'];
@@ -199,7 +199,7 @@
 	// image types: 1 = GIF, 2 = JPG, 3 = PNG, 4 = SWF, 5 = PSD, 6 = BMP, 7 = TIFF(orden de bytes intel), 8 = TIFF(orden de bytes motorola), 9 = JPC, 10 = JP2, 11 = JPX, 12 = JB2, 13 = SWC, 14 = IFF, 15 = WBMP, 16 = XBM
 	if ($_SRC['type'] > 3) return "<div class='warning'>thumb: image type is not supported.  supported types are GIF, JPG and PNG</div>";
 	
-	### Infos über Destination (DST) errechnen
+	### Infos ï¿½ber Destination (DST) errechnen
 	if (is_numeric($params['width'])) $_DST['width'] = $params['width'];
 	else 
 	{
@@ -214,7 +214,7 @@
 		$_DST['height'] = round($params['width']/($_SRC['width']/$_SRC['height']));
 	}
 	
-	// Das Größenverhältnis soll erhalten bleiben egal ob das Bild hoch oder querformatig ist.
+	// Das Grï¿½ï¿½enverhï¿½ltnis soll erhalten bleiben egal ob das Bild hoch oder querformatig ist.
 	if (is_numeric($params['longside']))
 		{
 		if ($_SRC['width'] < $_SRC['height']) 
@@ -254,7 +254,7 @@
 			$_DST['offset_w'] = round(($_SRC['width']-$_DST['width']*$height_ratio)/2);
 			$_SRC['width'] = round($_DST['width']*$height_ratio);
 			}
-		// es muss an der Höhe beschnitten werden
+		// es muss an der Hï¿½he beschnitten werden
 		elseif ($width_ratio < $height_ratio)
 			{
 			$_DST['offset_h'] = round(($_SRC['height']-$_DST['height']*$width_ratio)/2);
@@ -262,7 +262,7 @@
 			}
 		}
 
-	// Wenn das Ursprungsbild kleiner als das Ziel-Bild ist, soll nicht hochskaliert werden und die neu berechneten Werte werden wieder überschrieben
+	// Wenn das Ursprungsbild kleiner als das Ziel-Bild ist, soll nicht hochskaliert werden und die neu berechneten Werte werden wieder ï¿½berschrieben
 	if ( $params['extrapolate'] != true && $params['extrapolate'] != "true"  && $_DST['height'] > $_SRC['height'] && $_DST['width'] > $_SRC['width'])
 		{
 		$_DST['width'] = $_SRC['width'];
@@ -285,7 +285,7 @@
 	$file_url = str_replace( realpath(".") ,".",$_DST['file']);
 	$file_url = str_replace(array("\\","//"),array("/","/"), $file_url);
 	
-	### Rückgabe-Strings erstellen
+	### Rï¿½ckgabe-Strings erstellen
 
 	if (empty($params['html'])) $_RETURN['img'] = '<img src="'.$file_url.'" '.$params['html'].' '.$_DST['string'].' alt="" title="" />';
 	else $_RETURN['img'] = '<img src="'.$file_url.'" '.$params['html'].' '.$_DST['string'].' />';
@@ -313,10 +313,10 @@
 	if ($_SRC['type'] == 2)	$_SRC['image'] = imagecreatefromjpeg($_SRC['file']);
 	if ($_SRC['type'] == 3)	$_SRC['image'] = imagecreatefrompng($_SRC['file']);
 
-	// Wenn das Bild sehr groß ist, zuerst linear auf vierfache Zielgröße herunterskalieren und $_SRC überschreiben
+	// Wenn das Bild sehr groï¿½ ist, zuerst linear auf vierfache Zielgrï¿½ï¿½e herunterskalieren und $_SRC ï¿½berschreiben
 	if ($_DST['width']*4 < $_SRC['width'] AND $_DST['height']*4 < $_SRC['height'])
 		{
-		// Multiplikator der Zielgröße
+		// Multiplikator der Zielgrï¿½ï¿½e
 		$_TMP['width'] = round($_DST['width']*4);
 		$_TMP['height'] = round($_DST['height']*4);
 		
@@ -337,10 +337,10 @@
 	imagecopyresampled($_DST['image'], $_SRC['image'], 0, 0, $_DST['offset_w'], $_DST['offset_h'], $_DST['width'], $_DST['height'], $_SRC['width'], $_SRC['height']);
 	if ($params['sharpen'] != "false") $_DST['image'] = UnsharpMask($_DST['image'],80,.5,3);
 
-	// Soll eine Lupe eingefügt werden?
+	// Soll eine Lupe eingefï¿½gt werden?
 	if ($params['hint'] == "true" AND $params['link'] == "true")
 		{
-		//Soll der weiße Balken wirklich hinzugefügt werden?
+		//Soll der weiï¿½e Balken wirklich hinzugefï¿½gt werden?
 		if ($params['addgreytohint'] != 'false')
 			{
 			$trans = imagecolorallocatealpha($_DST['image'], 255, 255, 255, 25);
@@ -353,7 +353,7 @@
 		imagedestroy($magnifier);
 		}
 
-	// Berechnungszeit hinzufügen
+	// Berechnungszeit hinzufï¿½gen
 	if ($params['dev'])
 		{
 		// Zeit anhalten
@@ -364,7 +364,7 @@
 		$white_trans = imagecolorallocatealpha($_DST['image'], 255, 255, 255, 25);
 		$black = ImageColorAllocate ($_DST['image'], 0, 0, 0);
 
-		// Weißer Balken oben
+		// Weiï¿½er Balken oben
 		imagefilledrectangle($_DST['image'], 0, 0, $_DST['width'], 10, $white_trans);
 
 		// Schrift mit Zeitangabe

@@ -45,6 +45,33 @@
 	AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
 </ifmodule>
 
+# if supported, enable caching
+<IfModule mod_expires.c>
+	ExpiresActive On
+	
+	# styles and scripts
+	ExpiresByType text/css "access plus 1 week"
+	ExpiresByType text/javascript "access plus 1 week"
+	ExpiresByType application/x-javascript "access plus 1 week"
+	
+	# images
+	ExpiresByType image/jpg "access plus 1 week"
+	ExpiresByType image/jpeg "access plus 1 week"
+	ExpiresByType image/gif "access plus 1 week"
+	ExpiresByType image/png "access plus 1 week"
+	ExpiresByType image/x-icon "access plus 1 week"
+	ExpiresByType image/vnd.microsoft.icon "access plus 1 week"
+	
+	# fonts
+	ExpiresByType application/vnd.ms-fontobject "access plus 1 week"
+	ExpiresByType application/x-font-ttf "access plus 1 week"
+	ExpiresByType application/x-font-opentype "access plus 1 week"
+	ExpiresByType application/x-font-woff "access plus 1 week"
+	ExpiresByType image/svg+xml "access plus 1 week"
+	
+	ExpiresDefault "now"
+</IfModule>
+
 # Add correct mime type for web fonts to supress browser warnings
 <IfModule mod_mime.c>
 	AddType application/vnd.ms-fontobject eot
