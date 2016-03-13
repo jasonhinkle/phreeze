@@ -20,7 +20,7 @@ class AppConfig
 	 * Constructor.
 	 * @param string path to config file
 	 */
-	function AppConfig($configFilePath)
+	function __construct($configFilePath)
 	{
 		$this->configFilePath = $configFilePath;
 	}
