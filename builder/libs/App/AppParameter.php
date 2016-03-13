@@ -16,7 +16,7 @@ class AppParameter
 	* @param string $name	 Parameter name.
 	* @param string $value	Parameter value.
 	*/
-	function AppParameter($name=null, $value=null)
+	function __construct($name=null, $value=null)
 	{
 	  $this->name = $name;
 	  $this->value = $value;
