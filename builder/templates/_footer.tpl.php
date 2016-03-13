@@ -9,9 +9,9 @@
 
 			</div> <!-- /container -->
 
-			<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-			<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
-			<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+
+			<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+			<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.3/backbone-min.js"></script>
 
 			<!-- Le javascript
 			================================================== -->

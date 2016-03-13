@@ -99,7 +99,9 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	<?php } ?>
 	</tbody>
 	</table>
-
+	<div>
+		<a href="#" id="useLastTableNames"class="btn disabled"><i class="icon-play"></i> Use Existing Generated Table Names</a>
+	</div>
 	<h2><i class="icon-cogs"></i> Application Options</h2>
 
 	<p>These options do not need to be changed.  Most of them simply pre-fill a setting in one of the
@@ -195,7 +197,7 @@ of the view, update operations may not work.  Views are de-selected by default.<
 	</p>
 </form>
 
-<script type="text/javascript" src="scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="scripts/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/analyze.js"></script>
 
 <?php include_once '_footer.tpl.php'; ?>
