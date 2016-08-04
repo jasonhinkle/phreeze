@@ -127,5 +127,22 @@ class Stripe extends PaymentProcessor
 		
 		die(print_r($charge,1));
 	}
+	
+	/**
+	 * Called on contruction
+	 * @param bool $test  set to true to enable test mode.  default = false
+	 */
+	function Init($testmode)
+	{
+		// TODO
+	}
+	
+	/**
+	 * @see PaymentProcessor::Refund()
+	 */
+	function Refund(RefundRequest $req)
+	{
+		throw new Exception("not implemented, use Stripe");
+	}
 }
 ?>
