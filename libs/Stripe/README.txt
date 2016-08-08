@@ -1,0 +1,1 @@
+To integrate this library into your code, you'll need to include the init.php file, located in the root of the Stripe directory.

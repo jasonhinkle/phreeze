@@ -119,14 +119,15 @@ class Stripe extends PaymentProcessor
 			$charge = \Stripe\Charge::create(array(
 					"amount" => $req->TransactionAmount * 100, // amount in cents, again
 					"currency" => "usd",
-					"source" => $req->CCNumber,
+					"source" => $req->Token,
 					"description" => $req->OrderDescription
 			));
-		} catch(\Stripe\Error\Card $e) {
+		} catch(\Stripe\Error\Base $e) {
 			// The card has been declined
 			$resp->IsSuccess = false;
-            $resp->ResponseCode = $e->stripeCode;
-            $resp->ResponseMessage = $e->message;
+            $resp->ResponseCode = $e->httpStatus;
+            $resp->ResponseMessage = $e->getMessage();
+            return $resp;
 		}
 
         $resp->IsSuccess = true;
@@ -135,23 +136,6 @@ class Stripe extends PaymentProcessor
         $resp->ResponseMessage = "Charge of $req->TransactionAmount Posted";
 
         return $resp;
-	}
-	
-	/**
-	 * Called on contruction
-	 * @param bool $test  set to true to enable test mode.  default = false
-	 */
-	function Init($testmode)
-	{
-		// TODO
-	}
-	
-	/**
-	 * @see PaymentProcessor::Refund()
-	 */
-	function Refund(RefundRequest $req)
-	{
-		throw new Exception("not implemented, use Stripe");
 	}
 	
 	/**
