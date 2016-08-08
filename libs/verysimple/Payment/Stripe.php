@@ -119,7 +119,7 @@ class Stripe extends PaymentProcessor
 			$charge = \Stripe\Charge::create(array(
 					"amount" => $req->TransactionAmount * 100, // amount in cents, again
 					"currency" => "usd",
-					"source" => $req->CCNumber,
+					"source" => $req->Token,
 					"description" => $req->OrderDescription
 			));
 		} catch(\Stripe\Error\Base $e) {
