@@ -41,6 +41,7 @@ class PaymentRequest
 	public $CCExpMonth = "";
 	public $CCExpYear = "";
 	public $CCSecurityCode = "";
+	public $Token = "";
 	
 	public $TransactionCurrency = "USD";
 	

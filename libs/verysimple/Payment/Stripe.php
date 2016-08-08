@@ -3,6 +3,7 @@
 
 /** import supporting libraries */
 require_once("PaymentProcessor.php");
+require_once("Stripe/init.php");
 
 /**
  * Stripe extends the generic PaymentProcessor object to process
@@ -112,20 +113,29 @@ class Stripe extends PaymentProcessor
 	 */
 	function Process(PaymentRequest $req)
 	{
-		include_once 'StripePHP/Charge.php';
+        $resp = new PaymentResponse();
+
 		try {
-			$charge = Charge::create(array(
-					"amount" => 1000, // amount in cents, again
+			$charge = \Stripe\Charge::create(array(
+					"amount" => $req->TransactionAmount * 100, // amount in cents, again
 					"currency" => "usd",
-					"source" => $token,
-					"description" => "Example charge"
+					"source" => $req->CCNumber,
+					"description" => $req->OrderDescription
 			));
-		} catch(\Stripe\Error\Card $e) {
+		} catch(\Stripe\Error\Base $e) {
 			// The card has been declined
-			die(print_r($charge,1));
+			$resp->IsSuccess = false;
+            $resp->ResponseCode = $e->httpStatus;
+            $resp->ResponseMessage = $e->getMessage();
+            return $resp;
 		}
-		
-		die(print_r($charge,1));
+
+        $resp->IsSuccess = true;
+        $resp->TransactionId = $charge->id;
+        $resp->ResponseCode = $charge->id;
+        $resp->ResponseMessage = "Charge of $req->TransactionAmount Posted";
+
+        return $resp;
 	}
 	
 	/**
