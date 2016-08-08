@@ -1,23 +1,15 @@
 <?php
-/** @package    verysimple::Payment */
 
-/** import supporting libraries */
-require_once("PaymentProcessor.php");
-require_once("Stripe/init.php");
+namespace Stripe;
 
 /**
- * Stripe extends the generic PaymentProcessor object to process
- * a PaymentRequest through the Stripe local API.
+ * Class Stripe
  *
- * @package    verysimple::Payment
- * @author     VerySimple Inc.
- * @copyright  1997-2012 VerySimple, Inc.
- * @license    http://www.gnu.org/licenses/lgpl.html  LGPL
- * @version    1.0
+ * @package Stripe
  */
-class Stripe extends PaymentProcessor
+class Stripe
 {
-	// @var string The Stripe API key to be used for requests.
+    // @var string The Stripe API key to be used for requests.
     public static $apiKey;
 
     // @var string The base URL for the Stripe API.
@@ -105,70 +97,4 @@ class Stripe extends PaymentProcessor
     {
         self::$accountId = $accountId;
     }
-    
-	/**
-	 * Process a PaymentRequest
-	 * @param PaymentRequest $req Request object to be processed
-	 * @return PaymentResponse
-	 */
-	function Process(PaymentRequest $req)
-	{
-        $resp = new PaymentResponse();
-
-		try {
-			$charge = \Stripe\Charge::create(array(
-					"amount" => $req->TransactionAmount * 100, // amount in cents, again
-					"currency" => "usd",
-					"source" => $req->CCNumber,
-					"description" => $req->OrderDescription
-			));
-		} catch(\Stripe\Error\Card $e) {
-			// The card has been declined
-			$resp->IsSuccess = false;
-            $resp->ResponseCode = $e->stripeCode;
-            $resp->ResponseMessage = $e->message;
-		}
-
-        $resp->IsSuccess = true;
-        $resp->TransactionId = $charge->id;
-        $resp->ResponseCode = $charge->id;
-        $resp->ResponseMessage = "Charge of $req->TransactionAmount Posted";
-
-        return $resp;
-	}
-	
-	/**
-	 * Called on contruction
-	 * @param bool $test  set to true to enable test mode.  default = false
-	 */
-	function Init($testmode)
-	{
-		// TODO
-	}
-	
-	/**
-	 * @see PaymentProcessor::Refund()
-	 */
-	function Refund(RefundRequest $req)
-	{
-		throw new Exception("not implemented, use Stripe");
-	}
-	
-	/**
-	 * Called on contruction
-	 * @param bool $test  set to true to enable test mode.  default = false
-	 */
-	function Init($testmode)
-	{
-		// TODO
-	}
-	
-	/**
-	 * @see PaymentProcessor::Refund()
-	 */
-	function Refund(RefundRequest $req)
-	{
-		throw new Exception("not implemented, use Stripe");
-	}
 }
-?>
