@@ -290,7 +290,7 @@ class Criteria
 					elseif (substr($prop,-10) == "_BitwiseOr" && strlen($this->$prop))
 					{
 						$dbfield = $this->GetFieldFromProp(str_replace("_BitwiseOr","",$prop));
-						$this->_where .= $this->_where_delim . " (" . $dbfield ." | '". $this->Escape($val) . ")";
+						$this->_where .= $this->_where_delim . " (" . $dbfield ." | ". $this->Escape($val) . ")";
 						$this->_where_delim = " and";
 					}
 					elseif (substr($prop,-11) == "_BitwiseAnd" && strlen($this->$prop))
